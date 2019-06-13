@@ -1,18 +1,19 @@
 package e.ravo.aruma;
 
+import android.content.Context;
+import android.location.LocationManager;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MainMapViewActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    private LocationManager locationManager;
+    private MyLocationDrawer locationDrawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +38,17 @@ public class MainMapViewActivity extends FragmentActivity implements OnMapReadyC
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
         mMap.setMyLocationEnabled(true);
+
+        initializeLocationListener();
+    }
+
+    private void initializeLocationListener(){
+        locationDrawer = new MyLocationDrawer(this, mMap);
+        locationManager = (LocationManager)this.getSystemService(Context.LOCATION_SERVICE);
+
+        /* W linijce niżej pierwszy parametr mówi, czy korzystamy z GPS, sieci, wifi etc. To bedzie trzeba sparametryzować,
+         żeby wybierało najlepszą możliwą udostępnioną przez użytkownika opcję*/
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 10, locationDrawer);
     }
 }
