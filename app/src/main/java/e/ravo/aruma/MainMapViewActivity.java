@@ -1,19 +1,28 @@
 package e.ravo.aruma;
 
 import android.content.Context;
+import android.location.Location;
 import android.location.LocationManager;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
 
 public class MainMapViewActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private LocationManager locationManager;
-    private MyLocationDrawer locationDrawer;
+    private MyLocationHandler locationHandler;
+
+    private boolean isTrainingRunning = false;
+    private ImageButton starTrainingButton;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +32,8 @@ public class MainMapViewActivity extends FragmentActivity implements OnMapReadyC
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        starTrainingButton = findViewById(R.id.startTrainingButton);
     }
 
 
@@ -41,14 +52,39 @@ public class MainMapViewActivity extends FragmentActivity implements OnMapReadyC
         mMap.setMyLocationEnabled(true);
 
         initializeLocationListener();
+        setMapCamera();
+    }
+
+    public void startTraining(View view){
+        if(!this.isTrainingRunning){
+            starTrainingButton.setImageResource(R.drawable.outline_pause_circle_outline_black);
+            locationHandler.startTraining();
+            this.isTrainingRunning = true;
+        }else{
+            starTrainingButton.setImageResource(R.drawable.outline_play_circle_outline_black);
+            locationHandler.pauseTraining();
+            this.isTrainingRunning = false;
+        }
+    }
+
+    private void setMapCamera(){
+        Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        LatLng myLocation;
+        if(location != null){
+            myLocation = new LatLng(location.getLatitude(), location.getLongitude());
+        }else{
+            myLocation = new LatLng(54.005025, 15.989035);
+        }
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(myLocation));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(18));
     }
 
     private void initializeLocationListener(){
-        locationDrawer = new MyLocationDrawer(this, mMap);
+        locationHandler = new MyLocationHandler(this, mMap);
         locationManager = (LocationManager)this.getSystemService(Context.LOCATION_SERVICE);
 
-        /* W linijce niżej pierwszy parametr mówi, czy korzystamy z GPS, sieci, wifi etc. To bedzie trzeba sparametryzować,
+        /** W linijce niżej pierwszy parametr mówi, czy korzystamy z GPS, sieci, wifi etc. To bedzie trzeba sparametryzować,
          żeby wybierało najlepszą możliwą udostępnioną przez użytkownika opcję*/
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 10, locationDrawer);
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 10, locationHandler);
     }
 }
