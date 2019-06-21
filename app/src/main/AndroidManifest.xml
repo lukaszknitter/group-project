@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="e.ravo.aruma">
+    package="pg.groupproject.aruma">
 
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
@@ -31,9 +31,9 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".MainMapViewActivity"
+            android:name="pg.groupproject.aruma.MainMapViewActivity"
             android:label="@string/title_activity_main_map_view"></activity>
-        <activity android:name=".MainActivity">
+        <activity android:name="pg.groupproject.aruma.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
