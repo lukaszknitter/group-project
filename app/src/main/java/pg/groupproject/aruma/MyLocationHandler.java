@@ -1,4 +1,4 @@
-package e.ravo.aruma;
+package pg.groupproject.aruma;
 
 import android.graphics.Color;
 import android.location.Location;
