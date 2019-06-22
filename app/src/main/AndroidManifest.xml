@@ -31,9 +31,8 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name="pg.groupproject.aruma.MainMapViewActivity"
-            android:label="@string/title_activity_main_map_view"></activity>
-        <activity android:name="pg.groupproject.aruma.MainActivity">
+            android:name="pg.groupproject.aruma.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
