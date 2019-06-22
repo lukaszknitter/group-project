@@ -2,20 +2,19 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_favorites"
+        android:id="@+id/action_cyclocomputer"
         android:enabled="true"
         android:icon="@drawable/ic_access_time_white_24dp"
         android:title="@string/text_cyclocomputer"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/action_schedules"
+        android:id="@+id/action_navigation"
         android:enabled="true"
         android:icon="@drawable/baseline_location_on_white_24dp"
-        android:onClick="startMapActivity"
         android:title="@string/text_navigation"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/action_music"
+        android:id="@+id/action_my_routes"
         android:enabled="true"
         android:icon="@drawable/ic_favorite_white_24dp"
         android:title="@string/text_my_routes"

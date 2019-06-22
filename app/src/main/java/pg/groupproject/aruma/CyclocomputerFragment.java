@@ -4,10 +4,14 @@ import android.content.Context;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -15,28 +19,28 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 
-public class MainMapViewActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class CyclocomputerFragment extends Fragment implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private LocationManager locationManager;
     private MyLocationHandler locationHandler;
 
     private boolean isTrainingRunning = false;
-    private ImageButton starTrainingButton;
+    private ImageButton startTrainingButton;
 
-
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_map_view);
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        final View inflateView = inflater.inflate(R.layout.fragment_cyclocomputer, null);
+        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+        if (mapFragment != null) {
+            mapFragment.getMapAsync(this);
+        }
 
-        starTrainingButton = findViewById(R.id.startTrainingButton);
+        initializeButtons(inflateView);
+        setRetainInstance(true);
+        return inflateView;
     }
-
 
     /**
      * Manipulates the map once available.
@@ -56,13 +60,23 @@ public class MainMapViewActivity extends AppCompatActivity implements OnMapReady
         setMapCamera();
     }
 
-    public void startTraining(View view){
+    private void initializeButtons(final View view) {
+        startTrainingButton = view.findViewById(R.id.startTrainingButton);
+        startTrainingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startTraining(view);
+            }
+        });
+    }
+
+    private void startTraining(View view) {
         if(!this.isTrainingRunning){
-            starTrainingButton.setImageResource(R.drawable.outline_pause_circle_outline_black);
+            startTrainingButton.setImageResource(R.drawable.outline_pause_circle_outline_black);
             locationHandler.startTraining();
             this.isTrainingRunning = true;
         }else{
-            starTrainingButton.setImageResource(R.drawable.outline_play_circle_outline_black);
+            startTrainingButton.setImageResource(R.drawable.outline_play_circle_outline_black);
             locationHandler.pauseTraining();
             this.isTrainingRunning = false;
         }
@@ -82,10 +96,11 @@ public class MainMapViewActivity extends AppCompatActivity implements OnMapReady
 
     private void initializeLocationListener(){
         locationHandler = new MyLocationHandler(this, mMap);
-        locationManager = (LocationManager)this.getSystemService(Context.LOCATION_SERVICE);
+        locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
 
         /** W linijce niżej pierwszy parametr mówi, czy korzystamy z GPS, sieci, wifi etc. To bedzie trzeba sparametryzować,
          żeby wybierało najlepszą możliwą udostępnioną przez użytkownika opcję*/
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationHandler);
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 10, locationHandler);
     }
 }
