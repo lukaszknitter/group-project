@@ -11,7 +11,7 @@ import pg.groupproject.aruma.feature.route.Route;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-	private static final int DATABASE_VERSION = 1;
+	private static final int DATABASE_VERSION = 2;
 	private static final String DATABASE_NAME = "aruma_db";
 
 	public DatabaseHelper(Context context) {

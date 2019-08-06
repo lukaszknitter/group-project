@@ -51,6 +51,24 @@ public class RouteService {
 		return id;
 	}
 
+	public int update(@NonNull final Route route) {
+		final SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+		final ContentValues values = new ContentValues();
+		values.put(COLUMN_DISTANCE, route.getDistance());
+		values.put(COLUMN_TOTAL_TIME_S, route.getTotalSeconds());
+
+		return db.update(TABLE_NAME, values, COLUMN_ID + " = ?",
+				new String[]{String.valueOf(route.getId())});
+	}
+
+	public void delete(long id) {
+		final SQLiteDatabase db = dbHelper.getWritableDatabase();
+		db.delete(TABLE_NAME, COLUMN_ID + " = ?",
+				new String[]{String.valueOf(id)});
+		db.close();
+	}
+
 	public Route get(long id) {
 		final SQLiteDatabase db = dbHelper.getReadableDatabase();
 
