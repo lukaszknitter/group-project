@@ -1,4 +1,4 @@
-package pg.groupproject.aruma;
+package pg.groupproject.aruma.feature;
 
 import android.graphics.Color;
 import android.location.Location;
@@ -16,6 +16,9 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
+
+import pg.groupproject.aruma.R;
+import pg.groupproject.aruma.fragments.CyclocomputerFragment;
 
 public class MyLocationHandler implements LocationListener {
 
