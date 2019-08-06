@@ -1,4 +1,4 @@
-package pg.groupproject.aruma;
+package pg.groupproject.aruma.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,10 +9,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-public class MyRoutesFragment extends Fragment {
+import pg.groupproject.aruma.R;
+
+public class NavigationFragment extends Fragment {
 	@Nullable
 	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.fragment_my_routes, null);
+		return inflater.inflate(R.layout.fragment_navigation, null);
 	}
 }

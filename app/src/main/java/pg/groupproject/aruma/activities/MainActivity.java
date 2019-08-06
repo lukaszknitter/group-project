@@ -1,4 +1,4 @@
-package pg.groupproject.aruma;
+package pg.groupproject.aruma.activities;
 
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -10,6 +10,11 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import pg.groupproject.aruma.R;
+import pg.groupproject.aruma.fragments.CyclocomputerFragment;
+import pg.groupproject.aruma.fragments.MyRoutesFragment;
+import pg.groupproject.aruma.fragments.NavigationFragment;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
