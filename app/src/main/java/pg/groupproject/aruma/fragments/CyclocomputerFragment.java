@@ -24,6 +24,7 @@ import java.util.List;
 
 import pg.groupproject.aruma.R;
 import pg.groupproject.aruma.feature.MyLocationHandler;
+import pg.groupproject.aruma.feature.location.LocationService;
 import pg.groupproject.aruma.feature.route.Route;
 import pg.groupproject.aruma.feature.route.RouteService;
 
@@ -33,6 +34,7 @@ public class CyclocomputerFragment extends Fragment implements OnMapReadyCallbac
 	private LocationManager locationManager;
 	private MyLocationHandler locationHandler;
 	private RouteService routeService;
+	private LocationService locationService;
 
 	private long currentRouteId = -1;
 	private boolean isTrainingRunning = false;
@@ -50,6 +52,7 @@ public class CyclocomputerFragment extends Fragment implements OnMapReadyCallbac
 		initializeButtons(inflateView);
 		setRetainInstance(true);
 		routeService = new RouteService(getActivity().getApplicationContext());
+		locationService = new LocationService(getActivity().getApplicationContext());
 		return inflateView;
 	}
 
@@ -84,14 +87,23 @@ public class CyclocomputerFragment extends Fragment implements OnMapReadyCallbac
 	private void startTraining(View view) {
 		if (!this.isTrainingRunning) {
 			currentRouteId = routeService.create();
+			Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+			locationService.insert(location, currentRouteId);
 			startTrainingButton.setImageResource(R.drawable.outline_pause_circle_outline_black);
 			locationHandler.startTraining();
 			this.isTrainingRunning = true;
 		} else {
 			List<Route> routes = routeService.getAll();
 			Log.i(CyclocomputerFragment.class.getName(),
+					"Got One: " + routeService.get(currentRouteId));
+			Log.i(CyclocomputerFragment.class.getName(),
 					"Got routes: ");
 			routes.forEach(route -> Log.i(CyclocomputerFragment.class.getName(), route.toString()));
+
+			List<pg.groupproject.aruma.feature.location.Location> locations = locationService.getAllByRouteId(currentRouteId);
+			Log.i(CyclocomputerFragment.class.getName(),
+					"Got locations: ");
+			locations.forEach(location -> Log.i(CyclocomputerFragment.class.getName(), location.toString()));
 			startTrainingButton.setImageResource(R.drawable.outline_play_circle_outline_black);
 			locationHandler.pauseTraining();
 			this.isTrainingRunning = false;

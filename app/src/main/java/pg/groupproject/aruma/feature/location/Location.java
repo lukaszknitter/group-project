@@ -17,7 +17,7 @@ public class Location {
 	public static final String COLUMN_LATITUDE = "latitude";
 	public static final String COLUMN_LONGITUDE = "longitude";
 	public static final String COLUMN_SPEED = "speed";
-	public static final String COLUMN_MASL = "meters_above_sea_level";
+	public static final String COLUMN_ALTITUDE = "altitude";
 	public static final String COLUMN_TIMESTAMP = "timestamp";
 	public static final String COLUMN_ROUTE_ID = "route_id";
 	public static final String CREATE_TABLE =
@@ -26,7 +26,7 @@ public class Location {
 					+ COLUMN_LATITUDE + " DECIMAL(8,6), "
 					+ COLUMN_LONGITUDE + " DECIMAL(9,6), "
 					+ COLUMN_SPEED + " DECIMAL(6,3), "
-					+ COLUMN_MASL + " DECIMAL(30,2), "
+					+ COLUMN_ALTITUDE + " DECIMAL(30,2), "
 					+ COLUMN_TIMESTAMP + " DATETIME DEFAULT CURRENT_TIMESTAMP, "
 					+ COLUMN_ROUTE_ID + " INTEGER, "
 					+ "FOREIGN KEY (" + COLUMN_ROUTE_ID + ") "
@@ -36,7 +36,7 @@ public class Location {
 	private double latitude;
 	private double longitude;
 	private float speed;
-	private double metersAboveSeaLevel;
+	private double altitude;
 	private String timestamp;
 	private int routeId;
 }
