@@ -1,5 +1,6 @@
 package pg.groupproject.aruma.fragments;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.location.Location;
 import android.location.LocationManager;
@@ -65,6 +66,7 @@ public class CyclocomputerFragment extends Fragment implements OnMapReadyCallbac
 	 * it inside the SupportMapFragment. This method will only be triggered once the user has
 	 * installed Google Play services and returned to the app.
 	 */
+	@SuppressLint("MissingPermission")
 	@Override
 	public void onMapReady(GoogleMap googleMap) {
 		mMap = googleMap;
@@ -87,7 +89,7 @@ public class CyclocomputerFragment extends Fragment implements OnMapReadyCallbac
 	private void startTraining(View view) {
 		if (!this.isTrainingRunning) {
 			currentRouteId = routeService.create();
-			Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+			@SuppressLint("MissingPermission") Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 			locationService.insert(location, currentRouteId);
 			startTrainingButton.setImageResource(R.drawable.outline_pause_circle_outline_black);
 			locationHandler.startTraining();
@@ -111,7 +113,7 @@ public class CyclocomputerFragment extends Fragment implements OnMapReadyCallbac
 	}
 
 	private void setMapCamera() {
-		Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+		@SuppressLint("MissingPermission") Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 		LatLng myLocation;
 		if (location != null) {
 			myLocation = new LatLng(location.getLatitude(), location.getLongitude());
@@ -122,6 +124,7 @@ public class CyclocomputerFragment extends Fragment implements OnMapReadyCallbac
 		mMap.animateCamera(CameraUpdateFactory.zoomTo(18));
 	}
 
+	@SuppressLint("MissingPermission")
 	private void initializeLocationListener() {
 		locationHandler = new MyLocationHandler(this, mMap);
 		locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
