@@ -1,6 +1,7 @@
 package pg.groupproject.aruma.fragments;
 
 import android.annotation.SuppressLint;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.location.Location;
 import android.location.LocationManager;
@@ -89,8 +90,10 @@ public class CyclocomputerFragment extends Fragment implements OnMapReadyCallbac
 	private void startTraining(View view) {
 		if (!this.isTrainingRunning) {
 			currentRouteId = routeService.create();
-			@SuppressLint("MissingPermission") Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-			locationService.insert(location, currentRouteId);
+            @SuppressLint("MissingPermission") Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+			if (location != null) {
+				locationService.insert(location, currentRouteId);
+			}
 			startTrainingButton.setImageResource(R.drawable.outline_pause_circle_outline_black);
 			locationHandler.startTraining();
 			this.isTrainingRunning = true;
