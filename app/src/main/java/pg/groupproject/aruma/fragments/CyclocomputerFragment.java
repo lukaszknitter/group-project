@@ -88,7 +88,9 @@ public class CyclocomputerFragment extends Fragment implements OnMapReadyCallbac
 		if (!this.isTrainingRunning) {
 			currentRouteId = routeService.create();
 			Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-			locationService.insert(location, currentRouteId);
+			if (location != null) {
+				locationService.insert(location, currentRouteId);
+			}
 			startTrainingButton.setImageResource(R.drawable.outline_pause_circle_outline_black);
 			locationHandler.startTraining();
 			this.isTrainingRunning = true;
