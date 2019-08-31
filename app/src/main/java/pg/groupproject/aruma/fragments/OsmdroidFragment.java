@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import org.osmdroid.config.Configuration;
+import org.osmdroid.library.BuildConfig;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
@@ -27,19 +28,22 @@ public class OsmdroidFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        final View inflateView = inflater.inflate(R.layout.fragment_osmdroid, null);
-        GeoPoint pointGdansk = new GeoPoint(54.352024, 18.646639);
-
         Context ctx = getContext();
         Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
+        Configuration.getInstance().setUserAgentValue(BuildConfig.APPLICATION_ID);
+
+        final View inflateView = inflater.inflate(R.layout.fragment_osmdroid, null);
+        GeoPoint pointGdansk = new GeoPoint(40.741895, -73.989308);
+
         //inflate and create the map
         map = (MapView) ((LinearLayout) inflateView).getChildAt(0);
-        map.setTileSource(TileSourceFactory.MAPNIK);
+        map.setTileSource(TileSourceFactory.OpenTopo);
 
         map.setTilesScaledToDpi(true);
         map.getController().setZoom(15);
         map.getController().setCenter(pointGdansk);
+
+        map.setMultiTouchControls(true);
         return inflateView;
     }
 
