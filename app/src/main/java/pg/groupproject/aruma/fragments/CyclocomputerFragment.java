@@ -1,7 +1,6 @@
 package pg.groupproject.aruma.fragments;
 
 import android.annotation.SuppressLint;
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.location.Location;
 import android.location.LocationManager;
@@ -79,12 +78,7 @@ public class CyclocomputerFragment extends Fragment implements OnMapReadyCallbac
 
 	private void initializeButtons(final View view) {
 		startTrainingButton = view.findViewById(R.id.startTrainingButton);
-		startTrainingButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				startTraining(view);
-			}
-		});
+		startTrainingButton.setOnClickListener(v -> startTraining(view));
 	}
 
 	private void startTraining(View view) {

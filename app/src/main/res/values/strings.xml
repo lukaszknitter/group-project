@@ -3,6 +3,7 @@
     <string name="app_name">Aruma</string>
     <string name="title_activity_main_map_view">Map</string>
     <string name="text_my_routes">Moje trasy</string>
+    <string name="text_osmdroid">Osmdroid demo</string>
     <string name="text_navigation">Nawigacja</string>
     <string name="text_cyclocomputer">Licznik</string>
 </resources>

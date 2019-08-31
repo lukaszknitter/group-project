@@ -15,12 +15,14 @@ import pg.groupproject.aruma.R;
 import pg.groupproject.aruma.fragments.CyclocomputerFragment;
 import pg.groupproject.aruma.fragments.MyRoutesFragment;
 import pg.groupproject.aruma.fragments.NavigationFragment;
+import pg.groupproject.aruma.fragments.OsmdroidFragment;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
 	private final CyclocomputerFragment cyclocomputerFragment = new CyclocomputerFragment();
 	private final NavigationFragment navigationFragment = new NavigationFragment();
 	private final MyRoutesFragment myRoutesFragment = new MyRoutesFragment();
+	private final OsmdroidFragment osmdroidFragment = new OsmdroidFragment();
 	private FragmentManager supportFragmentManager;
 
 	@Override
@@ -42,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 				.add(R.id.fragment_container, cyclocomputerFragment)
 				.add(R.id.fragment_container, navigationFragment)
 				.add(R.id.fragment_container, myRoutesFragment)
+				.add(R.id.fragment_container, osmdroidFragment)
 				.detach(navigationFragment)
 				.detach(myRoutesFragment)
 				.setPrimaryNavigationFragment(cyclocomputerFragment)
@@ -82,6 +85,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 				break;
 			case R.id.action_my_routes:
 				fragment = myRoutesFragment;
+				break;
+			case R.id.action_osm:
+				fragment = osmdroidFragment;
 				break;
 		}
 		return loadFragment(fragment);
