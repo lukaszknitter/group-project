@@ -20,5 +20,9 @@
     <string name="text_distance">Distance</string>
     <string name="text_altitude">Altitude</string>
     <string name="text_avg_speed">Average speed</string>
+    <string name="text_route">Route</string>
+    <string name="text_history">History</string>
+    <string name="text_import">Import</string>
+    <string name="text_export">Export</string>
 
 </resources>

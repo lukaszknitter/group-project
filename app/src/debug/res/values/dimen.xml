@@ -5,6 +5,7 @@
     <dimen name="fontSizeSecondary">12sp</dimen>
     <dimen name="fontSizeTitle">20sp</dimen>
     <dimen name="fontSizeValue">45sp</dimen>
+    <dimen name="moreMarginItem">7dp</dimen>
     <dimen name="cyclocomputerMarginItem">7dp</dimen>
     <dimen name="cyclocomputerMarginTopItemValue">-8dp</dimen>
 </resources>

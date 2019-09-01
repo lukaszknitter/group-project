@@ -4,10 +4,126 @@
     android:layout_height="match_parent"
     tools:context="pg.groupproject.aruma.fragments.MoreFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/more_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/more_list_route"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/moreMarginItem"
+                android:padding="10dp"
+                android:background="@drawable/element_background_border"
+
+                >
+                <TextView
+                    android:id="@+id/more_list_route_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/text_route"
+                    android:textColor="@color/font"
+                    android:textSize="@dimen/fontSizePrimary"
+                    android:layout_centerInParent="true"
+
+                    />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/more_list_saved_points"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/moreMarginItem"
+                android:padding="10dp"
+                android:background="@drawable/element_background_border"
+
+                >
+                <TextView
+                    android:id="@+id/more_list_saved_points_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/text_saved_points"
+                    android:textColor="@color/font"
+                    android:textSize="@dimen/fontSizePrimary"
+                    android:layout_centerInParent="true"
+
+                    />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/more_list_history"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/moreMarginItem"
+                android:padding="10dp"
+                android:background="@drawable/element_background_border"
+
+                >
+                <TextView
+                    android:id="@+id/more_list_history_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/text_history"
+                    android:textColor="@color/font"
+                    android:textSize="@dimen/fontSizePrimary"
+                    android:layout_centerInParent="true"
+
+                    />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/more_list_import"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/moreMarginItem"
+                android:padding="10dp"
+                android:background="@drawable/element_background_border"
+
+                >
+                <TextView
+                    android:id="@+id/more_list_import_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/text_import"
+                    android:textColor="@color/font"
+                    android:textSize="@dimen/fontSizePrimary"
+                    android:layout_centerInParent="true"
+
+                    />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/more_list_export"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/moreMarginItem"
+                android:padding="10dp"
+                android:background="@drawable/element_background_border"
+
+                >
+                <TextView
+                    android:id="@+id/more_list_export_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/text_export"
+                    android:textColor="@color/font"
+                    android:textSize="@dimen/fontSizePrimary"
+                    android:layout_centerInParent="true"
+
+                    />
+            </RelativeLayout>
+
+
+
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </FrameLayout>
