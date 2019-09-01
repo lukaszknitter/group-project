@@ -1,4 +1,4 @@
-package pg.groupproject.aruma.fragments;
+package pg.groupproject.aruma.fragments.cyclocomputer;
 
 import android.content.Context;
 
@@ -30,11 +30,11 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return new MoreFragment();
+                return new CyclocomputerTabCurrentFragment();
             case 1:
-                return new MoreFragment();
+                return new CyclocomputerTabLastTourFragment();
             case 2:
-                return new MoreFragment();
+                return new CyclocomputerTabSummaryFragment();
             default:
                 return null;
         }

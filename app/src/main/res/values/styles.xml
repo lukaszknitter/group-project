@@ -13,4 +13,10 @@
         <item name="windowNoTitle">true</item>
         <item name="android:windowFullscreen">true</item>
     </style>
+
+    <style name="CyclocomputerTabTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="android:textColor">@color/font</item>
+        <item name="android:textSize">@dimen/fontSizeSecondary</item>
+    </style>
+
 </resources>

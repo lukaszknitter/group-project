@@ -2,7 +2,9 @@
 <resources>
     <dimen name="fontSizeNav">30sp</dimen>
     <dimen name="fontSizePrimary">30sp</dimen>
-    <dimen name="fontSizeSecondary">15sp</dimen>
-    <dimen name="fontSizeTitle">15sp</dimen>
-    <dimen name="fontSizeValue">40sp</dimen>
+    <dimen name="fontSizeSecondary">12sp</dimen>
+    <dimen name="fontSizeTitle">20sp</dimen>
+    <dimen name="fontSizeValue">45sp</dimen>
+    <dimen name="cyclocomputerMarginItem">7dp</dimen>
+    <dimen name="cyclocomputerMarginTopItemValue">-8dp</dimen>
 </resources>

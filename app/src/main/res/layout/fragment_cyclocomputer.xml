@@ -19,6 +19,7 @@
             android:layout_height="wrap_content"
             android:background="@color/primaryLight"
             app:tabTextColor="@color/font"
+            app:tabTextAppearance="@style/CyclocomputerTabTextAppearance"
             app:tabIndicatorColor="@color/primaryDark"
             app:tabIndicatorHeight="4dp"
             />

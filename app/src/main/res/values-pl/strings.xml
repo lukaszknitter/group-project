@@ -14,4 +14,7 @@
     <string name="cyclocomputer_tab_current">Aktualny</string>
     <string name="cyclocomputer_tab_last_tour">Ostatnia trasa</string>
     <string name="cyclocomputer_tab_summary">Podsumowanie</string>
+    <string name="text_altitude">Wysokość</string>
+    <string name="text_distance">Dystans</string>
+    <string name="text_avg_speed">Średnia prędkość</string>
 </resources>

@@ -1,4 +1,4 @@
-package pg.groupproject.aruma.fragments;
+package pg.groupproject.aruma.fragments.cyclocomputer;
 
 
 import android.os.Bundle;

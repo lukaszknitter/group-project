@@ -12,9 +12,9 @@ import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import pg.groupproject.aruma.R;
-import pg.groupproject.aruma.fragments.CyclocomputerFragment;
 import pg.groupproject.aruma.fragments.MoreFragment;
 import pg.groupproject.aruma.fragments.NavigationFragment;
+import pg.groupproject.aruma.fragments.cyclocomputer.CyclocomputerFragment;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 

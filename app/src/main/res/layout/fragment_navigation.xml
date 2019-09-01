@@ -90,6 +90,7 @@ android:layout_width="match_parent">
         android:layout_gravity="bottom|end"
         android:layout_margin="24dp"
         app:backgroundTint="@color/primaryLight"
-        app:srcCompat="@drawable/ic_play_arrow_black_24dp"/>
+        app:srcCompat="@drawable/ic_play_arrow_black_24dp"
+        app:maxImageSize="36dp"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
