@@ -11,4 +11,7 @@
     <string name="text_km">km</string>
     <string name="text_speed">Prędkość</string>
     <string name="text_time">Czas</string>
+    <string name="cyclocomputer_tab_current">Aktualny</string>
+    <string name="cyclocomputer_tab_last_tour">Ostatnia trasa</string>
+    <string name="cyclocomputer_tab_summary">Podsumowanie</string>
 </resources>
