@@ -2,7 +2,12 @@
 <resources>
     <string name="app_name">Aruma</string>
     <string name="title_activity_main_map_view">Map</string>
-    <string name="text_my_routes">Moje trasy</string>
-    <string name="text_navigation">Nawigacja</string>
-    <string name="text_cyclocomputer">Licznik</string>
+    <string name="text_my_routes">My routes</string>
+    <string name="text_navigation">Navigation</string>
+    <string name="text_cyclocomputer">Cyclometer</string>
+    <string name="text_more">More</string>
+    <string name="text_saved_points">Saved points</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

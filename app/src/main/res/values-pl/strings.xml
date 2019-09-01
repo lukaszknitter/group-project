@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Aruma</string>
+    <string name="text_cyclocomputer">Licznik</string>
+    <string name="text_my_routes">Moje trasy</string>
+    <string name="text_navigation">Nawigacja</string>
+    <string name="title_activity_main_map_view">Mapa</string>
+    <string name="text_saved_points">Zapisane punkty</string>
+    <string name="text_more">Więcej</string>
+</resources>

@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 import pg.groupproject.aruma.R;
-import pg.groupproject.aruma.fragments.CyclocomputerFragment;
+import pg.groupproject.aruma.fragments.NavigationFragment;
 
 public class MyLocationHandler implements LocationListener {
 
@@ -26,7 +26,7 @@ public class MyLocationHandler implements LocationListener {
 	final private TextView distanceTextView;
 	final private TextView speedTextView;
 
-	private CyclocomputerFragment mapCtx;
+	private NavigationFragment mapCtx;
 	private GoogleMap mMap;
 	private ArrayList<Location> locations;
 	private TrainingStatus status;
@@ -34,7 +34,7 @@ public class MyLocationHandler implements LocationListener {
 	private float totalDistance;
 	private Location lastLocation = null;
 
-	public MyLocationHandler(CyclocomputerFragment ctx, GoogleMap mMap) {
+	public MyLocationHandler(NavigationFragment ctx, GoogleMap mMap) {
 		this.mapCtx = ctx;
 		this.mMap = mMap;
 		this.locations = new ArrayList<>();

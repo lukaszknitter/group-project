@@ -13,14 +13,14 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import pg.groupproject.aruma.R;
 import pg.groupproject.aruma.fragments.CyclocomputerFragment;
-import pg.groupproject.aruma.fragments.MyRoutesFragment;
+import pg.groupproject.aruma.fragments.MoreFragment;
 import pg.groupproject.aruma.fragments.NavigationFragment;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
 	private final CyclocomputerFragment cyclocomputerFragment = new CyclocomputerFragment();
 	private final NavigationFragment navigationFragment = new NavigationFragment();
-	private final MyRoutesFragment myRoutesFragment = new MyRoutesFragment();
+	private final MoreFragment moreFragment = new MoreFragment();
 	private FragmentManager supportFragmentManager;
 
 	@Override
@@ -41,9 +41,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 				.beginTransaction()
 				.add(R.id.fragment_container, cyclocomputerFragment)
 				.add(R.id.fragment_container, navigationFragment)
-				.add(R.id.fragment_container, myRoutesFragment)
+				.add(R.id.fragment_container, moreFragment)
 				.detach(navigationFragment)
-				.detach(myRoutesFragment)
+				.detach(moreFragment)
 				.setPrimaryNavigationFragment(cyclocomputerFragment)
 				.commitNow();
 	}
@@ -80,8 +80,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 			case R.id.action_navigation:
 				fragment = navigationFragment;
 				break;
-			case R.id.action_my_routes:
-				fragment = myRoutesFragment;
+			case R.id.action_more:
+				fragment = moreFragment;
+				break;
+			default:
+				fragment = cyclocomputerFragment;
 				break;
 		}
 		return loadFragment(fragment);
