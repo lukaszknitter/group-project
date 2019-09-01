@@ -1,59 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
 xmlns:app="http://schemas.android.com/apk/res-auto"
 xmlns:tools="http://schemas.android.com/tools"
 android:layout_height="match_parent"
 android:layout_width="match_parent">
 
-<fragment xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/map"
-    android:name="com.google.android.gms.maps.SupportMapFragment"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".fragments.NavigationFragment" />
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="80dp"
+        tools:context=".fragments.NavigationFragment" />
 
 <RelativeLayout
-    android:id="@+id/mapUILayout"
-    android:layout_width="267dp"
-    android:layout_height="79dp">
+    android:id="@+id/map_cyclometer"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:background="@color/primaryLight">
 
-    <TextView
-        android:id="@+id/distanceTextView"
+
+    <View
+        android:id="@+id/map_cyclometer_border"
         android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:layout_alignParentLeft="true"
-        android:layout_marginTop="0dp"
-        android:background="#d7e0ef"
-        android:text="0.00 km"
-        android:textSize="25sp" />
+        android:layout_height="3dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="@color/primaryDark" />
 
     <TextView
         android:id="@+id/speedTextView"
-        android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:layout_below="@+id/distanceTextView"
-        android:layout_alignParentLeft="true"
-        android:layout_marginTop="0dp"
-        android:background="#d7e0ef"
-        android:text="0 km/h"
-        android:textSize="25sp" />
-
-    <ImageButton
-        android:id="@+id/startTrainingButton"
         android:layout_width="wrap_content"
-        android:layout_height="62dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_centerInParent="true"
-        android:layout_marginStart="170dp"
+        android:layout_height="35dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="5dp"
         android:layout_marginTop="0dp"
-        android:layout_marginBottom="10dp"
-        android:background="@android:color/transparent"
-        android:scaleType="fitCenter"
-        app:srcCompat="@drawable/outline_play_circle_outline_black" />
+        android:text="0.00 km/h"
+        android:textSize="@dimen/fontSizePrimary"/>
+
+    <TextView
+        android:id="@+id/clockTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="0dp"
+        android:text="21:37"
+        android:textSize="@dimen/fontSizePrimary" />
+
+    <TextView
+        android:id="@+id/distanceTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/speedTextView"
+        android:layout_marginTop="0dp"
+        android:layout_marginLeft="5dp"
+        android:text="- km (- %)"
+        android:textSize="@dimen/fontSizePrimary" />
+
+    <TextView
+        android:id="@+id/timeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/clockTextView"
+        android:layout_marginTop="0dp"
+        android:layout_marginRight="5dp"
+        android:text="-:--"
+        android:textSize="@dimen/fontSizePrimary" />
+
+
+
+
 
 
 </RelativeLayout>
-</RelativeLayout>
+
+
+
+
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/trainingButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="24dp"
+        app:backgroundTint="@color/primaryLight"
+        app:srcCompat="@drawable/ic_play_arrow_black_24dp"/>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

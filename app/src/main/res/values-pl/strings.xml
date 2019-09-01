@@ -7,4 +7,8 @@
     <string name="title_activity_main_map_view">Mapa</string>
     <string name="text_saved_points">Zapisane punkty</string>
     <string name="text_more">Więcej</string>
+    <string name="text_clock">Zegar</string>
+    <string name="text_km">km</string>
+    <string name="text_speed">Prędkość</string>
+    <string name="text_time">Czas</string>
 </resources>

@@ -37,7 +37,7 @@ public class NavigationFragment extends Fragment implements OnMapReadyCallback {
 
 	private long currentRouteId = -1;
 	private boolean isTrainingRunning = false;
-	private ImageButton startTrainingButton;
+	private ImageButton trainingButton;
 
 	@Nullable
 	@Override
@@ -74,8 +74,8 @@ public class NavigationFragment extends Fragment implements OnMapReadyCallback {
 	}
 
 	private void initializeButtons(final View view) {
-		startTrainingButton = view.findViewById(R.id.startTrainingButton);
-		startTrainingButton.setOnClickListener(new View.OnClickListener() {
+		trainingButton = view.findViewById(R.id.trainingButton);
+		trainingButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				startTraining(view);
@@ -90,7 +90,7 @@ public class NavigationFragment extends Fragment implements OnMapReadyCallback {
 			if (location != null) {
 				locationService.insert(location, currentRouteId);
 			}
-			startTrainingButton.setImageResource(R.drawable.outline_pause_circle_outline_black);
+			trainingButton.setImageResource(R.drawable.ic_stop_black_24dp);
 			locationHandler.startTraining();
 			this.isTrainingRunning = true;
 		} else {
@@ -105,7 +105,7 @@ public class NavigationFragment extends Fragment implements OnMapReadyCallback {
 			Log.i(NavigationFragment.class.getName(),
 					"Got locations: ");
 			locations.forEach(location -> Log.i(NavigationFragment.class.getName(), location.toString()));
-			startTrainingButton.setImageResource(R.drawable.outline_play_circle_outline_black);
+			trainingButton.setImageResource(R.drawable.ic_play_arrow_black_24dp);
 			locationHandler.pauseTraining();
 			this.isTrainingRunning = false;
 		}
