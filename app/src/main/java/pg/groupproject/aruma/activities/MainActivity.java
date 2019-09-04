@@ -12,15 +12,18 @@ import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import pg.groupproject.aruma.R;
-import pg.groupproject.aruma.fragments.MoreFragment;
+import pg.groupproject.aruma.fragments.HistoryFragment;
 import pg.groupproject.aruma.fragments.NavigationFragment;
+import pg.groupproject.aruma.fragments.SavedPointsFragment;
 import pg.groupproject.aruma.fragments.cyclocomputer.CyclocomputerFragment;
+import pg.groupproject.aruma.fragments.viewModels.HistoryContent;
+import pg.groupproject.aruma.fragments.viewModels.SavedPointsContent;
 
-public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, HistoryFragment.OnListFragmentInteractionListener, SavedPointsFragment.OnListFragmentInteractionListener {
 
 	private final CyclocomputerFragment cyclocomputerFragment = new CyclocomputerFragment();
 	private final NavigationFragment navigationFragment = new NavigationFragment();
-	private final MoreFragment moreFragment = new MoreFragment();
+	private final SavedPointsFragment moreFragment = new SavedPointsFragment();
 	private FragmentManager supportFragmentManager;
 
 	@Override
@@ -92,5 +95,16 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 				break;
 		}
 		return loadFragment(fragment);
+	}
+
+
+	@Override
+	public void onListFragmentInteraction(HistoryContent.HistoryViewModel item) {
+
+	}
+
+	@Override
+	public void onListFragmentInteraction(SavedPointsContent.SavedPointViewModel item) {
+
 	}
 }

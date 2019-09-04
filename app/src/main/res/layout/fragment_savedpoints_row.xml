@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/moreMarginItem"
+    android:padding="10dp"
+    android:background="@drawable/element_background_border"
+
+    >
+    <TextView
+        android:id="@+id/saved_points_row_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Lorem ipsum"
+        android:textColor="@color/font"
+        android:textSize="@dimen/fontSizeTitle"
+
+
+        />
+
+    <TextView
+        android:id="@+id/saved_points_row_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Lorem ipsum"
+        android:textColor="@color/font"
+        android:textSize="@dimen/fontSizeSecondary"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@id/saved_points_row_title"
+
+        />
+
+
+    <ImageButton
+        android:id="@+id/saved_points_row_delete_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:background="@android:color/transparent"
+        app:srcCompat="@drawable/ic_delete_black_24dp"
+        />
+
+    <ImageButton
+        android:id="@+id/saved_points_row_edit_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="5dp"
+        android:layout_toLeftOf="@id/saved_points_row_delete_button"
+        android:background="@android:color/transparent"
+        app:srcCompat="@drawable/ic_edit_black_24dp"
+        />
+
+</RelativeLayout>

@@ -8,4 +8,5 @@
     <dimen name="moreMarginItem">7dp</dimen>
     <dimen name="cyclocomputerMarginItem">7dp</dimen>
     <dimen name="cyclocomputerMarginTopItemValue">-8dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
 </resources>

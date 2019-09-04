@@ -19,4 +19,8 @@
         <item name="android:textSize">@dimen/fontSizeSecondary</item>
     </style>
 
+    <style name="textAppearanceListItem">
+
+    </style>
+
 </resources>
