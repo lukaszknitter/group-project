@@ -13,6 +13,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import pg.groupproject.aruma.R;
 import pg.groupproject.aruma.fragments.HistoryFragment;
+import pg.groupproject.aruma.fragments.MoreFragment;
 import pg.groupproject.aruma.fragments.NavigationFragment;
 import pg.groupproject.aruma.fragments.SavedPointsFragment;
 import pg.groupproject.aruma.fragments.cyclocomputer.CyclocomputerFragment;
@@ -23,7 +24,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
 	private final CyclocomputerFragment cyclocomputerFragment = new CyclocomputerFragment();
 	private final NavigationFragment navigationFragment = new NavigationFragment();
-	private final SavedPointsFragment moreFragment = new SavedPointsFragment();
+	private final MoreFragment moreFragment = new MoreFragment();
 	private FragmentManager supportFragmentManager;
 
 	@Override
@@ -32,48 +33,23 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 		setContentView(R.layout.activity_main);
 
 
-
+		supportFragmentManager = getSupportFragmentManager();
 		BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
 		bottomNavigationView.setOnNavigationItemSelectedListener(this);
 
-		initializeSupportFragmentManager();
-
+		loadFragment(cyclocomputerFragment);
 
 	}
 
-	private void initializeSupportFragmentManager() {
-		supportFragmentManager = getSupportFragmentManager();
-
-		supportFragmentManager
-				.beginTransaction()
-				.add(R.id.fragment_container, cyclocomputerFragment)
-				.add(R.id.fragment_container, navigationFragment)
-				.add(R.id.fragment_container, moreFragment)
-				.detach(navigationFragment)
-				.detach(moreFragment)
-				.setPrimaryNavigationFragment(cyclocomputerFragment)
-				.commitNow();
-	}
-
-	private boolean loadFragment(Fragment fragment) {
-		// TODO do not destroy fragment but replace it
-		// https://stackoverflow.com/questions/51512010/how-not-to-destroy-fragment-with-androidx
-
-		final FragmentTransaction fragmentTransaction = supportFragmentManager.beginTransaction();
-		final Fragment curFrag = supportFragmentManager.getPrimaryNavigationFragment();
-
-		if (curFrag != null) {
-			fragmentTransaction.detach(curFrag);
+	private void loadFragment(Fragment fragment) {
+		FragmentTransaction transaction = supportFragmentManager.beginTransaction();
+		transaction.replace(R.id.fragment_container, fragment);
+		Fragment currentFragment = supportFragmentManager.getPrimaryNavigationFragment();
+		transaction.setPrimaryNavigationFragment(fragment);
+		if (currentFragment != null) {
+			transaction.addToBackStack(null);
 		}
-
-		if (fragment != null) {
-			fragmentTransaction.attach(fragment);
-			fragmentTransaction.setPrimaryNavigationFragment(fragment);
-			fragmentTransaction.setReorderingAllowed(true);
-			fragmentTransaction.commitNowAllowingStateLoss();
-			return true;
-		}
-		return false;
+		transaction.commit();
 	}
 
 	@Override
@@ -94,7 +70,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 				fragment = cyclocomputerFragment;
 				break;
 		}
-		return loadFragment(fragment);
+		loadFragment(fragment);
+		return true;
 	}
 
 

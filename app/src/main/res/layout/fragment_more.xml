@@ -21,6 +21,7 @@
                 android:layout_margin="@dimen/moreMarginItem"
                 android:padding="10dp"
                 android:background="@drawable/element_background_border"
+                android:clickable="true"
 
                 >
                 <TextView
@@ -42,7 +43,7 @@
                 android:layout_margin="@dimen/moreMarginItem"
                 android:padding="10dp"
                 android:background="@drawable/element_background_border"
-
+                android:clickable="true"
                 >
                 <TextView
                     android:id="@+id/more_list_saved_points_title"
@@ -63,7 +64,7 @@
                 android:layout_margin="@dimen/moreMarginItem"
                 android:padding="10dp"
                 android:background="@drawable/element_background_border"
-
+                android:clickable="true"
                 >
                 <TextView
                     android:id="@+id/more_list_history_title"
@@ -84,7 +85,7 @@
                 android:layout_margin="@dimen/moreMarginItem"
                 android:padding="10dp"
                 android:background="@drawable/element_background_border"
-
+                android:clickable="true"
                 >
                 <TextView
                     android:id="@+id/more_list_import_title"
@@ -105,7 +106,7 @@
                 android:layout_margin="@dimen/moreMarginItem"
                 android:padding="10dp"
                 android:background="@drawable/element_background_border"
-
+                android:clickable="true"
                 >
                 <TextView
                     android:id="@+id/more_list_export_title"
