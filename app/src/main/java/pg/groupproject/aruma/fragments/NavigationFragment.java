@@ -10,10 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -22,6 +18,9 @@ import com.google.android.gms.maps.model.LatLng;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import pg.groupproject.aruma.R;
 import pg.groupproject.aruma.feature.MyLocationHandler;
 import pg.groupproject.aruma.feature.location.LocationService;
@@ -90,7 +89,7 @@ public class NavigationFragment extends Fragment implements OnMapReadyCallback {
 			if (location != null) {
 				locationService.insert(location, currentRouteId);
 			}
-			trainingButton.setImageResource(R.drawable.ic_stop_black_24dp);
+			trainingButton.setImageResource(R.drawable.ic_stop);
 			locationHandler.startTraining();
 			this.isTrainingRunning = true;
 		} else {
@@ -105,7 +104,7 @@ public class NavigationFragment extends Fragment implements OnMapReadyCallback {
 			Log.i(NavigationFragment.class.getName(),
 					"Got locations: ");
 			locations.forEach(location -> Log.i(NavigationFragment.class.getName(), location.toString()));
-			trainingButton.setImageResource(R.drawable.ic_play_arrow_black_24dp);
+			trainingButton.setImageResource(R.drawable.ic_start);
 			locationHandler.pauseTraining();
 			this.isTrainingRunning = false;
 		}
