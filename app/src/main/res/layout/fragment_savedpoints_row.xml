@@ -39,7 +39,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:background="@android:color/transparent"
-        app:srcCompat="@drawable/ic_delete_black_24dp"
+        app:srcCompat="@drawable/ic_delete"
         />
 
     <ImageButton
@@ -49,7 +49,7 @@
         android:layout_marginRight="5dp"
         android:layout_toLeftOf="@id/saved_points_row_delete_button"
         android:background="@android:color/transparent"
-        app:srcCompat="@drawable/ic_edit_black_24dp"
+        app:srcCompat="@drawable/ic_edit"
         />
 
 </RelativeLayout>

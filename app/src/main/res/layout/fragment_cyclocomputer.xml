@@ -13,16 +13,16 @@
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.NoActionBar"
         >
+
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/primaryLight"
-            app:tabTextColor="@color/font"
-            app:tabTextAppearance="@style/CyclocomputerTabTextAppearance"
-            app:tabIndicatorColor="@color/primaryDark"
+            android:background="@color/primary_light"
+            app:tabIndicatorColor="@color/font"
             app:tabIndicatorHeight="4dp"
-            />
+            app:tabTextAppearance="@style/CyclocomputerTabTextAppearance"
+            app:tabTextColor="@color/font" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.viewpager.widget.ViewPager

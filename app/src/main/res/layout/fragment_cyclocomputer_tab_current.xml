@@ -188,8 +188,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="24dp"
-        app:backgroundTint="@color/primaryLight"
-        app:srcCompat="@drawable/ic_exposure_zero_black_24dp"
-        app:maxImageSize="36dp"/>
+        app:backgroundTint="@color/primary_light"
+        app:maxImageSize="36dp"
+        app:srcCompat="@drawable/ic_zero" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
