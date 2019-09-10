@@ -143,7 +143,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
                     android:layout_below="@id/history_altitude_chart_title"
-                    app:spark_lineColor="@color/primaryDark"
+                    app:spark_lineColor="@color/primary_dark"
                     app:spark_scrubEnabled="true"
                     />
             </RelativeLayout>
@@ -168,7 +168,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
                     android:layout_below="@id/history_speed_chart_title"
-                    app:spark_lineColor="@color/primaryDark"
+                    app:spark_lineColor="@color/primary_dark"
                     app:spark_scrubEnabled="true"
                     />
             </RelativeLayout>
