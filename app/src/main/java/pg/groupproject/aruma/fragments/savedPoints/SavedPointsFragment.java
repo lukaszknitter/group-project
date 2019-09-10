@@ -1,4 +1,4 @@
-package pg.groupproject.aruma.fragments;
+package pg.groupproject.aruma.fragments.savedPoints;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -12,8 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import pg.groupproject.aruma.R;
-import pg.groupproject.aruma.fragments.viewModels.HistoryContent;
-import pg.groupproject.aruma.fragments.viewModels.HistoryContent.HistoryViewModel;
+import pg.groupproject.aruma.fragments.savedPoints.SavedPointsContent.SavedPointViewModel;
 
 /**
  * A fragment representing a list of Items.
@@ -21,7 +20,7 @@ import pg.groupproject.aruma.fragments.viewModels.HistoryContent.HistoryViewMode
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class HistoryFragment extends Fragment {
+public class SavedPointsFragment extends Fragment {
 
     // TODO: Customize parameters
     private int mColumnCount = 1;
@@ -32,7 +31,7 @@ public class HistoryFragment extends Fragment {
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public HistoryFragment() {
+    public SavedPointsFragment() {
     }
 
     @Override
@@ -44,7 +43,7 @@ public class HistoryFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_history_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_savedpoints_list, container, false);
 
         // Set the adapter
         if (view instanceof RecyclerView) {
@@ -55,7 +54,7 @@ public class HistoryFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new HistoryViewAdapter(HistoryContent.ITEMS, mListener));
+            recyclerView.setAdapter(new SavedPointsViewAdapter(SavedPointsContent.ITEMS, mListener));
         }
         return view;
     }
@@ -90,6 +89,6 @@ public class HistoryFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(HistoryViewModel item);
+        void onListFragmentInteraction(SavedPointViewModel item);
     }
 }

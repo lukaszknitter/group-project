@@ -12,13 +12,14 @@ import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import pg.groupproject.aruma.R;
-import pg.groupproject.aruma.fragments.HistoryFragment;
 import pg.groupproject.aruma.fragments.MoreFragment;
 import pg.groupproject.aruma.fragments.NavigationFragment;
-import pg.groupproject.aruma.fragments.SavedPointsFragment;
 import pg.groupproject.aruma.fragments.cyclocomputer.CyclocomputerFragment;
-import pg.groupproject.aruma.fragments.viewModels.HistoryContent;
-import pg.groupproject.aruma.fragments.viewModels.SavedPointsContent;
+import pg.groupproject.aruma.fragments.history.HistoryContent;
+import pg.groupproject.aruma.fragments.history.HistoryDetailsFragment;
+import pg.groupproject.aruma.fragments.history.HistoryFragment;
+import pg.groupproject.aruma.fragments.savedPoints.SavedPointsContent;
+import pg.groupproject.aruma.fragments.savedPoints.SavedPointsFragment;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, HistoryFragment.OnListFragmentInteractionListener, SavedPointsFragment.OnListFragmentInteractionListener {
 
@@ -77,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
 	@Override
 	public void onListFragmentInteraction(HistoryContent.HistoryViewModel item) {
-
+		loadFragment(new HistoryDetailsFragment());
 	}
 
 	@Override

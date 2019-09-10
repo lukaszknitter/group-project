@@ -21,4 +21,7 @@
     <string name="text_history">Historia</string>
     <string name="text_import">Importuj</string>
     <string name="text_route">Wyznacz trasę</string>
+    <string name="test_speed_chart">Wykres prędkości</string>
+    <string name="text_map">Mapa</string>
+    <string name="text_altitude_chart">Wykres wysokości</string>
 </resources>
