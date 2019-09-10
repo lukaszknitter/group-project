@@ -1,4 +1,4 @@
-package pg.groupproject.aruma.fragments;
+package pg.groupproject.aruma.fragments.savedPoints;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import pg.groupproject.aruma.R;
-import pg.groupproject.aruma.fragments.SavedPointsFragment.OnListFragmentInteractionListener;
-import pg.groupproject.aruma.fragments.viewModels.SavedPointsContent.SavedPointViewModel;
+import pg.groupproject.aruma.fragments.savedPoints.SavedPointsContent.SavedPointViewModel;
+import pg.groupproject.aruma.fragments.savedPoints.SavedPointsFragment.OnListFragmentInteractionListener;
 
 /**
  * {@link RecyclerView.Adapter} that can display a {@link SavedPointViewModel} and makes a call to the

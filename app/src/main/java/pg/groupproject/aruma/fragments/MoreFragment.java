@@ -13,6 +13,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import pg.groupproject.aruma.R;
+import pg.groupproject.aruma.fragments.history.HistoryFragment;
+import pg.groupproject.aruma.fragments.savedPoints.SavedPointsFragment;
 
 
 public class MoreFragment extends Fragment {

@@ -1,4 +1,4 @@
-package pg.groupproject.aruma.fragments;
+package pg.groupproject.aruma.fragments.history;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import pg.groupproject.aruma.R;
-import pg.groupproject.aruma.fragments.HistoryFragment.OnListFragmentInteractionListener;
-import pg.groupproject.aruma.fragments.viewModels.HistoryContent.HistoryViewModel;
+import pg.groupproject.aruma.fragments.history.HistoryContent.HistoryViewModel;
+import pg.groupproject.aruma.fragments.history.HistoryFragment.OnListFragmentInteractionListener;
 
 /**
  * {@link RecyclerView.Adapter} that can display a {@link HistoryViewModel} and makes a call to the

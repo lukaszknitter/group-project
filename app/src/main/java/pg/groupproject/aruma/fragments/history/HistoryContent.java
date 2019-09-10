@@ -1,4 +1,4 @@
-package pg.groupproject.aruma.fragments.viewModels;
+package pg.groupproject.aruma.fragments.history;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,34 +11,34 @@ import java.util.Map;
  * <p>
  * TODO: Replace all uses of this class before publishing your app.
  */
-public class SavedPointsContent {
+public class HistoryContent {
 
     /**
      * An array of sample (dummy) items.
      */
-    public static final List<SavedPointViewModel> ITEMS = new ArrayList<SavedPointViewModel>();
+    public static final List<HistoryViewModel> ITEMS = new ArrayList<HistoryViewModel>();
 
     /**
      * A map of sample (dummy) items, by ID.
      */
-    public static final Map<String, SavedPointViewModel> ITEM_MAP = new HashMap<String, SavedPointViewModel>();
+    public static final Map<String, HistoryViewModel> ITEM_MAP = new HashMap<String, HistoryViewModel>();
 
     private static final int COUNT = 25;
 
     static {
         // Add some sample items.
         for (int i = 1; i <= COUNT; i++) {
-            addItem(createSavedPoint(i));
+            addItem(createHistory(i));
         }
     }
 
-    private static void addItem(SavedPointViewModel item) {
+    private static void addItem(HistoryViewModel item) {
         ITEMS.add(item);
         ITEM_MAP.put(item.id, item);
     }
 
-    private static SavedPointViewModel createSavedPoint(int position) {
-        return new SavedPointViewModel(String.valueOf(position), "Item " + position, makeDetails(position));
+    private static HistoryViewModel createHistory(int position) {
+        return new HistoryViewModel(String.valueOf(position), "Item " + position, makeDetails(position));
     }
 
     private static String makeDetails(int position) {
@@ -53,12 +53,12 @@ public class SavedPointsContent {
     /**
      * A dummy item representing a piece of title.
      */
-    public static class SavedPointViewModel {
+    public static class HistoryViewModel {
         public final String id;
         public final String title;
         public final String description;
 
-        public SavedPointViewModel(String id, String title, String description) {
+        public HistoryViewModel(String id, String title, String description) {
             this.id = id;
             this.title = title;
             this.description = description;
