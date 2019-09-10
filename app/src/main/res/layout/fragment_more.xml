@@ -6,7 +6,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:paddingTop="20">
 
         <LinearLayout
             android:id="@+id/more_list"
@@ -19,19 +20,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/moreMarginItem"
-                android:padding="10dp"
                 android:background="@drawable/element_background_border"
                 android:clickable="true"
+                android:padding="10dp"
 
                 >
+
                 <TextView
                     android:id="@+id/more_list_route_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
                     android:text="@string/text_route"
                     android:textColor="@color/font"
                     android:textSize="@dimen/fontSizePrimary"
-                    android:layout_centerInParent="true"
 
                     />
             </RelativeLayout>
@@ -41,18 +43,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/moreMarginItem"
-                android:padding="10dp"
                 android:background="@drawable/element_background_border"
                 android:clickable="true"
-                >
+                android:padding="10dp">
+
                 <TextView
                     android:id="@+id/more_list_saved_points_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
                     android:text="@string/text_saved_points"
                     android:textColor="@color/font"
                     android:textSize="@dimen/fontSizePrimary"
-                    android:layout_centerInParent="true"
 
                     />
             </RelativeLayout>
@@ -62,18 +64,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/moreMarginItem"
-                android:padding="10dp"
                 android:background="@drawable/element_background_border"
                 android:clickable="true"
-                >
+                android:padding="10dp">
+
                 <TextView
                     android:id="@+id/more_list_history_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
                     android:text="@string/text_history"
                     android:textColor="@color/font"
                     android:textSize="@dimen/fontSizePrimary"
-                    android:layout_centerInParent="true"
 
                     />
             </RelativeLayout>
@@ -83,18 +85,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/moreMarginItem"
-                android:padding="10dp"
                 android:background="@drawable/element_background_border"
                 android:clickable="true"
-                >
+                android:padding="10dp">
+
                 <TextView
                     android:id="@+id/more_list_import_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
                     android:text="@string/text_import"
                     android:textColor="@color/font"
                     android:textSize="@dimen/fontSizePrimary"
-                    android:layout_centerInParent="true"
 
                     />
             </RelativeLayout>
@@ -104,23 +106,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/moreMarginItem"
-                android:padding="10dp"
                 android:background="@drawable/element_background_border"
                 android:clickable="true"
-                >
+                android:padding="10dp">
+
                 <TextView
                     android:id="@+id/more_list_export_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
                     android:text="@string/text_export"
                     android:textColor="@color/font"
                     android:textSize="@dimen/fontSizePrimary"
-                    android:layout_centerInParent="true"
 
                     />
             </RelativeLayout>
-
-
 
 
         </LinearLayout>
