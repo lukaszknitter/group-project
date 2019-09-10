@@ -31,11 +31,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
+                    android:drawableLeft="@drawable/ic_route"
+                    android:drawablePadding="40px"
                     android:text="@string/text_route"
-                    android:textColor="@color/font"
-                    android:textSize="@dimen/fontSizePrimary"
 
-                    />
+                    android:textColor="@color/font"
+                    android:textSize="@dimen/fontSizePrimary" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -52,11 +53,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
+                    android:drawableLeft="@drawable/ic_favourites"
+                    android:drawablePadding="40px"
                     android:text="@string/text_saved_points"
-                    android:textColor="@color/font"
-                    android:textSize="@dimen/fontSizePrimary"
 
-                    />
+                    android:textColor="@color/font"
+                    android:textSize="@dimen/fontSizePrimary" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -73,11 +75,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
+                    android:drawableLeft="@drawable/ic_history"
+                    android:drawablePadding="40px"
                     android:text="@string/text_history"
-                    android:textColor="@color/font"
-                    android:textSize="@dimen/fontSizePrimary"
 
-                    />
+                    android:textColor="@color/font"
+                    android:textSize="@dimen/fontSizePrimary" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -94,11 +97,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
+                    android:drawableLeft="@drawable/ic_import"
+                    android:drawablePadding="40px"
                     android:text="@string/text_import"
-                    android:textColor="@color/font"
-                    android:textSize="@dimen/fontSizePrimary"
 
-                    />
+                    android:textColor="@color/font"
+                    android:textSize="@dimen/fontSizePrimary" />
+
             </RelativeLayout>
 
             <RelativeLayout
@@ -115,11 +120,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
+                    android:drawableLeft="@drawable/ic_export"
+                    android:drawablePadding="40px"
                     android:text="@string/text_export"
-                    android:textColor="@color/font"
-                    android:textSize="@dimen/fontSizePrimary"
 
-                    />
+                    android:textColor="@color/font"
+                    android:textSize="@dimen/fontSizePrimary" />
             </RelativeLayout>
 
 
