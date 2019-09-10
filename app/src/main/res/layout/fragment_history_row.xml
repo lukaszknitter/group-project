@@ -36,8 +36,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:background="@android:color/transparent"
-        app:srcCompat="@drawable/ic_delete_black_24dp"
-        />
+        app:srcCompat="@drawable/ic_delete" />
 
     <ImageButton
         android:id="@+id/history_row_edit_button"
@@ -46,7 +45,7 @@
         android:layout_marginRight="5dp"
         android:layout_toLeftOf="@id/history_row_delete_button"
         android:background="@android:color/transparent"
-        app:srcCompat="@drawable/ic_edit_black_24dp"
+        app:srcCompat="@drawable/ic_edit"
         />
 
 </RelativeLayout>

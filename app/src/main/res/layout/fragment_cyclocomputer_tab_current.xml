@@ -23,14 +23,16 @@
             android:layout_margin="@dimen/cyclocomputerMarginItem"
                 android:padding="5dp"
             >
-            <TextView
-                android:id="@+id/cyclocomputer_current_speed_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/text_speed"
-                android:textColor="@color/font"
-                android:textSize="@dimen/fontSizeTitle"
-                />
+
+                <TextView
+                    android:id="@+id/cyclocomputer_current_speed_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_speed"
+                    android:drawablePadding="10dp"
+                    android:text="@string/text_speed"
+                    android:textColor="@color/font"
+                    android:textSize="@dimen/fontSizeTitle" />
             <TextView
                 android:id="@+id/cyclocomputer_current_speed_value"
                 android:layout_width="wrap_content"
@@ -50,14 +52,16 @@
                 android:layout_margin="@dimen/cyclocomputerMarginItem"
                 android:padding="5dp"
                 >
+
                 <TextView
                     android:id="@+id/cyclocomputer_current_time_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_stopwatch"
+                    android:drawablePadding="10dp"
                     android:text="@string/text_time"
                     android:textColor="@color/font"
-                    android:textSize="@dimen/fontSizeTitle"
-                    />
+                    android:textSize="@dimen/fontSizeTitle" />
                 <TextView
                     android:id="@+id/cyclocomputer_current_time_value"
                     android:layout_width="wrap_content"
@@ -77,14 +81,16 @@
                 android:layout_margin="@dimen/cyclocomputerMarginItem"
                 android:padding="5dp"
                 >
+
                 <TextView
                     android:id="@+id/cyclocomputer_current_distance_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_distance"
+                    android:drawablePadding="10dp"
                     android:text="@string/text_distance"
                     android:textColor="@color/font"
-                    android:textSize="@dimen/fontSizeTitle"
-                    />
+                    android:textSize="@dimen/fontSizeTitle" />
                 <TextView
                     android:id="@+id/cyclocomputer_current_distance_value"
                     android:layout_width="wrap_content"
@@ -104,14 +110,16 @@
                 android:layout_margin="@dimen/cyclocomputerMarginItem"
                 android:padding="5dp"
                 >
+
                 <TextView
                     android:id="@+id/cyclocomputer_current_avgSpeed_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_speed_avg"
+                    android:drawablePadding="10dp"
                     android:text="@string/text_avg_speed"
                     android:textColor="@color/font"
-                    android:textSize="@dimen/fontSizeTitle"
-                    />
+                    android:textSize="@dimen/fontSizeTitle" />
                 <TextView
                     android:id="@+id/cyclocomputer_current_avgSpeed_value"
                     android:layout_width="wrap_content"
@@ -131,14 +139,16 @@
                 android:layout_margin="@dimen/cyclocomputerMarginItem"
                 android:padding="5dp"
                 >
+
                 <TextView
                     android:id="@+id/cyclocomputer_current_altitude_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_altitude"
+                    android:drawablePadding="10dp"
                     android:text="@string/text_altitude"
                     android:textColor="@color/font"
-                    android:textSize="@dimen/fontSizeTitle"
-                    />
+                    android:textSize="@dimen/fontSizeTitle" />
                 <TextView
                     android:id="@+id/cyclocomputer_current_altitude_value"
                     android:layout_width="wrap_content"
@@ -158,14 +168,16 @@
                 android:layout_margin="@dimen/cyclocomputerMarginItem"
                 android:padding="5dp"
                 >
+
                 <TextView
                     android:id="@+id/cyclocomputer_current_clock_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_clock"
+                    android:drawablePadding="10dp"
                     android:text="@string/text_clock"
                     android:textColor="@color/font"
-                    android:textSize="@dimen/fontSizeTitle"
-                    />
+                    android:textSize="@dimen/fontSizeTitle" />
                 <TextView
                     android:id="@+id/cyclocomputer_current_clock_value"
                     android:layout_width="wrap_content"
@@ -188,8 +200,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="24dp"
-        app:backgroundTint="@color/primaryLight"
-        app:srcCompat="@drawable/ic_exposure_zero_black_24dp"
-        app:maxImageSize="36dp"/>
+        app:backgroundTint="@color/primary_light"
+        app:maxImageSize="36dp"
+        app:srcCompat="@drawable/ic_zero" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

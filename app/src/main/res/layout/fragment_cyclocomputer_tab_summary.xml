@@ -24,14 +24,16 @@
                 android:layout_margin="@dimen/cyclocomputerMarginItem"
                 android:padding="5dp"
                 >
+
                 <TextView
                     android:id="@+id/cyclocomputer_summary_time_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_stopwatch"
+                    android:drawablePadding="10dp"
                     android:text="@string/text_time"
                     android:textColor="@color/font"
-                    android:textSize="@dimen/fontSizeTitle"
-                    />
+                    android:textSize="@dimen/fontSizeTitle" />
                 <TextView
                     android:id="@+id/cyclocomputer_summary_time_value"
                     android:layout_width="wrap_content"
@@ -51,14 +53,16 @@
                 android:layout_margin="@dimen/cyclocomputerMarginItem"
                 android:padding="5dp"
                 >
+
                 <TextView
                     android:id="@+id/cyclocomputer_summary_distance_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_distance"
+                    android:drawablePadding="10dp"
                     android:text="@string/text_distance"
                     android:textColor="@color/font"
-                    android:textSize="@dimen/fontSizeTitle"
-                    />
+                    android:textSize="@dimen/fontSizeTitle" />
                 <TextView
                     android:id="@+id/cyclocomputer_summary_distance_value"
                     android:layout_width="wrap_content"
@@ -78,14 +82,16 @@
                 android:layout_margin="@dimen/cyclocomputerMarginItem"
                 android:padding="5dp"
                 >
+
                 <TextView
                     android:id="@+id/cyclocomputer_summary_avgSpeed_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_speed_avg"
+                    android:drawablePadding="10dp"
                     android:text="@string/text_avg_speed"
                     android:textColor="@color/font"
-                    android:textSize="@dimen/fontSizeTitle"
-                    />
+                    android:textSize="@dimen/fontSizeTitle" />
                 <TextView
                     android:id="@+id/cyclocomputer_summary_avgSpeed_value"
                     android:layout_width="wrap_content"

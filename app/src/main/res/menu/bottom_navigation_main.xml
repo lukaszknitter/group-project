@@ -4,20 +4,20 @@
     <item
         android:id="@+id/action_navigation"
         android:enabled="true"
-        android:icon="@drawable/ic_location_on_black_24dp"
+        android:icon="@drawable/ic_navigation"
         android:title="@string/text_navigation"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_cyclocomputer"
         android:enabled="true"
-        android:icon="@drawable/ic_counter"
+        android:icon="@drawable/ic_stopwatch"
         android:title="@string/text_cyclocomputer"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/action_more"
         android:enabled="true"
-        android:icon="@drawable/ic_more_horiz_black_24dp"
+        android:icon="@drawable/ic_more_horiz"
         android:title="@string/text_more"
         app:showAsAction="ifRoom" />
 </menu>
