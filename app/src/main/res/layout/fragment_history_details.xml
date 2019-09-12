@@ -23,14 +23,16 @@
                 android:layout_margin="@dimen/historyMarginItem"
                 android:padding="5dp"
                 >
+
                 <TextView
                     android:id="@+id/history_map_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_map"
+                    android:drawablePadding="10dp"
                     android:text="@string/text_map"
                     android:textColor="@color/font"
-                    android:textSize="@dimen/fontSizeTitle"
-                    />
+                    android:textSize="@dimen/fontSizeTitle" />
                 <fragment
                     android:id="@+id/history_map_map"
                     android:name="com.google.android.gms.maps.SupportMapFragment"
@@ -47,14 +49,16 @@
                 android:layout_margin="@dimen/historyMarginItem"
                 android:padding="5dp"
                 >
+
                 <TextView
                     android:id="@+id/history_time_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_stopwatch"
+                    android:drawablePadding="10dp"
                     android:text="@string/text_time"
                     android:textColor="@color/font"
-                    android:textSize="@dimen/fontSizeTitle"
-                    />
+                    android:textSize="@dimen/fontSizeTitle" />
                 <TextView
                     android:id="@+id/history_time_value"
                     android:layout_width="wrap_content"
@@ -74,14 +78,16 @@
                 android:layout_margin="@dimen/historyMarginItem"
                 android:padding="5dp"
                 >
+
                 <TextView
                     android:id="@+id/history_distance_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_distance"
+                    android:drawablePadding="10dp"
                     android:text="@string/text_distance"
                     android:textColor="@color/font"
-                    android:textSize="@dimen/fontSizeTitle"
-                    />
+                    android:textSize="@dimen/fontSizeTitle" />
                 <TextView
                     android:id="@+id/history_distance_value"
                     android:layout_width="wrap_content"
@@ -101,14 +107,16 @@
                 android:layout_margin="@dimen/historyMarginItem"
                 android:padding="5dp"
                 >
+
                 <TextView
                     android:id="@+id/history_avgSpeed_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_speed_avg"
+                    android:drawablePadding="10dp"
                     android:text="@string/text_avg_speed"
                     android:textColor="@color/font"
-                    android:textSize="@dimen/fontSizeTitle"
-                    />
+                    android:textSize="@dimen/fontSizeTitle" />
                 <TextView
                     android:id="@+id/history_avgSpeed_value"
                     android:layout_width="wrap_content"
@@ -128,14 +136,16 @@
                 android:layout_margin="@dimen/historyMarginItem"
                 android:padding="5dp"
                 >
+
                 <TextView
                     android:id="@+id/history_altitude_chart_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_altitude"
+                    android:drawablePadding="10dp"
                     android:text="@string/text_altitude"
                     android:textColor="@color/font"
-                    android:textSize="@dimen/fontSizeTitle"
-                    />
+                    android:textSize="@dimen/fontSizeTitle" />
 
 
                 <com.robinhood.spark.SparkView
@@ -155,14 +165,16 @@
                 android:layout_margin="@dimen/historyMarginItem"
                 android:padding="5dp"
                 >
+
                 <TextView
                     android:id="@+id/history_speed_chart_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_speed"
+                    android:drawablePadding="10dp"
                     android:text="@string/test_speed_chart"
                     android:textColor="@color/font"
-                    android:textSize="@dimen/fontSizeTitle"
-                    />
+                    android:textSize="@dimen/fontSizeTitle" />
                 <com.robinhood.spark.SparkView
                     android:id="@+id/history_speed_chart"
                     android:layout_width="match_parent"
