@@ -3,14 +3,13 @@ package pg.groupproject.aruma.activities;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-
 import pg.groupproject.aruma.R;
 import pg.groupproject.aruma.fragments.MoreFragment;
 import pg.groupproject.aruma.fragments.NavigationFragment;
@@ -30,16 +29,15 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		setTheme(R.style.AppTheme);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-
 
 		supportFragmentManager = getSupportFragmentManager();
 		BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
 		bottomNavigationView.setOnNavigationItemSelectedListener(this);
 
 		loadFragment(cyclocomputerFragment);
-
 	}
 
 	private void loadFragment(Fragment fragment) {
@@ -55,12 +53,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
 	@Override
 	public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-		Fragment fragment = null;
+		Fragment fragment;
 
 		switch (item.getItemId()) {
-			case R.id.action_cyclocomputer:
-				fragment = cyclocomputerFragment;
-				break;
 			case R.id.action_navigation:
 				fragment = navigationFragment;
 				break;
