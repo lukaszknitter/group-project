@@ -44,6 +44,11 @@ public class RouteService {
 		values.put(COLUMN_DISTANCE, route.getDistance());
 		values.put(COLUMN_TOTAL_TIME_S, route.getTotalSeconds());
 
+		if (route.getId() != 0)
+			values.put(COLUMN_ID, route.getId());
+		if (route.getTimestamp() != null)
+			values.put(COLUMN_TIMESTAMP, route.getTimestamp());
+
 		long id = db.insert(TABLE_NAME, null, values);
 
 		db.close();
@@ -114,6 +119,13 @@ public class RouteService {
 		cursor.close();
 
 		return routes;
+	}
+
+
+	public void deleteAll() {
+		final SQLiteDatabase db = dbHelper.getWritableDatabase();
+		db.execSQL("DELETE FROM " + TABLE_NAME);
+		db.close();
 	}
 
 	private Route buildFromCursor(Cursor cursor) {

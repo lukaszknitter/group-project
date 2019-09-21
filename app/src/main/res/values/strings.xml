@@ -16,7 +16,7 @@
     <string name="text_km">km</string>
     <string name="cyclocomputer_tab_current">Current</string>
     <string name="cyclocomputer_tab_last_tour">Last tour</string>
-    <string name="cyclocomputer_tab_summary">Sumary</string>
+    <string name="cyclocomputer_tab_summary">Summary</string>
     <string name="text_distance">Distance</string>
     <string name="text_altitude">Altitude</string>
     <string name="text_avg_speed">Average speed</string>
@@ -27,5 +27,8 @@
     <string name="test_speed_chart">Speed chart</string>
     <string name="text_altitude_chart">Altitude chart</string>
     <string name="text_map">Map</string>
+    <string name="import_success_message">Data imported successfully!</string>
+    <string name="export_success_message">Data exported successfully!</string>
+    <string name="select_directory">Choose directory</string>
 
 </resources>
