@@ -4,13 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Place {
-	public static final String TABLE_NAME = "route";
+	public static final String TABLE_NAME = "place";
 
 	public static final String COLUMN_ID = "id";
 	public static final String COLUMN_NAME = "name";
@@ -29,4 +30,30 @@ public class Place {
 	private double latitude;
 	private double longitude;
 	private String timestamp;
+
+	public static Place fromCSVRow(@NonNull final String[] values) {
+		return Place.builder()
+				.id(Integer.parseInt(values[0]))
+				.name(values[1])
+				.latitude(Double.parseDouble(values[2]))
+				.longitude(Double.parseDouble(values[3]))
+				.timestamp(values[4])
+				.build();
+	}
+
+	public static String csvHeader(@NonNull final String csvSeparator) {
+		return COLUMN_ID + csvSeparator +
+				COLUMN_NAME + csvSeparator +
+				COLUMN_LATITUDE + csvSeparator +
+				COLUMN_LONGITUDE + csvSeparator +
+				COLUMN_TIMESTAMP;
+	}
+
+	public String toCSVRow(@NonNull final String csvSeparator) {
+		return id + csvSeparator +
+				name + csvSeparator +
+				latitude + csvSeparator +
+				longitude + csvSeparator +
+				timestamp;
+	}
 }
