@@ -16,6 +16,8 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.List;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NonNull;
 import pg.groupproject.aruma.R;
 import pg.groupproject.aruma.feature.location.Location;
@@ -177,23 +179,13 @@ public class DataService {
 		return file;
 	}
 
+	@Getter
+	@AllArgsConstructor
 	private enum Filename {
-		LOCATION,
-		PLACE,
-		ROUTE;
+		LOCATION("location.csv"),
+		PLACE("place.csv"),
+		ROUTE("route.csv");
 
-		public String getName() {
-			switch (this) {
-				case LOCATION:
-					return "location.csv";
-				case PLACE:
-					return "place.csv";
-				case ROUTE:
-					return "route.csv";
-				default:
-					throw new IllegalStateException();
-			}
-		}
+		private final String name;
 	}
-
 }
