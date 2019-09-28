@@ -3,16 +3,32 @@
 xmlns:android="http://schemas.android.com/apk/res/android"
 xmlns:app="http://schemas.android.com/apk/res-auto"
 xmlns:tools="http://schemas.android.com/tools"
-android:layout_height="match_parent"
-android:layout_width="match_parent">
+    android:layout_height="match_parent"
+    android:layout_width="match_parent" >
 
-    <fragment
-        android:id="@+id/map"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="80dp"
-        tools:context=".fragments.NavigationFragment" />
+
+
+
+    <!--<fragment-->
+    <!--android:id="@+id/fragment_osmdroid"-->
+    <!--android:name="pg.groupproject.aruma.fragments.Osmdroid"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_marginTop="80dp" />-->
+
+        <org.osmdroid.views.MapView
+            android:id="@+id/map"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginTop="80dp"/>
+
+    <!--<fragment-->
+        <!--android:id="@+id/map"-->
+        <!--android:name="com.google.android.gms.maps.SupportMapFragment"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_marginTop="80dp"-->
+        <!--tools:context=".fragments.NavigationFragment" />-->
 
 <RelativeLayout
     android:id="@+id/map_cyclometer"
