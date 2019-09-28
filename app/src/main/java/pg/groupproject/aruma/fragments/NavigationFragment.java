@@ -8,6 +8,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,9 +33,11 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.MapEventsOverlay;
 import org.osmdroid.views.overlay.Polyline;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
+import lombok.var;
 import pg.groupproject.aruma.MyLocationListener;
 import pg.groupproject.aruma.R;
 
@@ -45,7 +48,9 @@ public class NavigationFragment extends Fragment {
 	private MyLocationListener myLocationListener;
 	private Location currentLocation;
 	private RoadManager roadManager;
-
+	private Polyline currentPolyline;
+	private TextView distanceTextView;
+	private TextView timeTextView;
 	@Nullable
 	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -59,6 +64,8 @@ public class NavigationFragment extends Fragment {
 
 		final View inflateView = inflater.inflate(R.layout.fragment_navigation, null);
 		roadManager = new OSRMRoadManager(getActivity());
+		distanceTextView = inflateView.getRootView().findViewById(R.id.distanceTextView);
+		timeTextView = inflateView.getRootView().findViewById(R.id.timeTextView);
 		initializeLocationManager();
 		initializeMap(inflateView);
 		initializeRoutingFeatures();
@@ -81,7 +88,12 @@ public class NavigationFragment extends Fragment {
 		map.setTilesScaledToDpi(true);
 		map.getController().setZoom(15);
 		//TODO Jak zając się tym, gdy nic sie nie zwroci?
-		currentLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        int retry = 0;
+        while(currentLocation == null) {
+            currentLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            if(currentLocation == null)
+            	currentLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        }
 		map.getController().setCenter(new GeoPoint(currentLocation.getLatitude(),currentLocation.getLongitude()));
 		map.setMultiTouchControls(true);
 
@@ -141,13 +153,21 @@ public class NavigationFragment extends Fragment {
 		imageView.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
+
+			    if(currentPolyline != null){
+			        map.getOverlays().remove(currentPolyline);
+                }
+
 				ArrayList<GeoPoint> points = new ArrayList<GeoPoint>();
 				points.add(new GeoPoint(currentLocation.getLatitude(), currentLocation.getLongitude()));
 				points.add(destinationPoint);
-				Road road = roadManager.getRoad(points);
-				Polyline roadOverlay = RoadManager.buildRoadOverlay(road);
-				roadOverlay.setWidth(10);
-				map.getOverlays().add(roadOverlay);
+				Road road = roadManager.getRoad(points); //TODO dodać retry jak road.mstatus zwroci cos innego niż OK
+				double roadLength = (double) Math.round(road.mLength * 100) / 100;
+				distanceTextView.setText(roadLength+" km (0 %)");
+				timeTextView.setText(road.mDuration+"");
+				currentPolyline = RoadManager.buildRoadOverlay(road);
+				currentPolyline.setWidth(20);
+				map.getOverlays().add(currentPolyline);
 				map.invalidate();
 				dialog.hide();
 			}
