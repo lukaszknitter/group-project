@@ -24,4 +24,8 @@
     <string name="test_speed_chart">Wykres prędkości</string>
     <string name="text_map">Mapa</string>
     <string name="text_altitude_chart">Wykres wysokości</string>
+    <string name="import_success_message">Zaimportowano dane pomyślnie!</string>
+    <string name="export_success_message">Wyeksportowano dane pomyślnie!</string>
+    <string name="select_directory">Wybierz folder</string>
+
 </resources>

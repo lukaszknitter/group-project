@@ -55,6 +55,11 @@ public class LocationService {
 		values.put(COLUMN_SPEED, location.getSpeed());
 		values.put(COLUMN_ROUTE_ID, routeId);
 
+		if (location.getId() != 0)
+			values.put(COLUMN_ID, location.getId());
+		if (location.getTimestamp() != null)
+			values.put(COLUMN_TIMESTAMP, location.getTimestamp());
+
 		long id = db.insert(TABLE_NAME, null, values);
 
 		db.close();
@@ -74,15 +79,7 @@ public class LocationService {
 		final List<Location> locations = new ArrayList<>();
 		if (cursor.moveToFirst()) {
 			while (!cursor.isAfterLast()) {
-				final Location location = Location.builder()
-						.id(cursor.getInt(cursor.getColumnIndex(COLUMN_ID)))
-						.latitude(cursor.getDouble(cursor.getColumnIndex(COLUMN_LATITUDE)))
-						.longitude(cursor.getDouble(cursor.getColumnIndex(COLUMN_LONGITUDE)))
-						.altitude(cursor.getDouble(cursor.getColumnIndex(COLUMN_ALTITUDE)))
-						.speed(cursor.getFloat(cursor.getColumnIndex(COLUMN_SPEED)))
-						.timestamp(cursor.getString(cursor.getColumnIndex(COLUMN_TIMESTAMP)))
-						.routeId(cursor.getInt(cursor.getColumnIndex(COLUMN_ROUTE_ID)))
-						.build();
+				final Location location = buildFromCursor(cursor);
 
 				locations.add(location);
 				cursor.moveToNext();
@@ -92,5 +89,46 @@ public class LocationService {
 		cursor.close();
 
 		return locations;
+	}
+
+	public List<Location> getAll() {
+		final SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+		final String selectQuery = "SELECT  * FROM " + TABLE_NAME
+				+ " ORDER BY " + COLUMN_TIMESTAMP + " DESC";
+
+		final Cursor cursor = db.rawQuery(selectQuery, null);
+
+		final List<Location> locations = new ArrayList<>();
+		if (cursor.moveToFirst()) {
+			while (!cursor.isAfterLast()) {
+				final Location location = buildFromCursor(cursor);
+
+				locations.add(location);
+				cursor.moveToNext();
+			}
+		}
+
+		cursor.close();
+
+		return locations;
+	}
+
+	public void deleteAll() {
+		final SQLiteDatabase db = dbHelper.getWritableDatabase();
+		db.execSQL("DELETE FROM " + TABLE_NAME);
+		db.close();
+	}
+
+	private Location buildFromCursor(Cursor cursor) {
+		return Location.builder()
+				.id(cursor.getInt(cursor.getColumnIndex(COLUMN_ID)))
+				.latitude(cursor.getDouble(cursor.getColumnIndex(COLUMN_LATITUDE)))
+				.longitude(cursor.getDouble(cursor.getColumnIndex(COLUMN_LONGITUDE)))
+				.altitude(cursor.getDouble(cursor.getColumnIndex(COLUMN_ALTITUDE)))
+				.speed(cursor.getFloat(cursor.getColumnIndex(COLUMN_SPEED)))
+				.timestamp(cursor.getString(cursor.getColumnIndex(COLUMN_TIMESTAMP)))
+				.routeId(cursor.getInt(cursor.getColumnIndex(COLUMN_ROUTE_ID)))
+				.build();
 	}
 }
