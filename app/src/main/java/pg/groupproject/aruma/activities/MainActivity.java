@@ -3,13 +3,14 @@ package pg.groupproject.aruma.activities;
 import android.os.Bundle;
 import android.view.MenuItem;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import pg.groupproject.aruma.R;
 import pg.groupproject.aruma.fragments.MoreFragment;
 import pg.groupproject.aruma.fragments.NavigationFragment;
@@ -20,7 +21,10 @@ import pg.groupproject.aruma.fragments.history.HistoryFragment;
 import pg.groupproject.aruma.fragments.savedPoints.SavedPointsContent;
 import pg.groupproject.aruma.fragments.savedPoints.SavedPointsFragment;
 
-public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, HistoryFragment.OnListFragmentInteractionListener, SavedPointsFragment.OnListFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements
+		BottomNavigationView.OnNavigationItemSelectedListener,
+		HistoryFragment.OnListFragmentInteractionListener,
+		SavedPointsFragment.OnListFragmentInteractionListener {
 
 	private final CyclocomputerFragment cyclocomputerFragment = new CyclocomputerFragment();
 	private final NavigationFragment navigationFragment = new NavigationFragment();

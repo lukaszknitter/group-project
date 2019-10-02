@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent"
-    android:layout_width="match_parent" >
+    android:layout_width="match_parent">
 
 
 
@@ -36,7 +34,6 @@ xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="80dp"
     android:background="@color/primary_light">
 
-
     <View
         android:id="@+id/map_cyclometer_border"
         android:layout_width="match_parent"
@@ -49,8 +46,8 @@ xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/speedTextView"
         android:layout_width="wrap_content"
         android:layout_height="35dp"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="5dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="5dp"
         android:layout_marginTop="0dp"
         android:drawableStart="@drawable/ic_speed"
         android:drawablePadding="6dp"
@@ -62,10 +59,10 @@ xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/clockTextView"
         android:layout_width="wrap_content"
         android:layout_height="35dp"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_marginTop="0dp"
-        android:layout_marginRight="5dp"
-        android:drawableRight="@drawable/ic_clock"
+        android:layout_marginEnd="5dp"
+        android:drawableEnd="@drawable/ic_clock"
         android:drawablePadding="6dp"
         android:text="00:00"
         android:textColor="#460465"
@@ -76,8 +73,8 @@ xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="wrap_content"
         android:layout_height="35dp"
         android:layout_below="@+id/speedTextView"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="5dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="5dp"
         android:layout_marginTop="0dp"
         android:drawableStart="@drawable/ic_distance"
         android:drawablePadding="6dp"
@@ -85,26 +82,21 @@ xmlns:tools="http://schemas.android.com/tools"
         android:textColor="#460465"
         android:textSize="@dimen/fontSizePrimary" />
 
+
     <TextView
         android:id="@+id/timeTextView"
         android:layout_width="wrap_content"
         android:layout_height="35dp"
         android:layout_below="@+id/clockTextView"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_marginTop="0dp"
-        android:layout_marginRight="5dp"
-        android:drawableRight="@drawable/ic_stopwatch"
-        android:text="0:00"
+        android:layout_marginEnd="5dp"
+        android:drawableEnd="@drawable/ic_stopwatch"
+        android:drawablePadding="6dp"
+        android:text="00:00"
         android:textColor="#460465"
         android:textSize="@dimen/fontSizePrimary" />
-
-
-
-
-
-
 </RelativeLayout>
-
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/trainingButton"
