@@ -10,12 +10,21 @@ import pg.groupproject.aruma.feature.place.Place;
 import pg.groupproject.aruma.feature.route.Route;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
-
-	private static final int DATABASE_VERSION = 3;
+	private static final int DATABASE_VERSION = 5;
+	private static DatabaseHelper mInstance = null;
 	private static final String DATABASE_NAME = "aruma_db";
+	private final Context context;
 
-	public DatabaseHelper(Context context) {
+	private DatabaseHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
+		this.context = context;
+	}
+
+	public static DatabaseHelper getInstance(Context ctx) {
+		if (mInstance == null) {
+			mInstance = new DatabaseHelper(ctx.getApplicationContext());
+		}
+		return mInstance;
 	}
 
 	@Override

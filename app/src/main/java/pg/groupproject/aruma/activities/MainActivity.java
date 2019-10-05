@@ -14,9 +14,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import pg.groupproject.aruma.R;
 import pg.groupproject.aruma.fragments.MoreFragment;
 import pg.groupproject.aruma.fragments.NavigationFragment;
+import pg.groupproject.aruma.fragments.common.RouteDetailsFragment;
 import pg.groupproject.aruma.fragments.cyclocomputer.CyclocomputerFragment;
 import pg.groupproject.aruma.fragments.history.HistoryContent;
-import pg.groupproject.aruma.fragments.history.HistoryDetailsFragment;
 import pg.groupproject.aruma.fragments.history.HistoryFragment;
 import pg.groupproject.aruma.fragments.savedPoints.SavedPointsContent;
 import pg.groupproject.aruma.fragments.savedPoints.SavedPointsFragment;
@@ -77,7 +77,11 @@ public class MainActivity extends AppCompatActivity implements
 
 	@Override
 	public void onListFragmentInteraction(HistoryContent.HistoryViewModel item) {
-		loadFragment(new HistoryDetailsFragment());
+		Bundle bundle = new Bundle();
+		bundle.putInt("routeId", item.getId());
+		RouteDetailsFragment routeDetailsFragment = new RouteDetailsFragment();
+		routeDetailsFragment.setArguments(bundle);
+		loadFragment(routeDetailsFragment);
 	}
 
 	@Override

@@ -15,14 +15,16 @@ import com.google.android.material.tabs.TabLayout;
 
 import pg.groupproject.aruma.R;
 
+import static androidx.fragment.app.FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT;
 
-public class CyclocomputerFragment extends Fragment{
+
+public class CyclocomputerFragment extends Fragment {
 	@Nullable
 	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		final View inflateView = inflater.inflate(R.layout.fragment_cyclocomputer, null);
 
-		TabsPagerAdapter tabsPagerAdapter = new TabsPagerAdapter(this.getContext(), getChildFragmentManager());
+		TabsPagerAdapter tabsPagerAdapter = new TabsPagerAdapter(this.getContext(), getChildFragmentManager(), BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
 
 		ViewPager viewPager = inflateView.findViewById(R.id.view_pager);
 		viewPager.setAdapter(tabsPagerAdapter);
@@ -33,5 +35,4 @@ public class CyclocomputerFragment extends Fragment{
 		return inflateView;
 
 	}
-
 }

@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,6 +18,7 @@ import androidx.fragment.app.FragmentManager;
 
 import pg.groupproject.aruma.R;
 import pg.groupproject.aruma.feature.database.DataService;
+import pg.groupproject.aruma.feature.database.DatabaseFixture;
 import pg.groupproject.aruma.fragments.history.HistoryFragment;
 import pg.groupproject.aruma.fragments.savedPoints.SavedPointsFragment;
 
@@ -45,6 +47,13 @@ public class MoreFragment extends Fragment {
 
 		final RelativeLayout exportData = inflateView.findViewById(R.id.more_list_export);
 		exportData.setOnClickListener(view -> openDirectoryChooser(DIRECTORY_CHOOSER_EXPORT));
+
+		//FIXME to remove after fixture no longer needed
+		inflateView.findViewById(R.id.more_list_insert_fixture).setOnClickListener(view -> {
+			final DatabaseFixture databaseFixture = new DatabaseFixture(getContext());
+			databaseFixture.insertFixture();
+			Toast.makeText(getContext(), "Fixture inserted", Toast.LENGTH_SHORT).show();
+		});
 
 		return inflateView;
 	}

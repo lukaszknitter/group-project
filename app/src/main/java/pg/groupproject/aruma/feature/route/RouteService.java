@@ -7,13 +7,16 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import lombok.NonNull;
 import pg.groupproject.aruma.feature.database.DatabaseHelper;
 
 import static pg.groupproject.aruma.feature.route.Route.COLUMN_DISTANCE;
+import static pg.groupproject.aruma.feature.route.Route.COLUMN_FINISHED;
 import static pg.groupproject.aruma.feature.route.Route.COLUMN_ID;
+import static pg.groupproject.aruma.feature.route.Route.COLUMN_NAME;
 import static pg.groupproject.aruma.feature.route.Route.COLUMN_TIMESTAMP;
 import static pg.groupproject.aruma.feature.route.Route.COLUMN_TOTAL_TIME_S;
 import static pg.groupproject.aruma.feature.route.Route.TABLE_NAME;
@@ -24,13 +27,15 @@ public class RouteService {
 	private DatabaseHelper dbHelper;
 
 	public RouteService(Context context) {
-		dbHelper = new DatabaseHelper(context);
+		dbHelper = DatabaseHelper.getInstance(context);
 	}
 
 	public long create() {
 		Route route = Route.builder()
+				.name(Calendar.getInstance().getTime().toString())
 				.distance(0)
 				.totalSeconds(0)
+				.finished(false)
 				.build();
 
 		return insert(route);
@@ -41,8 +46,10 @@ public class RouteService {
 
 		// `id` and `timestamp` will be inserted automatically.
 		final ContentValues values = new ContentValues();
+		values.put(COLUMN_NAME, route.getName());
 		values.put(COLUMN_DISTANCE, route.getDistance());
 		values.put(COLUMN_TOTAL_TIME_S, route.getTotalSeconds());
+		values.put(COLUMN_FINISHED, route.isFinished());
 
 		if (route.getId() != 0)
 			values.put(COLUMN_ID, route.getId());
@@ -60,11 +67,16 @@ public class RouteService {
 		final SQLiteDatabase db = dbHelper.getWritableDatabase();
 
 		final ContentValues values = new ContentValues();
+		values.put(COLUMN_NAME, route.getName());
 		values.put(COLUMN_DISTANCE, route.getDistance());
 		values.put(COLUMN_TOTAL_TIME_S, route.getTotalSeconds());
+		values.put(COLUMN_FINISHED, route.isFinished());
 
-		return db.update(TABLE_NAME, values, COLUMN_ID + " = ?",
+		final int update = db.update(TABLE_NAME, values, COLUMN_ID + " = ?",
 				new String[]{String.valueOf(route.getId())});
+		db.close();
+
+		return update;
 	}
 
 	public void delete(long id) {
@@ -86,14 +98,42 @@ public class RouteService {
 				null,
 				null);
 
-		if (cursor != null) {
-			cursor.moveToFirst();
-			final Route route = buildFromCursor(cursor);
-			cursor.close();
-			return route;
-		} else {
-			// TODO replace with exception
+		try {
+			if (cursor != null) {
+				cursor.moveToFirst();
+				final Route route = buildFromCursor(cursor);
+				cursor.close();
+				db.close();
+				return route;
+			} else throw new IllegalStateException("Cursor was null");
+		} catch (Exception e) {
 			Log.w(RouteService.class.getName(), "Route with id: " + id + " not found!");
+			return null;
+		}
+	}
+
+	public Route getLastFinishedRoute() {
+		final SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+		final Cursor cursor = db.query(TABLE_NAME,
+				null,
+				COLUMN_FINISHED + "=?",
+				new String[]{String.valueOf(1)},
+				null,
+				null,
+				COLUMN_TIMESTAMP + " DESC",
+				"1");
+
+		try {
+			if (cursor != null) {
+				cursor.moveToFirst();
+				final Route route = buildFromCursor(cursor);
+				cursor.close();
+				db.close();
+				return route;
+			} else throw new IllegalStateException("Cursor was null");
+		} catch (Exception e) {
+			Log.w(RouteService.class.getName(), "There is no finished session");
 			return null;
 		}
 	}
@@ -117,6 +157,7 @@ public class RouteService {
 		}
 
 		cursor.close();
+		db.close();
 
 		return routes;
 	}
@@ -131,8 +172,10 @@ public class RouteService {
 	private Route buildFromCursor(Cursor cursor) {
 		return Route.builder()
 				.id(cursor.getInt(cursor.getColumnIndex(COLUMN_ID)))
+				.name(cursor.getString(cursor.getColumnIndex(COLUMN_NAME)))
 				.distance(cursor.getDouble(cursor.getColumnIndex(COLUMN_DISTANCE)))
 				.totalSeconds(cursor.getDouble(cursor.getColumnIndex(COLUMN_TOTAL_TIME_S)))
+				.finished(cursor.getInt(cursor.getColumnIndex(COLUMN_FINISHED)) != 0)
 				.timestamp(cursor.getString(cursor.getColumnIndex(COLUMN_TIMESTAMP)))
 				.build();
 	}

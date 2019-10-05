@@ -21,59 +21,56 @@ import pg.groupproject.aruma.fragments.history.HistoryFragment.OnListFragmentInt
  */
 public class HistoryViewAdapter extends RecyclerView.Adapter<HistoryViewAdapter.ViewHolder> {
 
-    private final List<HistoryViewModel> mValues;
-    private final OnListFragmentInteractionListener mListener;
+	private final List<HistoryViewModel> mValues;
+	private final OnListFragmentInteractionListener mListener;
 
-    public HistoryViewAdapter(List<HistoryViewModel> items, OnListFragmentInteractionListener listener) {
-        mValues = items;
-        mListener = listener;
-    }
+	public HistoryViewAdapter(List<HistoryViewModel> items, OnListFragmentInteractionListener listener) {
+		mValues = items;
+		mListener = listener;
+	}
 
-    @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_history_row, parent, false);
-        return new ViewHolder(view);
-    }
+	@Override
+	public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+		View view = LayoutInflater.from(parent.getContext())
+				.inflate(R.layout.fragment_history_row, parent, false);
+		return new ViewHolder(view);
+	}
 
-    @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = mValues.get(position);
-        holder.title.setText(mValues.get(position).title);
-        holder.description.setText(mValues.get(position).description);
+	@Override
+	public void onBindViewHolder(final ViewHolder holder, int position) {
+		holder.mItem = mValues.get(position);
+		holder.title.setText(mValues.get(position).getTitle());
+		holder.description.setText(mValues.get(position).getDescription());
 
-        holder.mView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (null != mListener) {
-                    // Notify the active callbacks interface (the activity, if the
-                    // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(holder.mItem);
-                }
-            }
-        });
-    }
+		holder.mView.setOnClickListener(v -> {
+			if (null != mListener) {
+				// Notify the active callbacks interface (the activity, if the
+				// fragment is attached to one) that an item has been selected.
+				mListener.onListFragmentInteraction(holder.mItem);
+			}
+		});
+	}
 
-    @Override
-    public int getItemCount() {
-        return mValues.size();
-    }
+	@Override
+	public int getItemCount() {
+		return mValues.size();
+	}
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        public final View mView;
-        public final TextView title;
-        public final TextView description;
-        public final ImageButton edit;
-        public final ImageButton delete;
-        public HistoryViewModel mItem;
+	public class ViewHolder extends RecyclerView.ViewHolder {
+		public final View mView;
+		public final TextView title;
+		public final TextView description;
+		public final ImageButton edit;
+		public final ImageButton delete;
+		public HistoryViewModel mItem;
 
-        public ViewHolder(View view) {
-            super(view);
-            mView = view;
-            title = (TextView) view.findViewById(R.id.history_row_title);
-            description = (TextView) view.findViewById(R.id.history_row_description);
-            edit = (ImageButton) view.findViewById(R.id.history_row_edit_button);
-            delete = (ImageButton) view.findViewById(R.id.history_row_delete_button);
-        }
-    }
+		public ViewHolder(View view) {
+			super(view);
+			mView = view;
+			title = view.findViewById(R.id.history_row_title);
+			description = view.findViewById(R.id.history_row_description);
+			edit = view.findViewById(R.id.history_row_edit_button);
+			delete = view.findViewById(R.id.history_row_delete_button);
+		}
+	}
 }
