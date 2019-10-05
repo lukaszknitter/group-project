@@ -24,7 +24,7 @@ public class PlaceService {
 	private DatabaseHelper dbHelper;
 
 	public PlaceService(Context context) {
-		dbHelper = new DatabaseHelper(context);
+		dbHelper = DatabaseHelper.getInstance(context);
 	}
 
 	public long insert(@NonNull final Place place) {
@@ -63,6 +63,7 @@ public class PlaceService {
 			cursor.moveToFirst();
 			final Place place = buildFromCursor(cursor);
 			cursor.close();
+			db.close();
 			return place;
 		} else {
 			Log.w(PlaceService.class.getName(), "Place with id: " + id + " not found!");
@@ -89,6 +90,7 @@ public class PlaceService {
 		}
 
 		cursor.close();
+		db.close();
 
 		return places;
 	}

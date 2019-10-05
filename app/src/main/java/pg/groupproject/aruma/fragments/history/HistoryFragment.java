@@ -11,7 +11,11 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.List;
+
 import pg.groupproject.aruma.R;
+import pg.groupproject.aruma.feature.route.Route;
+import pg.groupproject.aruma.feature.route.RouteService;
 import pg.groupproject.aruma.fragments.history.HistoryContent.HistoryViewModel;
 
 /**
@@ -48,17 +52,22 @@ public class HistoryFragment extends Fragment {
         // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
+            final List<Route> routes = getHistoryRoutes(context);
             RecyclerView recyclerView = (RecyclerView) view;
             if (mColumnCount <= 1) {
                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new HistoryViewAdapter(HistoryContent.ITEMS, mListener));
+            recyclerView.setAdapter(new HistoryViewAdapter(HistoryContent.createContent(routes, getResources()), mListener));
         }
         return view;
     }
 
+    private List<Route> getHistoryRoutes(Context context) {
+        final RouteService routeService = new RouteService(context);
+        return routeService.getAll();
+    }
 
     @Override
     public void onAttach(Context context) {

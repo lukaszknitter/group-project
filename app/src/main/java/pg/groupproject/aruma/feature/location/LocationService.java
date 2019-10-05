@@ -25,7 +25,7 @@ public class LocationService {
 	private DatabaseHelper dbHelper;
 
 	public LocationService(Context context) {
-		dbHelper = new DatabaseHelper(context);
+		dbHelper = DatabaseHelper.getInstance(context);
 	}
 
 	public long insert(@NonNull final android.location.Location location, long routeId) {
@@ -87,6 +87,7 @@ public class LocationService {
 		}
 
 		cursor.close();
+		db.close();
 
 		return locations;
 	}
@@ -110,6 +111,7 @@ public class LocationService {
 		}
 
 		cursor.close();
+		db.close();
 
 		return locations;
 	}

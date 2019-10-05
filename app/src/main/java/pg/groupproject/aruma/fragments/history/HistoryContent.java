@@ -1,72 +1,50 @@
 package pg.groupproject.aruma.fragments.history;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import android.content.res.Resources;
 
-/**
- * Helper class for providing sample title for user interfaces created by
- * Android template wizards.
- * <p>
- * TODO: Replace all uses of this class before publishing your app.
- */
+import java.util.ArrayList;
+import java.util.List;
+
+import lombok.Getter;
+import lombok.NonNull;
+import pg.groupproject.aruma.R;
+import pg.groupproject.aruma.feature.route.Route;
+import pg.groupproject.aruma.utils.Utils;
+
 public class HistoryContent {
 
-    /**
-     * An array of sample (dummy) items.
-     */
-    public static final List<HistoryViewModel> ITEMS = new ArrayList<HistoryViewModel>();
+	private static HistoryViewModel createHistory(Route route, Resources resources) {
+		return new HistoryViewModel(route.getId(), route.getName(), makeDetails(route, resources));
+	}
 
-    /**
-     * A map of sample (dummy) items, by ID.
-     */
-    public static final Map<String, HistoryViewModel> ITEM_MAP = new HashMap<String, HistoryViewModel>();
+	private static String makeDetails(Route route, Resources resources) {
+		return resources.getString(R.string.route_details) + ": " +
+				"\n" + resources.getString(R.string.route_details_total_distance) + ": " + route.getDistance() +
+				"\n" + resources.getString(R.string.route_details_total_time) + ": " +
+				Utils.formatTimeFromSeconds((long) route.getTotalSeconds());
+	}
 
-    private static final int COUNT = 25;
+	static List<HistoryViewModel> createContent(@NonNull final List<Route> routes, @NonNull final Resources resources) {
+		final List<HistoryViewModel> content = new ArrayList<>();
+		routes.forEach(route -> content.add(createHistory(route, resources)));
+		return content;
+	}
 
-    static {
-        // Add some sample items.
-        for (int i = 1; i <= COUNT; i++) {
-            addItem(createHistory(i));
-        }
-    }
+	@Getter
+	public static class HistoryViewModel {
+		private final int id;
+		private final String title;
+		private final String description;
 
-    private static void addItem(HistoryViewModel item) {
-        ITEMS.add(item);
-        ITEM_MAP.put(item.id, item);
-    }
+		HistoryViewModel(int id, String title, String description) {
+			this.id = id;
+			this.title = title;
+			this.description = description;
+		}
 
-    private static HistoryViewModel createHistory(int position) {
-        return new HistoryViewModel(String.valueOf(position), "Item " + position, makeDetails(position));
-    }
-
-    private static String makeDetails(int position) {
-        StringBuilder builder = new StringBuilder();
-        builder.append("Details about Item: ").append(position);
-        for (int i = 0; i < position; i++) {
-            builder.append("\nMore description information here.");
-        }
-        return builder.toString();
-    }
-
-    /**
-     * A dummy item representing a piece of title.
-     */
-    public static class HistoryViewModel {
-        public final String id;
-        public final String title;
-        public final String description;
-
-        public HistoryViewModel(String id, String title, String description) {
-            this.id = id;
-            this.title = title;
-            this.description = description;
-        }
-
-        @Override
-        public String toString() {
-            return title;
-        }
-    }
+		@Override
+		public String toString() {
+			return title;
+		}
+	}
 }
