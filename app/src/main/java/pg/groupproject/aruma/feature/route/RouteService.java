@@ -124,14 +124,15 @@ public class RouteService {
 				COLUMN_TIMESTAMP + " DESC",
 				"1");
 
-		if (cursor != null) {
-			cursor.moveToFirst();
-			final Route route = buildFromCursor(cursor);
-			cursor.close();
-			db.close();
-			return route;
-		} else {
-			// TODO replace with exception
+		try {
+			if (cursor != null) {
+				cursor.moveToFirst();
+				final Route route = buildFromCursor(cursor);
+				cursor.close();
+				db.close();
+				return route;
+			} else throw new IllegalStateException("Cursor was null");
+		} catch (Exception e) {
 			Log.w(RouteService.class.getName(), "There is no finished session");
 			return null;
 		}

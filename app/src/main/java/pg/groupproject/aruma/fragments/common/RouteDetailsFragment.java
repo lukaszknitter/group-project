@@ -41,18 +41,20 @@ public class RouteDetailsFragment extends Fragment implements OnMapReadyCallback
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	                         Bundle savedInstanceState) {
-		final View inflateView = inflater.inflate(R.layout.fragment_route_details, container, false);
-
 		initializeRouteAndLocations();
+		//TODO if route will be null after this line route details should not be displayed
+
+		final View inflateView = inflater.inflate(R.layout.fragment_route_details, container, false);
 
 		SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.route_details_map_map);
 		if (mapFragment != null) {
 			mapFragment.getMapAsync(this);
 		}
 
-		setupCharts(inflateView);
-		setupRouteDetails(inflateView);
-
+		if (route != null) {
+			setupCharts(inflateView);
+			setupRouteDetails(inflateView);
+		}
 		// Inflate the layout for this fragment
 		return inflateView;
 	}
@@ -89,7 +91,6 @@ public class RouteDetailsFragment extends Fragment implements OnMapReadyCallback
 		final Context context = getContext();
 		final RouteService routeService = new RouteService(context);
 		route = routeService.get(routeId);
-		//TODO if route will be null after this line route details should not be displayed
 		final LocationService locationService = new LocationService(context);
 		locations = locationService.getAllByRouteId(routeId);
 	}

@@ -114,6 +114,7 @@ public class NavigationFragment extends Fragment {
 		map.getOverlays().add(myLocationNewOverlay);
 	}
 
+	@Override
 	public void onResume() {
 		super.onResume();
 		//this will refresh the osmdroid configuration on resuming.
@@ -122,6 +123,7 @@ public class NavigationFragment extends Fragment {
 		map.onResume(); //needed for compass, my location overlays, v6.0.0 and up
 	}
 
+	@Override
 	public void onPause() {
 		super.onPause();
 		//this will refresh the osmdroid configuration on resuming.
