@@ -26,6 +26,6 @@ public class Utils {
 
 	public static String formatAverageSpeedFromMetersAndSeconds(long meters, long seconds) {
 		double avgSpeed = (double) meters / seconds;
-		return avgSpeed + " m/s";
+		return String.format("%.3f", avgSpeed) + " m/s";
 	}
 }
