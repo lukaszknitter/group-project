@@ -14,8 +14,6 @@
         android:layout_height="wrap_content"
         android:textColor="@color/font"
         android:textSize="@dimen/fontSizeTitle"
-
-
         />
 
     <TextView
@@ -26,7 +24,6 @@
         android:textSize="@dimen/fontSizeSecondary"
         android:layout_marginLeft="10dp"
         android:layout_below="@id/history_row_title"
-
         />
 
     <ImageButton

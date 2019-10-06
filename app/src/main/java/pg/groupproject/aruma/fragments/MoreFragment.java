@@ -87,5 +87,4 @@ public class MoreFragment extends Fragment {
 				.addToBackStack(null)
 				.commit();
 	}
-
 }

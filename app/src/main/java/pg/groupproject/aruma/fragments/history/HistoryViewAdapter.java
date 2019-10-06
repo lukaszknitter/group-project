@@ -21,19 +21,23 @@ import pg.groupproject.aruma.fragments.history.HistoryFragment.OnListFragmentInt
  */
 public class HistoryViewAdapter extends RecyclerView.Adapter<HistoryViewAdapter.ViewHolder> {
 
-	private final List<HistoryViewModel> mValues;
+	private final HistoryFragment.OnListChangedCallbackInterface mCallbackInterface;
 	private final OnListFragmentInteractionListener mListener;
+	private List<HistoryViewModel> mValues;
 
-	public HistoryViewAdapter(List<HistoryViewModel> items, OnListFragmentInteractionListener listener) {
+	public HistoryViewAdapter(List<HistoryViewModel> items,
+	                          OnListFragmentInteractionListener listener,
+	                          HistoryFragment.OnListChangedCallbackInterface callbackInterface) {
 		mValues = items;
 		mListener = listener;
+		mCallbackInterface = callbackInterface;
 	}
 
 	@Override
 	public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 		View view = LayoutInflater.from(parent.getContext())
 				.inflate(R.layout.fragment_history_row, parent, false);
-		return new ViewHolder(view);
+		return new ViewHolder(view, mCallbackInterface);
 	}
 
 	@Override
@@ -57,20 +61,20 @@ public class HistoryViewAdapter extends RecyclerView.Adapter<HistoryViewAdapter.
 	}
 
 	public class ViewHolder extends RecyclerView.ViewHolder {
-		public final View mView;
-		public final TextView title;
-		public final TextView description;
-		public final ImageButton edit;
-		public final ImageButton delete;
-		public HistoryViewModel mItem;
+		private final View mView;
+		private final TextView title;
+		private final TextView description;
+		private HistoryViewModel mItem;
 
-		public ViewHolder(View view) {
+		public ViewHolder(View view, HistoryFragment.OnListChangedCallbackInterface callback) {
 			super(view);
 			mView = view;
 			title = view.findViewById(R.id.history_row_title);
 			description = view.findViewById(R.id.history_row_description);
-			edit = view.findViewById(R.id.history_row_edit_button);
-			delete = view.findViewById(R.id.history_row_delete_button);
+			final ImageButton edit = view.findViewById(R.id.history_row_edit_button);
+			final ImageButton delete = view.findViewById(R.id.history_row_delete_button);
+			edit.setOnClickListener(v -> callback.onListElementEdit(mItem.getId()));
+			delete.setOnClickListener(v -> callback.onListElementDelete(mItem.getId()));
 		}
 	}
 }
