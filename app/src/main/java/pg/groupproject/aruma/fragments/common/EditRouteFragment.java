@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
+import java.util.Locale;
+
 import pg.groupproject.aruma.R;
 import pg.groupproject.aruma.feature.route.Route;
 import pg.groupproject.aruma.feature.route.RouteService;
@@ -95,12 +97,12 @@ public class EditRouteFragment extends Fragment {
 		long minutes = (totalSeconds % 3600) / 60;
 		long seconds = totalSeconds % 60;
 		hoursEditText = view.findViewById(R.id.edit_route_time_hours_value);
-		hoursEditText.setText(String.format("%d", hours));
+		hoursEditText.setText(String.format(Locale.US, "%d", hours));
 		minutesEditText = view.findViewById(R.id.edit_route_time_minutes_value);
-		minutesEditText.setText(String.format("%d", minutes));
+		minutesEditText.setText(String.format(Locale.US, "%d", minutes));
 		secondsEditText = view.findViewById(R.id.edit_route_time_seconds_value);
-		secondsEditText.setText(String.format("%d", seconds));
+		secondsEditText.setText(String.format(Locale.US, "%d", seconds));
 		distanceEditText = view.findViewById(R.id.edit_route_distance_value);
-		distanceEditText.setText(String.format("%.2f", route.getDistance()));
+		distanceEditText.setText(String.format(Locale.US, "%.2f", route.getDistance()));
 	}
 }
