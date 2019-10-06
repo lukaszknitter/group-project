@@ -47,5 +47,7 @@
     <string name="dialog_question_route">Are you sure you want to delete this route?</string>
     <string name="dialog_answer_yes">Yes</string>
     <string name="dialog_answer_no">No</string>
+    <string name="dialog_question_lead_to_place">Do you want to start navigating to this point?</string>
+    <string name="leading_to_text">Leading to:&#160;</string>
 
 </resources>

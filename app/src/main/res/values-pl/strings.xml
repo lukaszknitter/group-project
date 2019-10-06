@@ -41,5 +41,7 @@
     <string name="dialog_answer_yes">Tak</string>
     <string name="dialog_answer_no">Nie</string>
     <string name="dialog_question_route">Czy na pewno chcesz usunąć tę trasę?</string>
+    <string name="dialog_question_lead_to_place">Czy chcesz rozpocząć nawigację do tego punktu?</string>
+    <string name="leading_to_text">Prowadzę do:&#160;</string>
 
 </resources>

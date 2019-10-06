@@ -60,6 +60,8 @@ public class NavigationFragment extends Fragment {
 	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+
 		Context ctx = getContext();
 		Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
 		Configuration.getInstance().setUserAgentValue(BuildConfig.APPLICATION_ID);
@@ -75,7 +77,12 @@ public class NavigationFragment extends Fragment {
 		initializeMap(inflateView);
 		initializeRoutingFeatures();
 		initializeStartTrainingButton(inflateView);
-
+		final Bundle arguments = getArguments();
+		if (arguments != null && arguments.containsKey("latitude") && arguments.containsKey("longitude")) {
+			double predefinedLatitude = arguments.getDouble("latitude");
+			double predefinedLongitude = arguments.getDouble("longitude");
+			leadTo(new GeoPoint(predefinedLatitude, predefinedLongitude));
+		}
 		return inflateView;
 	}
 
@@ -166,13 +173,19 @@ public class NavigationFragment extends Fragment {
 			if (currentPolyline != null) {
 				map.getOverlays().remove(currentPolyline);
 			}
-			ArrayList<GeoPoint> points = new ArrayList<>();
-			points.add(new GeoPoint(currentLocation.getLatitude(), currentLocation.getLongitude()));
-			points.add(destinationPoint);
 
-			new UpdateRoadTask().execute(points);
+			leadTo(destinationPoint);
+
 			dialog.hide();
 		});
+	}
+
+	private void leadTo(GeoPoint destinationPoint) {
+		ArrayList<GeoPoint> points = new ArrayList<>();
+		points.add(new GeoPoint(currentLocation.getLatitude(), currentLocation.getLongitude()));
+		points.add(destinationPoint);
+
+		new UpdateRoadTask().execute(points);
 	}
 
 	private void initializeStartTrainingButton(View inflateView) {
