@@ -18,7 +18,7 @@ public class HistoryContent {
 	}
 
 	private static String makeDetails(Route route, Resources resources) {
-		return resources.getString(R.string.route_details) + ": " +
+		return resources.getString(R.string.details) + ": " +
 				"\n" + resources.getString(R.string.route_details_total_distance) + ": " + route.getDistance() +
 				"\n" + resources.getString(R.string.route_details_total_time) + ": " +
 				Utils.formatTimeFromSeconds((long) route.getTotalSeconds());

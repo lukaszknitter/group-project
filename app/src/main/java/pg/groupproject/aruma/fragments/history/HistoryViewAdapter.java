@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import pg.groupproject.aruma.R;
+import pg.groupproject.aruma.fragments.common.OnListChangedCallbackInterface;
 import pg.groupproject.aruma.fragments.history.HistoryContent.HistoryViewModel;
 import pg.groupproject.aruma.fragments.history.HistoryFragment.OnListFragmentInteractionListener;
 
@@ -21,13 +22,13 @@ import pg.groupproject.aruma.fragments.history.HistoryFragment.OnListFragmentInt
  */
 public class HistoryViewAdapter extends RecyclerView.Adapter<HistoryViewAdapter.ViewHolder> {
 
-	private final HistoryFragment.OnListChangedCallbackInterface mCallbackInterface;
+	private final OnListChangedCallbackInterface mCallbackInterface;
 	private final OnListFragmentInteractionListener mListener;
 	private List<HistoryViewModel> mValues;
 
 	public HistoryViewAdapter(List<HistoryViewModel> items,
 	                          OnListFragmentInteractionListener listener,
-	                          HistoryFragment.OnListChangedCallbackInterface callbackInterface) {
+	                          OnListChangedCallbackInterface callbackInterface) {
 		mValues = items;
 		mListener = listener;
 		mCallbackInterface = callbackInterface;
@@ -66,7 +67,7 @@ public class HistoryViewAdapter extends RecyclerView.Adapter<HistoryViewAdapter.
 		private final TextView description;
 		private HistoryViewModel mItem;
 
-		public ViewHolder(View view, HistoryFragment.OnListChangedCallbackInterface callback) {
+		public ViewHolder(View view, OnListChangedCallbackInterface callback) {
 			super(view);
 			mView = view;
 			title = view.findViewById(R.id.history_row_title);

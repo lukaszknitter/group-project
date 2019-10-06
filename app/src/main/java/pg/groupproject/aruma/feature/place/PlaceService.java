@@ -95,6 +95,26 @@ public class PlaceService {
 		return places;
 	}
 
+	public int update(@NonNull final Place place) {
+		final SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+		final ContentValues values = new ContentValues();
+		values.put(COLUMN_NAME, place.getName());
+
+		final int update = db.update(TABLE_NAME, values, COLUMN_ID + " = ?",
+				new String[]{String.valueOf(place.getId())});
+		db.close();
+
+		return update;
+	}
+
+	public void delete(long id) {
+		final SQLiteDatabase db = dbHelper.getWritableDatabase();
+		db.delete(TABLE_NAME, COLUMN_ID + " = ?",
+				new String[]{String.valueOf(id)});
+		db.close();
+	}
+
 	public void deleteAll() {
 		final SQLiteDatabase db = dbHelper.getWritableDatabase();
 		db.execSQL("DELETE FROM " + TABLE_NAME);

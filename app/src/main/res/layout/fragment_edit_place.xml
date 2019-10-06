@@ -1,0 +1,71 @@
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="pg.groupproject.aruma.fragments.common.EditRouteFragment">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/edit_place"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/edit_place_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/routeDetailsMarginItem"
+                android:padding="5dp">
+
+                <EditText
+                    android:id="@+id/edit_place_name_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/edit_place_name_title"
+                    android:layout_marginTop="@dimen/routeDetailsMarginTopItemValue"
+                    android:text="name"
+                    android:textColor="@color/font"
+                    android:textSize="@dimen/fontSizeValue" />
+
+                <TextView
+                    android:id="@+id/edit_place_name_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_settings"
+                    android:drawablePadding="10dp"
+                    android:text="@string/text_name"
+                    android:textColor="@color/font"
+                    android:textSize="@dimen/fontSizeTitle" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/edit_place_buttons"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/routeDetailsMarginItem"
+                android:padding="5dp">
+
+                <Button
+                    android:id="@+id/edit_place_cancel_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/cancel_button_text" />
+
+                <Button
+                    android:id="@+id/edit_place_save_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/edit_place_cancel_button"
+                    android:drawableStart="@drawable/ic_edit"
+                    android:text="@string/save_button_text" />
+
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
