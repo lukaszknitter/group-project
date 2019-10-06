@@ -3,15 +3,15 @@ package pg.groupproject.aruma.activities;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-
 import pg.groupproject.aruma.R;
+import pg.groupproject.aruma.feature.permission.PermissionChecker;
 import pg.groupproject.aruma.fragments.MoreFragment;
 import pg.groupproject.aruma.fragments.NavigationFragment;
 import pg.groupproject.aruma.fragments.common.RouteDetailsFragment;
@@ -40,6 +40,8 @@ public class MainActivity extends AppCompatActivity implements
 		supportFragmentManager = getSupportFragmentManager();
 		BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
 		bottomNavigationView.setOnNavigationItemSelectedListener(this);
+
+		new PermissionChecker(this).checkPermissions();
 
 		loadFragment(cyclocomputerFragment);
 	}
@@ -88,4 +90,5 @@ public class MainActivity extends AppCompatActivity implements
 	public void onListFragmentInteraction(SavedPointsContent.SavedPointViewModel item) {
 
 	}
+
 }
