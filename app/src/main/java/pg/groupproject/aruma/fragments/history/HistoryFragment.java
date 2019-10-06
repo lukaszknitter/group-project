@@ -19,6 +19,7 @@ import pg.groupproject.aruma.R;
 import pg.groupproject.aruma.feature.route.Route;
 import pg.groupproject.aruma.feature.route.RouteService;
 import pg.groupproject.aruma.fragments.common.EditRouteFragment;
+import pg.groupproject.aruma.fragments.common.OnListChangedCallbackInterface;
 import pg.groupproject.aruma.fragments.history.HistoryContent.HistoryViewModel;
 
 /**
@@ -58,7 +59,6 @@ public class HistoryFragment extends Fragment {
 		// Set the adapter
 		if (view instanceof RecyclerView) {
 			Context context = view.getContext();
-			final List<Route> routes = getHistoryRoutes(context);
 			RecyclerView recyclerView = (RecyclerView) view;
 			if (mColumnCount <= 1) {
 				recyclerView.setLayoutManager(new LinearLayoutManager(context));
@@ -77,15 +77,10 @@ public class HistoryFragment extends Fragment {
 					handleOnListElementEdit(listItemId);
 				}
 			};
-
+			final List<Route> routes = routeService.getAll();
 			recyclerView.setAdapter(new HistoryViewAdapter(HistoryContent.createContent(routes, getResources()), mListener, callbackInterface));
 		}
 		return view;
-	}
-
-	private List<Route> getHistoryRoutes(Context context) {
-		final RouteService routeService = new RouteService(context);
-		return routeService.getAll();
 	}
 
 	private void handleOnListElementDelete(int listItemId) {
@@ -106,9 +101,9 @@ public class HistoryFragment extends Fragment {
 		};
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-		builder.setMessage("Czy na pewno chcesz usunąć tę trasę?")
-				.setPositiveButton("Tak", dialogClickListener)
-				.setNegativeButton("Nie", dialogClickListener)
+		builder.setMessage(getResources().getString(R.string.dialog_question_route))
+				.setPositiveButton(getResources().getString(R.string.dialog_answer_yes), dialogClickListener)
+				.setNegativeButton(getResources().getString(R.string.dialog_answer_no), dialogClickListener)
 				.show();
 	}
 
@@ -138,12 +133,6 @@ public class HistoryFragment extends Fragment {
 	public void onDetach() {
 		super.onDetach();
 		mListener = null;
-	}
-
-	interface OnListChangedCallbackInterface {
-		void onListElementDelete(int listItemId);
-
-		void onListElementEdit(int listItemId);
 	}
 
 	/**

@@ -30,12 +30,18 @@
     <string name="select_directory">Wybierz folder</string>
 
     <string name="edit_route_time_error_message">Wprowadzony czas nie jest w poprawnej formie</string>
-    <string name="edit_route_not_empty_error_message">Wszystkie pola są wymagane</string>
-
-    <string name="route_details">Szczegóły</string>
+    <string name="not_empty_error_message">Wszystkie pola są wymagane</string>
+    <string name="saved_place_creation_date">Dodany</string>
+    <string name="details">Szczegóły</string>
     <string name="route_details_total_distance">Całkowita odległość</string>
     <string name="route_details_total_time">Całkowity czas</string>
-    <string name="edit_route_cancel_button">Anuluj</string>
-    <string name="edit_route_save_button">Zapisz</string>
+    <string name="cancel_button_text">Anuluj</string>
+    <string name="save_button_text">Zapisz</string>
+    <string name="dialog_question_place">Czy na pewno chcesz usunąć to miejsce?</string>
+    <string name="dialog_answer_yes">Tak</string>
+    <string name="dialog_answer_no">Nie</string>
+    <string name="dialog_question_route">Czy na pewno chcesz usunąć tę trasę?</string>
+    <string name="dialog_question_lead_to_place">Czy chcesz rozpocząć nawigację do tego punktu?</string>
+    <string name="leading_to_text">Prowadzę do:&#160;</string>
 
 </resources>

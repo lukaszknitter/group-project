@@ -176,7 +176,7 @@
                     android:id="@+id/edit_route_cancel_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/edit_route_cancel_button" />
+                    android:text="@string/cancel_button_text" />
 
                 <Button
                     android:id="@+id/edit_route_save_button"
@@ -184,7 +184,7 @@
                     android:layout_height="wrap_content"
                     android:layout_toEndOf="@id/edit_route_cancel_button"
                     android:drawableStart="@drawable/ic_edit"
-                    android:text="@string/edit_route_save_button" />
+                    android:text="@string/save_button_text" />
 
             </RelativeLayout>
         </LinearLayout>

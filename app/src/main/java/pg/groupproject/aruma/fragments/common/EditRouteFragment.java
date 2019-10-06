@@ -42,9 +42,7 @@ public class EditRouteFragment extends Fragment {
 		final Button cancelButton = view.findViewById(R.id.edit_route_cancel_button);
 		cancelButton.setOnClickListener(v -> goBackToHistoryList());
 		final Button saveButton = view.findViewById(R.id.edit_route_save_button);
-		saveButton.setOnClickListener(v -> {
-			updateRouteFromInputs(route);
-		});
+		saveButton.setOnClickListener(v -> updateRouteFromInputs(route));
 		return view;
 	}
 
@@ -62,7 +60,7 @@ public class EditRouteFragment extends Fragment {
 				|| distanceString.isEmpty()
 				|| nameString.isEmpty()) {
 			Toast.makeText(getActivity(),
-					getContext().getResources().getString(R.string.edit_route_time_error_message),
+					getContext().getResources().getString(R.string.not_empty_error_message),
 					Toast.LENGTH_LONG).show();
 		} else {
 			final long minutes = Long.parseLong(minutesString);

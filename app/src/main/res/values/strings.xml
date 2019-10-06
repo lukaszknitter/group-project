@@ -33,12 +33,21 @@
     <string name="select_directory">Choose directory</string>
 
     <string name="edit_route_time_error_message">Provided time is not correct</string>
-    <string name="edit_route_not_empty_error_message">All fields are required</string>
+    <string name="not_empty_error_message">All fields are required</string>
 
-    <string name="route_details">Details</string>
+    <string name="saved_place_creation_date">Added</string>
+
+    <string name="details">Details</string>
     <string name="route_details_total_distance">Total distance</string>
     <string name="route_details_total_time">Total time</string>
-    <string name="edit_route_cancel_button">Cancel</string>
-    <string name="edit_route_save_button">Save</string>
+    <string name="cancel_button_text">Cancel</string>
+    <string name="save_button_text">Save</string>
+
+    <string name="dialog_question_place">Are you sure you want to delete this place?</string>
+    <string name="dialog_question_route">Are you sure you want to delete this route?</string>
+    <string name="dialog_answer_yes">Yes</string>
+    <string name="dialog_answer_no">No</string>
+    <string name="dialog_question_lead_to_place">Do you want to start navigating to this point?</string>
+    <string name="leading_to_text">Leading to:&#160;</string>
 
 </resources>
