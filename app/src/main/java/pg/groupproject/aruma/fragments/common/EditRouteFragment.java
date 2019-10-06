@@ -33,7 +33,8 @@ public class EditRouteFragment extends Fragment {
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+	public View onCreateView(LayoutInflater inflater,
+	                         ViewGroup container,
 	                         Bundle savedInstanceState) {
 		int routeId = getArguments().getInt("routeId");
 		final Context context = getContext();
