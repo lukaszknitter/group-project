@@ -41,6 +41,9 @@ import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import pg.groupproject.aruma.MyLocationListener;
 import pg.groupproject.aruma.R;
@@ -55,7 +58,9 @@ public class NavigationFragment extends Fragment {
 	private Polyline currentPolyline;
 	private TextView distanceTextView;
 	private TextView timeTextView;
-
+	private ScheduledExecutorService scheduleTaskExecutor;
+	private GeoPoint destPoint;
+	private boolean isNavigationMode = false;
 	@Nullable
 	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -75,7 +80,8 @@ public class NavigationFragment extends Fragment {
 		timeTextView = inflateView.getRootView().findViewById(R.id.timeTextView);
 		initializeLocationManager();
 		initializeMap(inflateView);
-		initializeRoutingFeatures();
+		initializeRoutingFeatures(inflateView);
+		initializeScheduledTask();
 		initializeStartTrainingButton(inflateView);
 		final Bundle arguments = getArguments();
 		if (arguments != null && arguments.containsKey("latitude") && arguments.containsKey("longitude")) {
@@ -86,11 +92,61 @@ public class NavigationFragment extends Fragment {
 		return inflateView;
 	}
 
+
+	private void initializeScheduledTask(){
+
+		scheduleTaskExecutor = Executors.newScheduledThreadPool(3);
+		//Schedule a task to run every 5 seconds (or however long you want)
+		scheduleTaskExecutor.scheduleAtFixedRate(() -> {
+			try {
+				if (isNavigationMode) {
+					Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+					if (location == null)
+						location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
+					if (location == null)
+						location = currentLocation;
+
+					GeoPoint currentPoint = new GeoPoint(location.getLatitude(), location.getLongitude());
+					ArrayList<GeoPoint> points = new ArrayList<>();
+					points.add(currentPoint);
+					points.add(destPoint);
+
+					Road road = roadManager.getRoad(points);
+					if (road.mStatus == Road.STATUS_OK) {
+						double roadLength = road.mLength;
+						if (roadLength >= 100) {
+							getActivity().runOnUiThread(() ->{
+								distanceTextView.setText((int) roadLength + " km (0%)");});
+						} else {
+							updateUI(() -> distanceTextView.setText(String.format(Locale.US, "%.2f km (0%%)", roadLength)));
+						}
+
+						map.getOverlays().remove(currentPolyline);
+
+						currentPolyline = RoadManager.buildRoadOverlay(road);
+						currentPolyline.setWidth(20);
+						map.getOverlays().add(currentPolyline);
+
+						updateUI(() -> map.invalidate());
+					}
+				}
+			}catch(Exception e)
+			{
+				System.out.println("Exception when updating route: "+e);
+			}
+		}, 0, 5, TimeUnit.SECONDS);
+	}
+
+	private void updateUI(Runnable run){
+		getActivity().runOnUiThread(run);
+	}
+
 	private void initializeLocationManager() {
 		myLocationListener = new MyLocationListener();
 		locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
 		//TODO dodać pytania o uprawnienia
-		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, myLocationListener);
+		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, myLocationListener);
 	}
 
 	private void initializeMap(View inflateView) {
@@ -102,7 +158,13 @@ public class NavigationFragment extends Fragment {
 		map.getController().setZoom(15.0);
 
 		//FIXME? removed while loop
-		currentLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+		int retry = 0;
+		while(retry < 3){
+			currentLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+			if(currentLocation != null) break;
+			retry++;
+		}
+
 		if (currentLocation == null)
 			currentLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
@@ -139,7 +201,11 @@ public class NavigationFragment extends Fragment {
 		map.onPause();  //needed for compass, my location overlays, v6.0.0 and up
 	}
 
-	private void initializeRoutingFeatures() {
+	private void initializeRoutingFeatures(View inflateView) {
+
+		FloatingActionButton cancelRoutingButton = inflateView.findViewById(R.id.cancelRoutingButton);
+		cancelRoutingButton.setOnClickListener(view -> cancelRouting());
+
 		MapEventsReceiver mReceiver = new MapEventsReceiver() {
 			@Override
 			public boolean singleTapConfirmedHelper(GeoPoint p) {
@@ -156,8 +222,8 @@ public class NavigationFragment extends Fragment {
 				TextView routePlaceName = dialog.findViewById(R.id.route_place_name);
 				routePlaceName.setText("Latitiude: " + p.getLatitude() + "\nLongitude: " + p.getLongitude());
 
-				GeoPoint destinationPoint = new GeoPoint(p.getLatitude(), p.getLongitude());
-				initializeGoToButton(dialog.findViewById(R.id.go_to_arrow), destinationPoint, dialog);
+				destPoint = new GeoPoint(p.getLatitude(), p.getLongitude());
+				initializeGoToButton(dialog.findViewById(R.id.go_to_arrow), destPoint, dialog);
 
 				dialog.show();
 
@@ -166,6 +232,15 @@ public class NavigationFragment extends Fragment {
 		};
 
 		map.getOverlays().add(new MapEventsOverlay(mReceiver));
+	}
+
+	private void cancelRouting() {
+		Toast.makeText(getActivity(), "Canceled routing", Toast.LENGTH_SHORT).show();
+
+		isNavigationMode = false;
+		map.getOverlays().remove(currentPolyline);
+		distanceTextView.setText("0 km (0 %)");
+		timeTextView.setText("00:00");
 	}
 
 	private void initializeGoToButton(ImageView imageView, GeoPoint destinationPoint, Dialog dialog) {
@@ -227,11 +302,14 @@ public class NavigationFragment extends Fragment {
 				} else {
 					distanceTextView.setText(String.format(Locale.US, "%.2f km (0%%)", roadLength));
 				}
+
 				timeTextView.setText(getDurationStringFromSeconds(road.mDuration));
 				currentPolyline = RoadManager.buildRoadOverlay(road);
 				currentPolyline.setWidth(20);
+
 				map.getOverlays().add(currentPolyline);
 				map.invalidate();
+				isNavigationMode = true;
 			}
 		}
 	}
