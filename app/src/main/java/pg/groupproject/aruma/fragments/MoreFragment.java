@@ -19,6 +19,7 @@ import androidx.fragment.app.FragmentManager;
 import pg.groupproject.aruma.R;
 import pg.groupproject.aruma.feature.database.DataService;
 import pg.groupproject.aruma.feature.database.DatabaseFixture;
+import pg.groupproject.aruma.fragments.common.FindRouteFragment;
 import pg.groupproject.aruma.fragments.history.HistoryFragment;
 import pg.groupproject.aruma.fragments.savedPoints.SavedPointsFragment;
 
@@ -35,6 +36,9 @@ public class MoreFragment extends Fragment {
 		final View inflateView = inflater.inflate(R.layout.fragment_more, null);
 
 		dataService = new DataService(getActivity().getApplicationContext());
+
+		final RelativeLayout findRoute = inflateView.findViewById(R.id.more_list_route);
+		findRoute.setOnClickListener(view -> loadFragment(new FindRouteFragment()));
 
 		final RelativeLayout history = inflateView.findViewById(R.id.more_list_history);
 		history.setOnClickListener(view -> loadFragment(new HistoryFragment()));

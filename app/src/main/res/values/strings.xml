@@ -50,4 +50,9 @@
     <string name="dialog_question_lead_to_place">Do you want to start navigating to this point?</string>
     <string name="leading_to_text">Leading to:&#160;</string>
 
+    <!-- find route fragment -->
+    <string name="find_route">Find route</string>
+    <string name="start_point">Starting point</string>
+    <string name="end_point">End point</string>
+
 </resources>

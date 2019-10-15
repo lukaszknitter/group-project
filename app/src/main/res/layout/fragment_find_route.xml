@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="pg.groupproject.aruma.fragments.common.FindRouteFragment">
+
+    <EditText
+        android:id="@+id/find_route_start_point_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/edit_route_name_title"
+        android:layout_marginTop="@dimen/routeDetailsMarginTopItemValue"
+        android:textColor="@color/font"
+        android:textSize="@dimen/fontSizeValue" />
+
+    <EditText
+        android:id="@+id/find_route_end_point_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/edit_route_name_title"
+        android:layout_marginTop="@dimen/routeDetailsMarginTopItemValue"
+        android:textColor="@color/font"
+        android:textSize="@dimen/fontSizeValue" />
+
+    <TextView
+        android:id="@+id/find_route_from_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawablePadding="10dp"
+        android:text="@string/find_route"
+        android:textColor="@color/font"
+        android:textSize="@dimen/fontSizeTitle" />
+
+    <TextView
+        android:id="@+id/find_route_end_point_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawablePadding="10dp"
+        android:text="@string/end_point"
+        android:textColor="@color/font"
+        android:textSize="@dimen/fontSizeTitle" />
+
+    <TextView
+        android:id="@+id/find_route_start_point_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawablePadding="10dp"
+        android:text="@string/start_point"
+        android:textColor="@color/font"
+        android:textSize="@dimen/fontSizeTitle" />
+
+</LinearLayout>
