@@ -6,14 +6,13 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-
 import pg.groupproject.aruma.R;
 import pg.groupproject.aruma.feature.permission.PermissionChecker;
 import pg.groupproject.aruma.feature.place.Place;
@@ -36,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements
 	private final NavigationFragment navigationFragment = new NavigationFragment();
 	private final MoreFragment moreFragment = new MoreFragment();
 	private FragmentManager supportFragmentManager;
+	private PermissionChecker permissionChecker;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +47,8 @@ public class MainActivity extends AppCompatActivity implements
 		BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
 		bottomNavigationView.setOnNavigationItemSelectedListener(this);
 
-		new PermissionChecker(this).checkPermissions();
+		permissionChecker = new PermissionChecker(this);
+		permissionChecker.checkPermissions();
 
 		loadFragment(cyclocomputerFragment);
 	}
@@ -123,5 +124,13 @@ public class MainActivity extends AppCompatActivity implements
 				.setPositiveButton(getResources().getString(R.string.dialog_answer_yes), dialogClickListener)
 				.setNegativeButton(getResources().getString(R.string.dialog_answer_no), dialogClickListener)
 				.show();
+	}
+
+	@Override
+	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+		if (!permissionChecker.permissionsGranted()) {
+			Toast.makeText(this, "Uprawnienia są wymagane do uruchomienia aplikacji!", Toast.LENGTH_LONG).show();
+			finish();
+		}
 	}
 }
