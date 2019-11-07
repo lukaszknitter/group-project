@@ -39,7 +39,7 @@
         android:textSize="@dimen/fontSizePrimary" />
 
     <TextView
-        android:id="@+id/clockTextView"
+        android:id="@+id/traveledDistance"
         android:layout_width="wrap_content"
         android:layout_height="35dp"
         android:layout_alignParentEnd="true"
@@ -47,7 +47,7 @@
         android:layout_marginEnd="5dp"
         android:drawableEnd="@drawable/ic_clock"
         android:drawablePadding="6dp"
-        android:text="00:00"
+        android:text="0.00 km"
         android:textColor="#460465"
         android:textSize="@dimen/fontSizePrimary" />
 
@@ -70,7 +70,7 @@
         android:id="@+id/timeTextView"
         android:layout_width="wrap_content"
         android:layout_height="35dp"
-        android:layout_below="@+id/clockTextView"
+        android:layout_below="@+id/traveledDistance"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="0dp"
         android:layout_marginEnd="5dp"
