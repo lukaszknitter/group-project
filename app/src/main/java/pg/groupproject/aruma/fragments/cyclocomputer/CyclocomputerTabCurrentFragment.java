@@ -25,6 +25,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
@@ -41,6 +42,7 @@ public class CyclocomputerTabCurrentFragment extends Fragment {
     private Intent cyclocomputerServiceIntent;
     private CyclocomputerService cyclocomputerService;
     private TextView timerTextView;
+    private TextView distanceTextView;
     private Context ctx;
     public CyclocomputerTabCurrentFragment() {
         // Required empty public constructor
@@ -53,6 +55,7 @@ public class CyclocomputerTabCurrentFragment extends Fragment {
         //restoreVariablesFromBundle(savedInstanceState);
         final var inflateView = inflater.inflate(R.layout.fragment_cyclocomputer_tab_current, container, false);
         timerTextView = inflateView.getRootView().findViewById(R.id.cyclocomputer_current_time_value);
+        distanceTextView = inflateView.getRootView().findViewById(R.id.cyclocomputer_current_distance_value);
         ctx = getActivity();
         // Inflate the layout for this fragment
 
@@ -87,8 +90,10 @@ public class CyclocomputerTabCurrentFragment extends Fragment {
         @Override
         public void onReceive(Context context, Intent intent) {
             String s1 = intent.getStringExtra("CurrentTime");
+            float travelledDistance = intent.getFloatExtra("TravelledDistance", 0.0f);
             Log.i("CyclocomputerTabCurrentFragment!", "Updating time in ui...");
             timerTextView.setText(s1);
+            distanceTextView.setText(String.format(Locale.US, "%.2f km", (travelledDistance/1000)));
         }
     };
 }
