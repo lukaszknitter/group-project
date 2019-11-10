@@ -41,7 +41,8 @@ public class LocationFinding extends AsyncTask<String, Void, List<Address>> {
 
     private List<Address> searchForLocation(String location) {
         try {
-            return geocoderNominatim.getFromLocationName(location, 5);
+            List<Address> fromLocationName = geocoderNominatim.getFromLocationName(location, 5);
+            return fromLocationName;
         } catch (Exception e) {
             Log.e(FindRouteFragment.class.toString(), "An error occured while searching for a location", e);
             return new ArrayList<>();

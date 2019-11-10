@@ -17,24 +17,20 @@ import pg.groupproject.aruma.feature.location.finding.TextWatcherLocation;
 @NoArgsConstructor
 public class FindRouteFragment extends Fragment {
 
+    private static final int THRESHOLD_START_SUGGESTING_LOCATIONS = 1;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_find_route, container, false);
         final AutoCompleteTextView startPoint = view.findViewById(R.id.find_route_start_point_value);
+        startPoint.setThreshold(THRESHOLD_START_SUGGESTING_LOCATIONS);
+        startPoint.addTextChangedListener(new TextWatcherLocation(startPoint, view.getContext()));
+
         final AutoCompleteTextView endPoint = view.findViewById(R.id.find_route_end_point_value);
-
-        new TextWatcherLocation(this, startPoint, getResources().getConfiguration());
-//        startPoint.addTextChangedListener(new TextWatcherLocation(this, startPoint, R.layout.fragment_find_route, getResources().getConfiguration()));
-        endPoint.addTextChangedListener(new TextWatcherLocation(this, endPoint, getResources().getConfiguration()));
-
-        startPoint.setThreshold(3);
-        startPoint.showDropDown();
-        endPoint.setThreshold(3);
-
+        endPoint.setThreshold(THRESHOLD_START_SUGGESTING_LOCATIONS);
+        endPoint.addTextChangedListener(new TextWatcherLocation(endPoint, view.getContext()));
 
         return view;
     }
-
-
 }
