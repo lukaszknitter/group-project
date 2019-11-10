@@ -24,8 +24,7 @@ class AddressAdapter extends ArrayAdapter<Address> {
     private static final int RESOURCE_ID = R.layout.listview_adress_element;
     public static final String NO_VALUE = "-";
     private List<Address> mOriginalValues;
-    private List<Address> mObjects;
-//    private Lock mLock;
+    private List<Address> mObjects = new ArrayList<>();
 
     AddressAdapter(@NonNull Context context) {
         super(context, RESOURCE_ID);
@@ -70,25 +69,16 @@ class AddressAdapter extends ArrayAdapter<Address> {
             final FilterResults results = new FilterResults();
 
             if (mOriginalValues == null) {
-//                synchronized (mLock) {
                 mOriginalValues = new ArrayList<>(mObjects);
-//                }
             }
 
             if (prefix == null || prefix.length() == 0) {
-                final ArrayList<Address> list;
-//                synchronized (mLock) {
-                list = new ArrayList<>(mOriginalValues);
-//                }
+                final ArrayList<Address> list = new ArrayList<>(mOriginalValues);
                 results.values = list;
                 results.count = list.size();
             } else {
                 final String prefixString = prefix.toString().toLowerCase();
-
-                final ArrayList<Address> values;
-//                synchronized (mLock) {
-                values = new ArrayList<>(mOriginalValues);
-//                }
+                final ArrayList<Address> values = new ArrayList<>(mOriginalValues);
 
                 final int count = values.size();
                 final ArrayList<Address> newValues = new ArrayList<>();
@@ -100,6 +90,9 @@ class AddressAdapter extends ArrayAdapter<Address> {
                     if (!Strings.isEmptyOrWhitespace(value.getFeatureName()) && value.getFeatureName().toLowerCase().startsWith(prefixString)) {
                         newValues.add(value);
                     } else {
+                        if (value.getFeatureName() == null) {
+                            continue;
+                        }
                         final String[] words = value.getFeatureName().split(" ");
                         for (String word : words) {
                             if (word.startsWith(prefixString)) {

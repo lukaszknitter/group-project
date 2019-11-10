@@ -16,13 +16,16 @@ import java.util.function.Consumer;
 import pg.groupproject.aruma.fragments.common.FindRouteFragment;
 
 public class LocationFinding extends AsyncTask<String, Void, List<Address>> {
+    public static final int MAX_SEARCH_RESULTS = 20;
     private GeocoderNominatim geocoderNominatim;
+    //    OverpassAPIProvider overpassAPIProvider;
     private Configuration configuration;
     private Consumer<List<Address>> actionOnPostExecute;
 
     public LocationFinding(Configuration configuration, Consumer<List<Address>> actionOnPostExecute) {
         this.configuration = configuration;
         this.actionOnPostExecute = actionOnPostExecute;
+//        overpassAPIProvider = new OverpassAPIProvider();
         geocoderNominatim = new GeocoderNominatim(getLocale(), getUserAgent());
     }
 
@@ -41,7 +44,8 @@ public class LocationFinding extends AsyncTask<String, Void, List<Address>> {
 
     private List<Address> searchForLocation(String location) {
         try {
-            return geocoderNominatim.getFromLocationName(location, 5);
+            // TODO jeżeli mamy lokalizację, to ją wykorzystajmy
+            return geocoderNominatim.getFromLocationName(location, MAX_SEARCH_RESULTS);
         } catch (Exception e) {
             Log.e(FindRouteFragment.class.toString(), "An error occured while searching for a location", e);
             return new ArrayList<>();
