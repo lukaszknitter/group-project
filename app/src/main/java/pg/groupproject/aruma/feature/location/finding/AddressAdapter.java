@@ -12,6 +12,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.google.android.gms.common.util.Strings;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +22,7 @@ import pg.groupproject.aruma.R;
 class AddressAdapter extends ArrayAdapter<Address> {
 
     private static final int RESOURCE_ID = R.layout.listview_adress_element;
+    public static final String NO_VALUE = "-";
     private List<Address> mOriginalValues;
     private List<Address> mObjects;
 //    private Lock mLock;
@@ -51,11 +54,11 @@ class AddressAdapter extends ArrayAdapter<Address> {
         }
 
         TextView name = convertView.findViewById(R.id.listview_elem_name);
-        name.setText(address.getFeatureName() == null ? "xd 1" : address.getFeatureName());
+        name.setText(address.getFeatureName() == null ? NO_VALUE : address.getFeatureName());
         TextView country = convertView.findViewById(R.id.listview_elem_country);
-        country.setText(address.getCountryName() == null ? "xd 2" : address.getCountryName());
+        country.setText(address.getCountryName() == null ? NO_VALUE : address.getCountryName());
         TextView addressT = convertView.findViewById(R.id.listview_elem_address);
-        addressT.setText(address.getAddressLine(0) == null ? "xd 3" : address.getAddressLine(0));
+        addressT.setText(address.getAddressLine(0) == null ? NO_VALUE : address.getAddressLine(0));
 
 
         return convertView;
@@ -94,7 +97,7 @@ class AddressAdapter extends ArrayAdapter<Address> {
                     final Address value = values.get(i);
 
                     // First match against the whole, non-splitted value
-                    if (value.getFeatureName().toLowerCase().startsWith(prefixString)) {
+                    if (!Strings.isEmptyOrWhitespace(value.getFeatureName()) && value.getFeatureName().toLowerCase().startsWith(prefixString)) {
                         newValues.add(value);
                     } else {
                         final String[] words = value.getFeatureName().split(" ");

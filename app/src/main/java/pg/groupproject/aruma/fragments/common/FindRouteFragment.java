@@ -25,11 +25,11 @@ public class FindRouteFragment extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_find_route, container, false);
         final AutoCompleteTextView startPoint = view.findViewById(R.id.find_route_start_point_value);
         startPoint.setThreshold(THRESHOLD_START_SUGGESTING_LOCATIONS);
-        startPoint.addTextChangedListener(new TextWatcherLocation(startPoint, view.getContext()));
+        startPoint.addTextChangedListener(new TextWatcherLocation(startPoint, view.getContext(), getResources().getConfiguration()));
 
         final AutoCompleteTextView endPoint = view.findViewById(R.id.find_route_end_point_value);
         endPoint.setThreshold(THRESHOLD_START_SUGGESTING_LOCATIONS);
-        endPoint.addTextChangedListener(new TextWatcherLocation(endPoint, view.getContext()));
+        endPoint.addTextChangedListener(new TextWatcherLocation(endPoint, view.getContext(), getResources().getConfiguration()));
 
         return view;
     }
