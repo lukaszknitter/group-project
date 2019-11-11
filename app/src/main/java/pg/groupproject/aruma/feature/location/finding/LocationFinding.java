@@ -11,7 +11,6 @@ import java.util.function.Consumer;
 import pg.groupproject.aruma.fragments.common.FindRouteFragment;
 
 public class LocationFinding extends AsyncTask<String, Void, List<NominatimLocation>> {
-    public static final int MAX_SEARCH_RESULTS = 20;
     private NominatimService nominatimService = new NominatimService();
     private Configuration configuration;
     private Consumer<List<NominatimLocation>> actionOnPostExecute;

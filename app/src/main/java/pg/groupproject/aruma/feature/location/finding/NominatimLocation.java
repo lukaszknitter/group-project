@@ -20,6 +20,10 @@ class NominatimLocation implements Comparable<NominatimLocation> {
     private Double importance;
     private NominatimLocationAddress address;
 
+    public String getDisplayName(int width) {
+        return NominatimLocationFormatting.formatDisplayName(displayName, width);
+    }
+
     @Override
     public int compareTo(NominatimLocation other) {
         if (other == null) {
