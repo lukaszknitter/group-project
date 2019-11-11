@@ -12,11 +12,9 @@ import pg.groupproject.aruma.fragments.common.FindRouteFragment;
 
 public class LocationFinding extends AsyncTask<String, Void, List<NominatimLocation>> {
     private NominatimService nominatimService = new NominatimService();
-    private Configuration configuration;
     private Consumer<List<NominatimLocation>> actionOnPostExecute;
 
     LocationFinding(Configuration configuration, Consumer<List<NominatimLocation>> actionOnPostExecute) {
-        this.configuration = configuration;
         this.actionOnPostExecute = actionOnPostExecute;
     }
 
