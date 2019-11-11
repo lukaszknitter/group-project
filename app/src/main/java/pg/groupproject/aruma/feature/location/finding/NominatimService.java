@@ -21,7 +21,7 @@ import okhttp3.ResponseBody;
 
 class NominatimService {
 
-    private static final String NOMINATIM_API_ENDPOINT = "https://nominatim.openstreetmap.org/search/";
+    private static final String NOMINATIM_API_ENDPOINT = "https://nominatim.openstreetmap.org/search?q=";
     private static final int ADDRESSES_LIMIT_QUERY = 10;
     private ObjectMapper objectMapper = new ObjectMapper();
     private OkHttpClient okHttpClient = new OkHttpClient();
@@ -56,6 +56,6 @@ class NominatimService {
     }
 
     private String getQueryParameters(String countryCode) {
-        return "?countrycodes=" + countryCode + "&format=json&addressdetails=1&limit=" + ADDRESSES_LIMIT_QUERY;
+        return "&countrycodes=" + countryCode + "&format=json&addressdetails=1&limit=" + ADDRESSES_LIMIT_QUERY;
     }
 }

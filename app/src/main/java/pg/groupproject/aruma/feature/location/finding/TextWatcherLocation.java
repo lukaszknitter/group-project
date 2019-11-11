@@ -9,6 +9,7 @@ import android.widget.AutoCompleteTextView;
 import java.util.List;
 
 import static android.os.AsyncTask.Status.PENDING;
+import static android.os.AsyncTask.Status.RUNNING;
 
 public class TextWatcherLocation implements TextWatcher {
 
@@ -34,16 +35,22 @@ public class TextWatcherLocation implements TextWatcher {
 
     @Override
     public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
-        if (previousLocationFindingTask != null && taskNotYetExecuted()) {
-            previousLocationFindingTask.cancel(false);
+        if (lastCharIsNotWhitespace(charSequence)) {
+            if (previousLocationFindingTask != null && taskNotYetExecuted()) {
+                previousLocationFindingTask.cancel(false);
+            }
+            final LocationFinding locationFinding = new LocationFinding(configuration, this::updateLocations);
+            previousLocationFindingTask = locationFinding;
+            locationFinding.execute(charSequence.toString());
         }
-        final LocationFinding locationFinding = new LocationFinding(configuration, this::updateLocations);
-        previousLocationFindingTask = locationFinding;
-        locationFinding.execute(charSequence.toString());
+    }
+
+    private boolean lastCharIsNotWhitespace(CharSequence charSequence) {
+        return charSequence.charAt(charSequence.length() - 1) != ' ';
     }
 
     private boolean taskNotYetExecuted() {
-        return PENDING == previousLocationFindingTask.getStatus();
+        return PENDING == previousLocationFindingTask.getStatus() || RUNNING == previousLocationFindingTask.getStatus();
     }
 
     @Override
@@ -53,8 +60,9 @@ public class TextWatcherLocation implements TextWatcher {
     }
 
     private void updateLocations(List<NominatimLocation> addresses) {
-        adapter = new AddressAdapter(context, addresses);
-        adapter.setNotifyOnChange(true);
-        textView.setAdapter(adapter);
+        adapter.clear();
+        adapter.addAll(addresses);
+//        adapter.setNotifyOnChange(true);
+//        textView.setAdapter(adapter);
     }
 }

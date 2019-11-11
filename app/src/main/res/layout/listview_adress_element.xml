@@ -6,32 +6,34 @@
 
     <TextView
         android:id="@+id/listview_elem_name"
-        android:layout_width="match_parent"
+        android:layout_width="387dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="0dp"
+        android:layout_marginStart="11dp"
         android:layout_marginTop="-1dp"
         android:text="Name"
+        android:ellipsize="end"
+        android:lines="1"
+        android:scrollHorizontally="true"
         android:textSize="24sp" />
 
     <TextView
-        android:id="@+id/listview_elem_country"
-        android:layout_width="65dp"
+        android:id="@+id/listview_elem_address"
+        android:layout_width="384dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/listview_elem_name"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="0dp"
-        android:text="Country" />
-
-    <TextView
-        android:id="@+id/listview_elem_address"
-        android:layout_width="334dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/listview_elem_name"
         android:layout_marginStart="12dp"
-        android:layout_marginTop="1dp"
-        android:layout_toEndOf="@+id/listview_elem_country"
-        android:text="Address" />
+        android:layout_marginTop="0dp"
+        android:text="City" />
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@+id/listview_elem_address"
+        android:layout_marginTop="4dp"
+        android:background="#4CAF50" />
+
 </RelativeLayout>

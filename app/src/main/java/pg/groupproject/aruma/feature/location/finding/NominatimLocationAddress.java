@@ -12,11 +12,15 @@ import lombok.Getter;
 @JsonIgnoreProperties(ignoreUnknown = true)
 class NominatimLocationAddress implements Comparable<NominatimLocationAddress> {
     private String city;
-    @JsonProperty("state_district")
-    private String stateDistrict;
+    @JsonProperty("city_district")
+    private String cityDistrict;
     private String country;
     @JsonProperty("country_code")
     private String countryCode;
+    @JsonProperty("house_number")
+    private String houseNumber;
+    private String road;
+    private String state;
 
     @Override
     public int compareTo(NominatimLocationAddress other) {

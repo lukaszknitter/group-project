@@ -8,20 +8,46 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 class NominatimLocationFormatting {
 
-    static String formatDisplayName(String value, int width) {
-        if (Strings.isEmptyOrWhitespace(value)) {
-            return "";
+    public static final String EMPTY_VALUE = "";
+
+    static String formatAddress(NominatimLocationAddress address) {
+        final StringBuilder value = new StringBuilder();
+        if (!Strings.isEmptyOrWhitespace(address.getCity())) {
+            value.append(address.getCity());
         }
-        if (value.length() < width) {
-            return value;
-        }
-        while (value.length() > width) {
-            int lastIndex = value.lastIndexOf(',');
-            if (lastIndex == -1) {
-                return value.substring(0, width - 3) + "...";
+        if (!Strings.isEmptyOrWhitespace(address.getRoad())) {
+            if (!Strings.isEmptyOrWhitespace(address.getHouseNumber())) {
+                addSeparator(value);
+                value.append(address.getRoad() + " " + address.getHouseNumber());
+            } else {
+                addSeparator(value);
+                value.append(address.getRoad());
             }
-            value = value.substring(0, lastIndex).trim();
         }
-        return value;
+        if (!Strings.isEmptyOrWhitespace(address.getCityDistrict())) {
+            addSeparator(value);
+            value.append(address.getCityDistrict());
+        }
+        if (!Strings.isEmptyOrWhitespace(address.getState())) {
+            addSeparator(value);
+            value.append(address.getState());
+        }
+        return value.toString();
+    }
+
+    static String formatFeatureName(String name) {
+        if (Strings.isEmptyOrWhitespace(name)) {
+            return EMPTY_VALUE;
+        }
+        if (!name.contains(",")) {
+            return name;
+        }
+        return name.substring(0, name.indexOf(','));
+    }
+
+    private static void addSeparator(StringBuilder value) {
+        if (value.length() != 0) {
+            value.append(", ");
+        }
     }
 }
