@@ -1,6 +1,5 @@
 package pg.groupproject.aruma.feature.location.finding;
 
-import android.content.Context;
 import android.content.res.Configuration;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -12,16 +11,16 @@ import static android.os.AsyncTask.Status.RUNNING;
 public class TextWatcherLocation implements TextWatcher {
 
     private final AutoCompleteTextView textView;
-    private final Context context;
     private Configuration configuration;
     private AddressAdapter adapter;
     private LocationFinding previousLocationFindingTask;
+    private Runnable actionClearSelectedLocation;
 
-    public TextWatcherLocation(AutoCompleteTextView textViewToUpdate, Context context, Configuration configuration) {
+    public TextWatcherLocation(AutoCompleteTextView textViewToUpdate, AddressAdapter addressAdapter, Configuration configuration, Runnable actionClearSelectedLocation) {
         this.textView = textViewToUpdate;
-        this.context = context;
         this.configuration = configuration;
-        this.adapter = new AddressAdapter(context);
+        this.adapter = addressAdapter;
+        this.actionClearSelectedLocation = actionClearSelectedLocation;
         textViewToUpdate.setAdapter(adapter);
     }
 
@@ -38,6 +37,7 @@ public class TextWatcherLocation implements TextWatcher {
         final LocationFinding locationFinding = new LocationFinding(configuration, l -> adapter.update(l));
         previousLocationFindingTask = locationFinding;
         locationFinding.execute(charSequence.toString());
+        actionClearSelectedLocation.run();
     }
 
     private boolean taskNotYetExecuted() {
@@ -46,7 +46,6 @@ public class TextWatcherLocation implements TextWatcher {
 
     @Override
     public void afterTextChanged(Editable editable) {
-        adapter.notifyDataSetChanged();
-        textView.showDropDown();
+
     }
 }

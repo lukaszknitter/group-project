@@ -1,5 +1,7 @@
 package pg.groupproject.aruma.feature.location.finding;
 
+import androidx.annotation.NonNull;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.android.gms.common.util.Strings;
@@ -10,7 +12,7 @@ import lombok.NoArgsConstructor;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @NoArgsConstructor
 @Getter
-class NominatimLocation implements Comparable<NominatimLocation> {
+public class NominatimLocation implements Comparable<NominatimLocation> {
 
     private String lat;
     private String lon;
@@ -56,5 +58,11 @@ class NominatimLocation implements Comparable<NominatimLocation> {
             return thisImportance > otherImportance ? -1 : 1;
         }
         return 0;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return NominatimLocationFormatting.formatFeatureName(getDisplayName());
     }
 }

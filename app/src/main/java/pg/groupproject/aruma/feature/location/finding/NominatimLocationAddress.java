@@ -10,7 +10,7 @@ import lombok.Getter;
 
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
-class NominatimLocationAddress implements Comparable<NominatimLocationAddress> {
+public class NominatimLocationAddress implements Comparable<NominatimLocationAddress> {
     private String city;
     @JsonProperty("city_district")
     private String cityDistrict;

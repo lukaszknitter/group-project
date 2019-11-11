@@ -11,26 +11,27 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentActivity;
 
 import com.google.android.gms.common.util.Strings;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
 import pg.groupproject.aruma.R;
 
-class AddressAdapter extends BaseAdapter implements Filterable {
+public class AddressAdapter extends BaseAdapter implements Filterable {
 
     private static final int RESOURCE_ID = R.layout.listview_adress_element;
     private static final String NO_VALUE = "-";
     private final Context context;
-    private final Object lock = new Object();
     private List<NominatimLocation> values = new ArrayList<>();
-    private int previousValuesCount = 0;
+    private Supplier<FragmentActivity> supplierMainActivity;
 
-    AddressAdapter(@NonNull Context context) {
-        super();
+    public AddressAdapter(@NonNull Context context, Supplier<FragmentActivity> supplierMainActivity) {
         this.context = context;
+        this.supplierMainActivity = supplierMainActivity;
     }
 
     @Override
@@ -46,11 +47,6 @@ class AddressAdapter extends BaseAdapter implements Filterable {
     @Override
     public long getItemId(int position) {
         return position;
-    }
-
-    public void update(List<NominatimLocation> addresses) {
-        values.clear();
-        values.addAll(addresses);
     }
 
     @NonNull
@@ -72,10 +68,6 @@ class AddressAdapter extends BaseAdapter implements Filterable {
         return convertView;
     }
 
-    private String getNullSafeValue(String value) {
-        return Strings.isEmptyOrWhitespace(value) ? NO_VALUE : value;
-    }
-
     @Override
     public Filter getFilter() {
         return new Filter() {
@@ -92,5 +84,18 @@ class AddressAdapter extends BaseAdapter implements Filterable {
                 notifyDataSetChanged();
             }
         };
+    }
+
+    private String getNullSafeValue(String value) {
+        return Strings.isEmptyOrWhitespace(value) ? NO_VALUE : value;
+    }
+
+    public void update(List<NominatimLocation> addresses) {
+        if (!addresses.isEmpty()) {
+            supplierMainActivity.get().runOnUiThread(() -> {
+                values.clear();
+                values.addAll(addresses);
+            });
+        }
     }
 }
