@@ -2,21 +2,21 @@ package pg.groupproject.aruma.feature.location.finding;
 
 import android.content.Context;
 import android.content.res.Configuration;
-import android.location.Address;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.AutoCompleteTextView;
 
 import java.util.List;
-import java.util.Locale;
+
+import static android.os.AsyncTask.Status.PENDING;
 
 public class TextWatcherLocation implements TextWatcher {
 
-    private static int i = 0;
     private final AutoCompleteTextView textView;
     private final Context context;
     private Configuration configuration;
     private AddressAdapter adapter;
+    private LocationFinding previousLocationFindingTask;
 
     public TextWatcherLocation(AutoCompleteTextView textViewToUpdate, Context context, Configuration configuration) {
         this.textView = textViewToUpdate;
@@ -34,16 +34,16 @@ public class TextWatcherLocation implements TextWatcher {
 
     @Override
     public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+        if (previousLocationFindingTask != null && taskNotYetExecuted()) {
+            previousLocationFindingTask.cancel(false);
+        }
         final LocationFinding locationFinding = new LocationFinding(configuration, this::updateLocations);
+        previousLocationFindingTask = locationFinding;
         locationFinding.execute(charSequence.toString());
     }
 
-    private Address getAddress() {
-        Address a1 = new Address(Locale.ENGLISH);
-        a1.setAddressLine(0, "Wyspy" + i);
-        a1.setFeatureName("Galeria" + i);
-        a1.setCountryName("Polandia" + i++);
-        return a1;
+    private boolean taskNotYetExecuted() {
+        return PENDING == previousLocationFindingTask.getStatus();
     }
 
     @Override
@@ -52,11 +52,9 @@ public class TextWatcherLocation implements TextWatcher {
         textView.showDropDown();
     }
 
-    private void updateLocations(List<Address> addresses) {
+    private void updateLocations(List<NominatimLocation> addresses) {
         adapter = new AddressAdapter(context, addresses);
         adapter.setNotifyOnChange(true);
         textView.setAdapter(adapter);
-//        Address address = getAddress();
-//        addresses.add(address);
     }
 }

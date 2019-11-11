@@ -1,7 +1,6 @@
 package pg.groupproject.aruma.feature.location.finding;
 
 import android.content.Context;
-import android.location.Address;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,25 +11,23 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.google.android.gms.common.util.Strings;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import pg.groupproject.aruma.R;
 
-class AddressAdapter extends ArrayAdapter<Address> {
+class AddressAdapter extends ArrayAdapter<NominatimLocation> {
 
     private static final int RESOURCE_ID = R.layout.listview_adress_element;
     public static final String NO_VALUE = "-";
-    private List<Address> mOriginalValues;
-    private List<Address> mObjects = new ArrayList<>();
+    private List<NominatimLocation> mOriginalValues;
+    private List<NominatimLocation> mObjects = new ArrayList<>();
 
     AddressAdapter(@NonNull Context context) {
         super(context, RESOURCE_ID);
     }
 
-    AddressAdapter(@NonNull Context context, @NonNull List<Address> objects) {
+    AddressAdapter(@NonNull Context context, @NonNull List<NominatimLocation> objects) {
         super(context, RESOURCE_ID, objects);
         this.mObjects = objects;
     }
@@ -47,17 +44,17 @@ class AddressAdapter extends ArrayAdapter<Address> {
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(RESOURCE_ID, parent, false);
         }
-        Address address = getItem(position);
+        NominatimLocation address = getItem(position);
         if (address == null) {
             return convertView;
         }
 
         TextView name = convertView.findViewById(R.id.listview_elem_name);
-        name.setText(address.getFeatureName() == null ? NO_VALUE : address.getFeatureName());
+        name.setText(address.getDisplayName() == null ? NO_VALUE : address.getDisplayName());
         TextView country = convertView.findViewById(R.id.listview_elem_country);
-        country.setText(address.getCountryName() == null ? NO_VALUE : address.getCountryName());
+        country.setText(address.getAddress().getCountry() == null ? NO_VALUE : address.getAddress().getCountry());
         TextView addressT = convertView.findViewById(R.id.listview_elem_address);
-        addressT.setText(address.getAddressLine(0) == null ? NO_VALUE : address.getAddressLine(0));
+        addressT.setText(address.getAddress().getCity() == null ? NO_VALUE : address.getAddress().getCity());
 
 
         return convertView;
@@ -72,40 +69,9 @@ class AddressAdapter extends ArrayAdapter<Address> {
                 mOriginalValues = new ArrayList<>(mObjects);
             }
 
-            if (prefix == null || prefix.length() == 0) {
-                final ArrayList<Address> list = new ArrayList<>(mOriginalValues);
-                results.values = list;
-                results.count = list.size();
-            } else {
-                final String prefixString = prefix.toString().toLowerCase();
-                final ArrayList<Address> values = new ArrayList<>(mOriginalValues);
-
-                final int count = values.size();
-                final ArrayList<Address> newValues = new ArrayList<>();
-
-                for (int i = 0; i < count; i++) {
-                    final Address value = values.get(i);
-
-                    // First match against the whole, non-splitted value
-                    if (!Strings.isEmptyOrWhitespace(value.getFeatureName()) && value.getFeatureName().toLowerCase().startsWith(prefixString)) {
-                        newValues.add(value);
-                    } else {
-                        if (value.getFeatureName() == null) {
-                            continue;
-                        }
-                        final String[] words = value.getFeatureName().split(" ");
-                        for (String word : words) {
-                            if (word.startsWith(prefixString)) {
-                                newValues.add(value);
-                                break;
-                            }
-                        }
-                    }
-                }
-
-                results.values = newValues;
-                results.count = newValues.size();
-            }
+            final ArrayList<NominatimLocation> list = new ArrayList<>(mOriginalValues);
+            results.values = list;
+            results.count = list.size();
 
             return results;
         }
@@ -113,7 +79,7 @@ class AddressAdapter extends ArrayAdapter<Address> {
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             //noinspection unchecked
-            mObjects = (List<Address>) results.values;
+            mObjects = (List<NominatimLocation>) results.values;
             if (results.count > 0) {
                 notifyDataSetChanged();
             } else {
