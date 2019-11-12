@@ -1,6 +1,5 @@
 package pg.groupproject.aruma.feature.location.finding;
 
-import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -11,10 +10,12 @@ import java.util.function.Consumer;
 import pg.groupproject.aruma.fragments.common.FindRouteFragment;
 
 public class LocationFinding extends AsyncTask<String, Void, List<NominatimLocation>> {
-    private NominatimService nominatimService = new NominatimService();
+    private NominatimLocationService nominatimService = new NominatimLocationService();
     private Consumer<List<NominatimLocation>> actionOnPostExecute;
+    private SimpleLocation lastKnownLocation;
 
-    LocationFinding(Configuration configuration, Consumer<List<NominatimLocation>> actionOnPostExecute) {
+    LocationFinding(SimpleLocation lastKnownLocation, Consumer<List<NominatimLocation>> actionOnPostExecute) {
+        this.lastKnownLocation = lastKnownLocation;
         this.actionOnPostExecute = actionOnPostExecute;
     }
 
@@ -31,10 +32,10 @@ public class LocationFinding extends AsyncTask<String, Void, List<NominatimLocat
         actionOnPostExecute.accept(addresses);
     }
 
-    private List<NominatimLocation> searchForLocation(String location) {
+    private List<NominatimLocation> searchForLocation(String locationName) {
         try {
             // TODO jeżeli mamy lokalizację, to ją wykorzystajmy
-            return nominatimService.searchForPOIs(location);
+            return nominatimService.searchForLocations(locationName, lastKnownLocation);
         } catch (Exception e) {
             Log.e(FindRouteFragment.class.toString(), "An error occured while searching for a location", e);
             return new ArrayList<>();

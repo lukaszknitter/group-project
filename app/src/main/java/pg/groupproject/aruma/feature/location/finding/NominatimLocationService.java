@@ -19,17 +19,17 @@ import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 
-class NominatimService {
+class NominatimLocationService {
 
     private static final String NOMINATIM_API_ENDPOINT = "https://nominatim.openstreetmap.org/search?q=";
     private static final int ADDRESSES_LIMIT_QUERY = 10;
     private ObjectMapper objectMapper = new ObjectMapper();
     private OkHttpClient okHttpClient = new OkHttpClient();
 
-    List<NominatimLocation> searchForPOIs(String value) {
+    List<NominatimLocation> searchForLocations(String value, SimpleLocation lastKnownLocation) {
         final List<NominatimLocation> addresses = new ArrayList<>();
         try {
-            final Response response = executeRequest(value);
+            final Response response = executeRequest(value, lastKnownLocation);
             final ResponseBody responseBody = response.body();
             if (response.isSuccessful() && responseBody != null) {
                 final NominatimLocation[] nominatimResponse = objectMapper.readValue(responseBody.string(), NominatimLocation[].class);
@@ -44,18 +44,40 @@ class NominatimService {
         return addresses;
     }
 
-    private Response executeRequest(@NonNull String value) throws IOException {
+    private Response executeRequest(@NonNull String value, SimpleLocation lastKnownLocation) throws IOException {
         // TODO jeżeli mamy lokalizację, to adres z lokalizacji
         final String countryCode = Locale.getDefault().getCountry();
         final Request request = new Request.Builder()
-                .url(NOMINATIM_API_ENDPOINT + URLEncoder.encode(value, "utf-8") + getQueryParameters(countryCode))
+                .url(NOMINATIM_API_ENDPOINT + URLEncoder.encode(value, "utf-8") + appendCountryCode(countryCode)
+                        + appendResponseType() + appendAddressDetails() + appendQueryResultsLimit() + appendViewbox(lastKnownLocation))
                 .build();
 
         final Call call = okHttpClient.newCall(request);
         return call.execute();
     }
 
-    private String getQueryParameters(String countryCode) {
-        return "&countrycodes=" + countryCode + "&format=json&addressdetails=1&limit=" + ADDRESSES_LIMIT_QUERY;
+    private String appendAddressDetails() {
+        return "&addressdetails=1";
     }
+
+    private String appendResponseType() {
+        return "&format=json";
+    }
+
+    private String appendQueryResultsLimit() {
+        return "&limit=" + ADDRESSES_LIMIT_QUERY;
+    }
+
+    private String appendCountryCode(String countryCode) {
+        return "&countrycodes=" + countryCode;
+    }
+
+    private String appendViewbox(SimpleLocation lastKnownLocation) {
+        if (lastKnownLocation.isEmpty()) {
+            return "";
+        }
+        return "&viewbox=" + lastKnownLocation.getLonMin() + ',' + lastKnownLocation.getLatMin() + ',' + lastKnownLocation.getLonMax() + ',' + lastKnownLocation.getLatMax()
+                + "&bounded=1";
+    }
+
 }

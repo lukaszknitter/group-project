@@ -15,12 +15,14 @@ public class TextWatcherLocation implements TextWatcher {
     private AddressAdapter adapter;
     private LocationFinding previousLocationFindingTask;
     private Runnable actionClearSelectedLocation;
+    private SimpleLocation lastKnownLocation;
 
-    public TextWatcherLocation(AutoCompleteTextView textViewToUpdate, AddressAdapter addressAdapter, Configuration configuration, Runnable actionClearSelectedLocation) {
+    public TextWatcherLocation(AutoCompleteTextView textViewToUpdate, AddressAdapter addressAdapter, Configuration configuration, Runnable actionClearSelectedLocation, SimpleLocation lastKnownLocation) {
         this.textView = textViewToUpdate;
         this.configuration = configuration;
         this.adapter = addressAdapter;
         this.actionClearSelectedLocation = actionClearSelectedLocation;
+        this.lastKnownLocation = lastKnownLocation;
         textViewToUpdate.setAdapter(adapter);
     }
 
@@ -34,7 +36,7 @@ public class TextWatcherLocation implements TextWatcher {
         if (previousLocationFindingTask != null && taskNotYetExecuted()) {
             previousLocationFindingTask.cancel(false);
         }
-        final LocationFinding locationFinding = new LocationFinding(configuration, l -> adapter.update(l));
+        final LocationFinding locationFinding = new LocationFinding(lastKnownLocation, l -> adapter.update(l));
         previousLocationFindingTask = locationFinding;
         locationFinding.execute(charSequence.toString());
         actionClearSelectedLocation.run();
