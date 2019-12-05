@@ -6,13 +6,14 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import pg.groupproject.aruma.R;
 import pg.groupproject.aruma.feature.permission.PermissionChecker;
 import pg.groupproject.aruma.feature.place.Place;
@@ -41,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		setTheme(R.style.AppTheme);
 		setContentView(R.layout.activity_main);
-		super.onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState);
 
 
 		supportFragmentManager = getSupportFragmentManager();

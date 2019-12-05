@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,10 +42,13 @@ import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import pg.groupproject.aruma.MyLocationListener;
 import pg.groupproject.aruma.R;
 
@@ -55,8 +59,8 @@ public class NavigationFragment extends Fragment {
 	private MyLocationListener myLocationListener;
 	private Location currentLocation;
 	private RoadManager roadManager;
-	private Polyline selectedRoutePolyline;
-	private Polyline travelledRoutePolyline;
+    private Polyline selectedRoutePolyline;
+    private Polyline travelledRoutePolyline;
 	private TextView distanceTextView;
 	private TextView timeTextView;
 	private ScheduledExecutorService scheduleTaskExecutor;
@@ -85,13 +89,23 @@ public class NavigationFragment extends Fragment {
 		initializeScheduledTask();
 		initializeStartTrainingButton(inflateView);
 		final Bundle arguments = getArguments();
-		if (arguments != null && arguments.containsKey("latitude") && arguments.containsKey("longitude")) {
-			double predefinedLatitude = arguments.getDouble("latitude");
-			double predefinedLongitude = arguments.getDouble("longitude");
-			leadTo(new GeoPoint(predefinedLatitude, predefinedLongitude));
+        if (arguments != null) {
+            if (arguments.containsKey("latitude") && arguments.containsKey("longitude")) {
+                double predefinedLatitude = arguments.getDouble("latitude");
+                double predefinedLongitude = arguments.getDouble("longitude");
+				leadTo(new GeoPoint(predefinedLatitude, predefinedLongitude), false);
+            } else if (argumentsContainStartAndEndPoints(arguments)) {
+                final GeoPoint start = new GeoPoint(arguments.getDouble("start-latitude"), arguments.getDouble("start-longitude"));
+                final GeoPoint end = new GeoPoint(arguments.getDouble("end-latitude"), arguments.getDouble("end-longitude"));
+				leadTo(start, end, true);
+            }
 		}
 		return inflateView;
 	}
+
+    private boolean argumentsContainStartAndEndPoints(Bundle arguments) {
+        return arguments.containsKey("start-latitude") && arguments.containsKey("end-latitude") && arguments.containsKey("start-longitude") && arguments.containsKey("end-longitude");
+    }
 
 
 	private void initializeScheduledTask(){
@@ -123,11 +137,11 @@ public class NavigationFragment extends Fragment {
 							updateUI(() -> distanceTextView.setText(String.format(Locale.US, "%.2f km (0%%)", roadLength)));
 						}
 
-						map.getOverlays().remove(selectedRoutePolyline);
+                        map.getOverlays().remove(selectedRoutePolyline);
 
-						selectedRoutePolyline = RoadManager.buildRoadOverlay(road);
-						selectedRoutePolyline.setWidth(20);
-						map.getOverlays().add(selectedRoutePolyline);
+                        selectedRoutePolyline = RoadManager.buildRoadOverlay(road);
+                        selectedRoutePolyline.setWidth(20);
+                        map.getOverlays().add(selectedRoutePolyline);
 
 						updateUI(() -> map.invalidate());
 					}
@@ -203,7 +217,7 @@ public class NavigationFragment extends Fragment {
 	}
 
 	private void initializeRoutingFeatures(View inflateView) {
-		travelledRoutePolyline = new Polyline();
+        travelledRoutePolyline = new Polyline();
 		FloatingActionButton cancelRoutingButton = inflateView.findViewById(R.id.cancelRoutingButton);
 		cancelRoutingButton.setOnClickListener(view -> cancelRouting());
 
@@ -239,30 +253,45 @@ public class NavigationFragment extends Fragment {
 		Toast.makeText(getActivity(), "Canceled routing", Toast.LENGTH_SHORT).show();
 
 		isNavigationMode = false;
-		map.getOverlays().remove(selectedRoutePolyline);
+        map.getOverlays().remove(selectedRoutePolyline);
 		distanceTextView.setText("0 km (0 %)");
 		timeTextView.setText("00:00");
 	}
 
 	private void initializeGoToButton(ImageView imageView, GeoPoint destinationPoint, Dialog dialog) {
 		imageView.setOnClickListener(view -> {
-			if (selectedRoutePolyline != null) {
-				map.getOverlays().remove(selectedRoutePolyline);
+            if (selectedRoutePolyline != null) {
+                map.getOverlays().remove(selectedRoutePolyline);
 			}
 
-			leadTo(destinationPoint);
+			leadTo(destinationPoint, false);
 
 			dialog.hide();
 		});
 	}
 
-	private void leadTo(GeoPoint destinationPoint) {
-		ArrayList<GeoPoint> points = new ArrayList<>();
-		points.add(new GeoPoint(currentLocation.getLatitude(), currentLocation.getLongitude()));
-		points.add(destinationPoint);
+	private void leadTo(GeoPoint destinationPoint, boolean retryOnFail) {
+		leadTo(new GeoPoint(currentLocation.getLatitude(), currentLocation.getLongitude()), destinationPoint, retryOnFail);
+    }
 
-		new UpdateRoadTask().execute(points);
-	}
+	private void leadTo(GeoPoint startPoint, GeoPoint destinationPoint, boolean retryOnFail) {
+        ArrayList<GeoPoint> points = new ArrayList<>();
+        points.add(startPoint);
+        points.add(destinationPoint);
+
+		if (retryOnFail) {
+			try {
+				Road road = new UpdateRoadTask(true, true).execute(points).get();
+				if (roadError(road)) {
+					new UpdateRoadTask(false, true).execute(points).get();
+				}
+			} catch (ExecutionException | InterruptedException e) {
+				Log.e("Obtaining road", "Cannot obtain road", e);
+			}
+		} else {
+			new UpdateRoadTask().execute(points);
+		}
+    }
 
 	private void initializeStartTrainingButton(View inflateView) {
 		FloatingActionButton trainingButton = inflateView.findViewById(R.id.trainingButton);
@@ -279,8 +308,18 @@ public class NavigationFragment extends Fragment {
 		return String.format("%02d", hours) + ":" + String.format("%02d", minutes);
 	}
 
+
+	private boolean roadError(Road road) {
+		return road.mStatus != Road.STATUS_OK;
+	}
+
+	@NoArgsConstructor
+	@AllArgsConstructor
 	@SuppressLint("StaticFieldLeak")
 	private class UpdateRoadTask extends AsyncTask<Object, Void, Road> {
+
+		private boolean firstTry;
+		private boolean retryOnFail;
 
 		protected Road doInBackground(Object... params) {
 			@SuppressWarnings("unchecked")
@@ -291,11 +330,13 @@ public class NavigationFragment extends Fragment {
 
 		@Override
 		protected void onPostExecute(Road road) {
-			if (road.mStatus != Road.STATUS_OK) {
-				String statusMessage = road.mStatus == Road.STATUS_INVALID
-						? "road has not been built yet"
-						: "technical issue, no answer from the service provider";
-				Toast.makeText(getActivity(), "Error while loading the road (" + statusMessage + ")", Toast.LENGTH_SHORT).show();
+			if (roadError(road)) {
+				if (!retryOnFail || !firstTry) {
+					String statusMessage = road.mStatus == Road.STATUS_INVALID
+							? "road has not been built yet"
+							: "technical issue, no answer from the service provider";
+					Toast.makeText(getActivity(), "Error while loading the road (" + statusMessage + ")", Toast.LENGTH_SHORT).show();
+				}
 			} else {
 				double roadLength = road.mLength;
 				if (roadLength >= 100) {

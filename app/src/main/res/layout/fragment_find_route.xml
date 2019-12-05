@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="pg.groupproject.aruma.fragments.common.FindRouteFragment">
+
+    <AutoCompleteTextView
+        android:id="@+id/find_route_start_point_value"
+        android:layout_width="401dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/find_route_start_point_title"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="3dp"
+        android:lines="1"
+        android:scrollHorizontally="true"
+        android:textColor="@color/font"
+        android:textSize="24sp" />
+
+    <AutoCompleteTextView
+        android:id="@+id/find_route_end_point_value"
+        android:layout_width="401dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/find_route_start_point_value"
+        android:layout_marginTop="34dp"
+        android:lines="1"
+        android:scrollHorizontally="true"
+        android:textColor="@color/font"
+        android:textSize="24sp" />
+
+    <Button
+        android:id="@+id/button_find_route_navigate"
+        android:layout_width="128dp"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_below="@+id/find_route_end_point_value"
+        android:backgroundTint="#BE673AB7"
+        android:text="@string/navigate"
+        tools:text="@string/navigate" />
+
+    <TextView
+        android:id="@+id/find_route_from_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="4dp"
+        android:drawablePadding="10dp"
+        android:text="@string/find_route"
+        android:textColor="#4CAF50"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/find_route_end_point_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/find_route_from_header"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="98dp"
+        android:drawablePadding="10dp"
+        android:text="@string/end_point"
+        android:textColor="@color/font"
+        android:textSize="@dimen/fontSizeTitle" />
+
+    <TextView
+        android:id="@+id/find_route_start_point_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/find_route_from_header"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="11dp"
+        android:drawablePadding="10dp"
+        android:text="@string/start_point"
+        android:textColor="@color/font"
+        android:textSize="@dimen/fontSizeTitle" />
+
+    <Switch
+        android:id="@+id/switch_find_route_extend_results"
+        android:layout_width="wrap_content"
+        android:layout_height="38dp"
+        android:layout_below="@+id/button_find_route_navigate"
+        android:layout_centerHorizontal="true"
+        android:paddingTop="15px"
+        android:switchPadding="5dp"
+        android:text="@string/extend_search_results" />
+
+    <Switch
+        android:id="@+id/switch_start_point_from_gps"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="72dp"
+        android:layout_marginTop="57dp"
+        android:layout_toEndOf="@+id/find_route_start_point_title"
+        android:switchPadding="5dp"
+        android:text="@string/start_point_from_gps" />
+
+</RelativeLayout>

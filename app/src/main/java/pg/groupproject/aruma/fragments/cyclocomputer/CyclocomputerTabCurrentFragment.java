@@ -1,38 +1,24 @@
 package pg.groupproject.aruma.fragments.cyclocomputer;
 
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.ServiceConnection;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.Locale;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.TimeUnit;
 
 import lombok.var;
 import pg.groupproject.aruma.R;
-import pg.groupproject.aruma.activities.MainActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -43,11 +29,21 @@ public class CyclocomputerTabCurrentFragment extends Fragment {
     private CyclocomputerService cyclocomputerService;
     private TextView timerTextView;
     private TextView distanceTextView;
-    private Context ctx;
+    BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String s1 = intent.getStringExtra("CurrentTime");
+            float travelledDistance = intent.getFloatExtra("TravelledDistance", 0.0f);
+            Log.i("CyclocomputerTabCurrentFragment!", "Updating time in ui...");
+            timerTextView.setText(s1);
+            distanceTextView.setText(String.format(Locale.US, "%.2f km", (travelledDistance / 1000)));
+        }
+    };
     public CyclocomputerTabCurrentFragment() {
         // Required empty public constructor
     }
 
+    private Context ctx;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -78,24 +74,13 @@ public class CyclocomputerTabCurrentFragment extends Fragment {
         ActivityManager manager = (ActivityManager) ctx.getSystemService(Context.ACTIVITY_SERVICE);
         for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
             if (serviceClass.getName().equals(service.service.getClassName())) {
-                Log.i ("isMyServiceRunning?", true+"");
+                Log.i("isMyServiceRunning?", true + "");
                 return true;
             }
         }
-        Log.i ("isMyServiceRunning?", false+"");
+        Log.i("isMyServiceRunning?", false + "");
         return false;
     }
-
-    BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String s1 = intent.getStringExtra("CurrentTime");
-            float travelledDistance = intent.getFloatExtra("TravelledDistance", 0.0f);
-            Log.i("CyclocomputerTabCurrentFragment!", "Updating time in ui...");
-            timerTextView.setText(s1);
-            distanceTextView.setText(String.format(Locale.US, "%.2f km", (travelledDistance/1000)));
-        }
-    };
 }
 
 

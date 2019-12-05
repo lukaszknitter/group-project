@@ -20,13 +20,12 @@ import lombok.var;
 
 public class CyclocomputerService extends Service {
 
-    String TAG = "CyclocomputerService";
-
-    Timer timer;
-    String time;
     private static Context ctx;
     private static TextView timerTextView;
-    public long _seconds=0;
+    public long _seconds = 0;
+    String TAG = "CyclocomputerService";
+    Timer timer;
+    String time;
     Intent updateUiIntent;
 
     //updatowanie km
@@ -35,12 +34,13 @@ public class CyclocomputerService extends Service {
     private double lastLatitude = 0;
     private double lastLongitude = 0;
     private float travelledDistane = 0;
-    public CyclocomputerService(){
+
+    public CyclocomputerService() {
 
     }
 
     @Override
-    public void onCreate(){
+    public void onCreate() {
         super.onCreate();
         initializeLocationManager();
     }
@@ -65,8 +65,8 @@ public class CyclocomputerService extends Service {
         Log.i(TAG, "ondestroy!");
     }
 
-    private void startTimer(){
-        var myTimerTask = new TimerTask(){
+    private void startTimer() {
+        var myTimerTask = new TimerTask() {
             @Override
             public void run() {
                 int hours = (int) (_seconds / 3600);
@@ -82,21 +82,20 @@ public class CyclocomputerService extends Service {
         timer.schedule(myTimerTask, 0, 1000);
     }
 
-    private void startTrackingLocation(){
-        var myLocationTask = new TimerTask(){
+    private void startTrackingLocation() {
+        var myLocationTask = new TimerTask() {
 
             @Override
             public void run() {
                 Log.i(TAG, "Updating location");
                 var location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                if(location == null)
+                if (location == null)
                     location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-                float [] result = new float[1];
-                if(lastLongitude == 0 && lastLatitude == 0)
-                {
+                float[] result = new float[1];
+                if (lastLongitude == 0 && lastLatitude == 0) {
                     lastLatitude = location.getLatitude();
                     lastLongitude = location.getLongitude();
-                } else if(isCurrentLocationDifferentThanLastOne(location)) {
+                } else if (isCurrentLocationDifferentThanLastOne(location)) {
                     var currentLatitude = location.getLatitude();
                     var currentLongitude = location.getLongitude();
                     Location.distanceBetween(currentLatitude, currentLongitude, lastLatitude, lastLongitude, result);
@@ -106,8 +105,8 @@ public class CyclocomputerService extends Service {
                     updateUiIntent.putExtra("TravelledDistance", travelledDistane);
                     Log.i(TAG, "Sending broadcast...");
                     lastLatitude = location.getLatitude();
-                    lastLongitude= location.getLongitude();
-                }else
+                    lastLongitude = location.getLongitude();
+                } else
                     Log.i(TAG, "No update in location.");
 
                 Log.i(TAG, "Current location: longitude = " + location.getLongitude() + ", latitude = " + location.getLatitude());
@@ -117,7 +116,7 @@ public class CyclocomputerService extends Service {
         timer.schedule(myLocationTask, 0, 5000);
     }
 
-    private boolean isCurrentLocationDifferentThanLastOne(Location location){
+    private boolean isCurrentLocationDifferentThanLastOne(Location location) {
         return (location.getLatitude() != lastLatitude || location.getLongitude() != lastLongitude);
     }
 
@@ -138,6 +137,7 @@ public class CyclocomputerService extends Service {
     //to w sumie jest totalny wylew
     private class MyCyclocomputerListener implements LocationListener {
         private final String TAG = "MyCyclocomputerListener";
+
         @Override
         public void onLocationChanged(Location location) {
             Log.i(TAG, "onLocationChanged");
