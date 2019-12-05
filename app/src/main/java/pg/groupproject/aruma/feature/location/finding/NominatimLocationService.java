@@ -23,8 +23,8 @@ class NominatimLocationService {
 
     private static final String NOMINATIM_API_ENDPOINT = "https://nominatim.openstreetmap.org/search?q=";
     private static final int ADDRESSES_LIMIT_QUERY = 10;
-    private ObjectMapper objectMapper = new ObjectMapper();
-    private OkHttpClient okHttpClient = new OkHttpClient();
+    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final OkHttpClient okHttpClient = new OkHttpClient();
 
     List<NominatimLocation> searchForLocations(String value, SimpleLocation lastKnownLocation) {
         final List<NominatimLocation> addresses = new ArrayList<>();

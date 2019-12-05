@@ -30,7 +30,6 @@ import pg.groupproject.aruma.feature.location.finding.TextWatcherLocation;
 @NoArgsConstructor
 public class FindRouteFragment extends Fragment {
 
-    private static final int THRESHOLD_START_SUGGESTING_LOCATIONS = 1;
     private static final int START_LOCATION_INDEX = 0;
     private static final int END_LOCATION_INDEX = 1;
 
@@ -46,15 +45,13 @@ public class FindRouteFragment extends Fragment {
         final AutoCompleteTextView startPoint = view.findViewById(R.id.find_route_start_point_value);
         final AddressAdapter startAdapter = new AddressAdapter(view.getContext(), runOnUiThread);
         final Runnable clearSelectedStartLocation = () -> locations[START_LOCATION_INDEX] = null;
-        startPoint.setThreshold(THRESHOLD_START_SUGGESTING_LOCATIONS);
-        startPoint.addTextChangedListener(new TextWatcherLocation(startPoint, startAdapter, getResources().getConfiguration(), clearSelectedStartLocation, lastKnownLocation));
+        startPoint.addTextChangedListener(new TextWatcherLocation(startPoint, startAdapter, clearSelectedStartLocation, lastKnownLocation));
         startPoint.setOnItemClickListener((parent, view1, position, id) -> locations[START_LOCATION_INDEX] = (NominatimLocation) parent.getItemAtPosition(position));
 
         final AutoCompleteTextView endPoint = view.findViewById(R.id.find_route_end_point_value);
         final AddressAdapter endAdapter = new AddressAdapter(view.getContext(), runOnUiThread);
         final Runnable clearSelectedEndLocation = () -> locations[END_LOCATION_INDEX] = null;
-        endPoint.setThreshold(THRESHOLD_START_SUGGESTING_LOCATIONS);
-        endPoint.addTextChangedListener(new TextWatcherLocation(endPoint, endAdapter, getResources().getConfiguration(), clearSelectedEndLocation, lastKnownLocation));
+        endPoint.addTextChangedListener(new TextWatcherLocation(endPoint, endAdapter, clearSelectedEndLocation, lastKnownLocation));
         endPoint.setOnItemClickListener((parent, view1, position, id) -> locations[END_LOCATION_INDEX] = (NominatimLocation) parent.getItemAtPosition(position));
 
         final Button navigate = view.findViewById(R.id.button_find_route_navigate);
