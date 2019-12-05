@@ -4,7 +4,6 @@ import android.content.Context;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentTransaction;
 
 import java.util.function.Supplier;
 
@@ -27,6 +27,7 @@ import pg.groupproject.aruma.feature.location.finding.AddressAdapter;
 import pg.groupproject.aruma.feature.location.finding.NominatimLocation;
 import pg.groupproject.aruma.feature.location.finding.SimpleLocation;
 import pg.groupproject.aruma.feature.location.finding.TextWatcherLocation;
+import pg.groupproject.aruma.fragments.NavigationFragment;
 
 @NoArgsConstructor
 public class FindRouteFragment extends Fragment {
@@ -59,15 +60,41 @@ public class FindRouteFragment extends Fragment {
 
         final Button navigate = view.findViewById(R.id.button_find_route_navigate);
         navigate.setOnClickListener(c -> {
-            if (locations[START_LOCATION_INDEX] != null && locations[END_LOCATION_INDEX] != null) {
-                // TODO przejście do nawigacji
-                Log.i("idziemy", "i nawigujemy!");
+            if (locationsSelected(locations)) {
+                loadNavigationFragment(getNavigationFragment(locations));
             } else {
                 Toast.makeText(view.getContext(), R.string.navigate_provide_all_data, Toast.LENGTH_SHORT).show();
             }
         });
 
         return view;
+    }
+
+    private NavigationFragment getNavigationFragment(NominatimLocation[] locations) {
+        Bundle bundle = new Bundle();
+        bundle.putDouble("start-latitude", Double.valueOf(locations[0].getLat()));
+        bundle.putDouble("start-longitude", Double.valueOf(locations[0].getLon()));
+        bundle.putDouble("end-latitude", Double.valueOf(locations[1].getLat()));
+        bundle.putDouble("end-longitude", Double.valueOf(locations[1].getLon()));
+
+        NavigationFragment navigationFragment = new NavigationFragment();
+        navigationFragment.setArguments(bundle);
+        return navigationFragment;
+    }
+
+    private void loadNavigationFragment(Fragment fragment) {
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_container, fragment);
+        Fragment currentFragment = getActivity().getSupportFragmentManager().getPrimaryNavigationFragment();
+        transaction.setPrimaryNavigationFragment(fragment);
+        if (currentFragment != null) {
+            transaction.addToBackStack(null);
+        }
+        transaction.commit();
+    }
+
+    private boolean locationsSelected(NominatimLocation[] locations) {
+        return locations[START_LOCATION_INDEX] != null && locations[END_LOCATION_INDEX] != null;
     }
 
     private SimpleLocation getLastKnownLocation() {

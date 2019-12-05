@@ -55,7 +55,8 @@ public class NavigationFragment extends Fragment {
 	private MyLocationListener myLocationListener;
 	private Location currentLocation;
 	private RoadManager roadManager;
-	private Polyline currentPolyline;
+    private Polyline selectedRoutePolyline;
+    private Polyline travelledRoutePolyline;
 	private TextView distanceTextView;
 	private TextView timeTextView;
 	private ScheduledExecutorService scheduleTaskExecutor;
@@ -84,13 +85,23 @@ public class NavigationFragment extends Fragment {
 		initializeScheduledTask();
 		initializeStartTrainingButton(inflateView);
 		final Bundle arguments = getArguments();
-		if (arguments != null && arguments.containsKey("latitude") && arguments.containsKey("longitude")) {
-			double predefinedLatitude = arguments.getDouble("latitude");
-			double predefinedLongitude = arguments.getDouble("longitude");
-			leadTo(new GeoPoint(predefinedLatitude, predefinedLongitude));
+        if (arguments != null) {
+            if (arguments.containsKey("latitude") && arguments.containsKey("longitude")) {
+                double predefinedLatitude = arguments.getDouble("latitude");
+                double predefinedLongitude = arguments.getDouble("longitude");
+                leadTo(new GeoPoint(predefinedLatitude, predefinedLongitude));
+            } else if (argumentsContainStartAndEndPoints(arguments)) {
+                final GeoPoint start = new GeoPoint(arguments.getDouble("start-latitude"), arguments.getDouble("start-longitude"));
+                final GeoPoint end = new GeoPoint(arguments.getDouble("end-latitude"), arguments.getDouble("end-longitude"));
+                leadTo(start, end);
+            }
 		}
 		return inflateView;
 	}
+
+    private boolean argumentsContainStartAndEndPoints(Bundle arguments) {
+        return arguments.containsKey("start-latitude") && arguments.containsKey("end-latitude") && arguments.containsKey("start-longitude") && arguments.containsKey("end-longitude");
+    }
 
 
 	private void initializeScheduledTask(){
@@ -122,11 +133,11 @@ public class NavigationFragment extends Fragment {
 							updateUI(() -> distanceTextView.setText(String.format(Locale.US, "%.2f km (0%%)", roadLength)));
 						}
 
-						map.getOverlays().remove(currentPolyline);
+                        map.getOverlays().remove(selectedRoutePolyline);
 
-						currentPolyline = RoadManager.buildRoadOverlay(road);
-						currentPolyline.setWidth(20);
-						map.getOverlays().add(currentPolyline);
+                        selectedRoutePolyline = RoadManager.buildRoadOverlay(road);
+                        selectedRoutePolyline.setWidth(20);
+                        map.getOverlays().add(selectedRoutePolyline);
 
 						updateUI(() -> map.invalidate());
 					}
@@ -202,7 +213,7 @@ public class NavigationFragment extends Fragment {
 	}
 
 	private void initializeRoutingFeatures(View inflateView) {
-
+        travelledRoutePolyline = new Polyline();
 		FloatingActionButton cancelRoutingButton = inflateView.findViewById(R.id.cancelRoutingButton);
 		cancelRoutingButton.setOnClickListener(view -> cancelRouting());
 
@@ -238,15 +249,15 @@ public class NavigationFragment extends Fragment {
 		Toast.makeText(getActivity(), "Canceled routing", Toast.LENGTH_SHORT).show();
 
 		isNavigationMode = false;
-		map.getOverlays().remove(currentPolyline);
+        map.getOverlays().remove(selectedRoutePolyline);
 		distanceTextView.setText("0 km (0 %)");
 		timeTextView.setText("00:00");
 	}
 
 	private void initializeGoToButton(ImageView imageView, GeoPoint destinationPoint, Dialog dialog) {
 		imageView.setOnClickListener(view -> {
-			if (currentPolyline != null) {
-				map.getOverlays().remove(currentPolyline);
+            if (selectedRoutePolyline != null) {
+                map.getOverlays().remove(selectedRoutePolyline);
 			}
 
 			leadTo(destinationPoint);
@@ -256,12 +267,16 @@ public class NavigationFragment extends Fragment {
 	}
 
 	private void leadTo(GeoPoint destinationPoint) {
-		ArrayList<GeoPoint> points = new ArrayList<>();
-		points.add(new GeoPoint(currentLocation.getLatitude(), currentLocation.getLongitude()));
-		points.add(destinationPoint);
+        leadTo(new GeoPoint(currentLocation.getLatitude(), currentLocation.getLongitude()), destinationPoint);
+    }
 
-		new UpdateRoadTask().execute(points);
-	}
+    private void leadTo(GeoPoint startPoint, GeoPoint destinationPoint) {
+        ArrayList<GeoPoint> points = new ArrayList<>();
+        points.add(startPoint);
+        points.add(destinationPoint);
+
+        new UpdateRoadTask().execute(points);
+    }
 
 	private void initializeStartTrainingButton(View inflateView) {
 		FloatingActionButton trainingButton = inflateView.findViewById(R.id.trainingButton);
@@ -304,10 +319,10 @@ public class NavigationFragment extends Fragment {
 				}
 
 				timeTextView.setText(getDurationStringFromSeconds(road.mDuration));
-				currentPolyline = RoadManager.buildRoadOverlay(road);
-				currentPolyline.setWidth(20);
+                selectedRoutePolyline = RoadManager.buildRoadOverlay(road);
+                selectedRoutePolyline.setWidth(20);
 
-				map.getOverlays().add(currentPolyline);
+                map.getOverlays().add(selectedRoutePolyline);
 				map.invalidate();
 				isNavigationMode = true;
 			}
