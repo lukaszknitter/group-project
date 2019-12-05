@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -42,16 +43,18 @@ public class FindRouteFragment extends Fragment {
         final NominatimLocation[] locations = new NominatimLocation[2];
         final Supplier<FragmentActivity> runOnUiThread = this::getActivity;
 
+        final Switch switchExtendedSearch = view.findViewById(R.id.switch_find_route_extend_results);
+
         final AutoCompleteTextView startPoint = view.findViewById(R.id.find_route_start_point_value);
         final AddressAdapter startAdapter = new AddressAdapter(view.getContext(), runOnUiThread);
         final Runnable clearSelectedStartLocation = () -> locations[START_LOCATION_INDEX] = null;
-        startPoint.addTextChangedListener(new TextWatcherLocation(startPoint, startAdapter, clearSelectedStartLocation, lastKnownLocation));
+        startPoint.addTextChangedListener(new TextWatcherLocation(startPoint, startAdapter, clearSelectedStartLocation, lastKnownLocation, switchExtendedSearch));
         startPoint.setOnItemClickListener((parent, view1, position, id) -> locations[START_LOCATION_INDEX] = (NominatimLocation) parent.getItemAtPosition(position));
 
         final AutoCompleteTextView endPoint = view.findViewById(R.id.find_route_end_point_value);
         final AddressAdapter endAdapter = new AddressAdapter(view.getContext(), runOnUiThread);
         final Runnable clearSelectedEndLocation = () -> locations[END_LOCATION_INDEX] = null;
-        endPoint.addTextChangedListener(new TextWatcherLocation(endPoint, endAdapter, clearSelectedEndLocation, lastKnownLocation));
+        endPoint.addTextChangedListener(new TextWatcherLocation(endPoint, endAdapter, clearSelectedEndLocation, lastKnownLocation, switchExtendedSearch));
         endPoint.setOnItemClickListener((parent, view1, position, id) -> locations[END_LOCATION_INDEX] = (NominatimLocation) parent.getItemAtPosition(position));
 
         final Button navigate = view.findViewById(R.id.button_find_route_navigate);
@@ -60,7 +63,7 @@ public class FindRouteFragment extends Fragment {
                 // TODO przejście do nawigacji
                 Log.i("idziemy", "i nawigujemy!");
             } else {
-                Toast.makeText(view.getContext(), "Podaj start i end!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(view.getContext(), R.string.navigate_provide_all_data, Toast.LENGTH_SHORT).show();
             }
         });
 

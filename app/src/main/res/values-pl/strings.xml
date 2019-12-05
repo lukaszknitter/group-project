@@ -50,6 +50,7 @@
     <string name="end_point">Punkt końcowy</string>
     <string name="navigate">Nawiguj</string>
     <string name="navigate_provide_all_data">Podaj punkt startowy oraz końcowy.</string>
+    <string name="extend_search_results">Rozszerz wyniki wyszukiwania</string>
 
 
 </resources>

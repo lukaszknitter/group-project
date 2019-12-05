@@ -3,6 +3,7 @@ package pg.groupproject.aruma.feature.location.finding;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.AutoCompleteTextView;
+import android.widget.Switch;
 
 import static android.os.AsyncTask.Status.PENDING;
 import static android.os.AsyncTask.Status.RUNNING;
@@ -11,15 +12,17 @@ public class TextWatcherLocation implements TextWatcher {
 
     private static final int THRESHOLD_START_SUGGESTING_LOCATIONS = 3;
 
-    private AddressAdapter adapter;
+    private final AddressAdapter adapter;
+    private final Runnable actionClearSelectedLocation;
+    private final SimpleLocation lastKnownLocation;
+    private final Switch extendedSearch;
     private LocationFinding previousLocationFindingTask;
-    private Runnable actionClearSelectedLocation;
-    private SimpleLocation lastKnownLocation;
 
-    public TextWatcherLocation(AutoCompleteTextView textViewToUpdate, AddressAdapter addressAdapter, Runnable actionClearSelectedLocation, SimpleLocation lastKnownLocation) {
+    public TextWatcherLocation(AutoCompleteTextView textViewToUpdate, AddressAdapter addressAdapter, Runnable actionClearSelectedLocation, SimpleLocation lastKnownLocation, Switch extendedSearch) {
         this.adapter = addressAdapter;
         this.actionClearSelectedLocation = actionClearSelectedLocation;
         this.lastKnownLocation = lastKnownLocation;
+        this.extendedSearch = extendedSearch;
         textViewToUpdate.setAdapter(adapter);
     }
 
@@ -34,7 +37,7 @@ public class TextWatcherLocation implements TextWatcher {
             if (previousLocationFindingTask != null && taskNotYetExecuted()) {
                 previousLocationFindingTask.cancel(false);
             }
-            final LocationFinding locationFinding = new LocationFinding(lastKnownLocation, l -> adapter.update(l));
+            final LocationFinding locationFinding = new LocationFinding(lastKnownLocation, extendedSearch::isChecked, adapter::update);
             previousLocationFindingTask = locationFinding;
             locationFinding.execute(charSequence.toString());
             actionClearSelectedLocation.run();

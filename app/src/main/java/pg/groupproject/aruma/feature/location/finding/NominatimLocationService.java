@@ -26,10 +26,10 @@ class NominatimLocationService {
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final OkHttpClient okHttpClient = new OkHttpClient();
 
-    List<NominatimLocation> searchForLocations(String value, SimpleLocation lastKnownLocation) {
+    List<NominatimLocation> searchForLocations(String value, SimpleLocation lastKnownLocation, boolean extendedSearch) {
         final List<NominatimLocation> addresses = new ArrayList<>();
         try {
-            final Response response = executeRequest(value, lastKnownLocation);
+            final Response response = executeRequest(value, lastKnownLocation, extendedSearch);
             final ResponseBody responseBody = response.body();
             if (response.isSuccessful() && responseBody != null) {
                 final NominatimLocation[] nominatimResponse = objectMapper.readValue(responseBody.string(), NominatimLocation[].class);
@@ -44,11 +44,14 @@ class NominatimLocationService {
         return addresses;
     }
 
-    private Response executeRequest(@NonNull String value, SimpleLocation lastKnownLocation) throws IOException {
+    private Response executeRequest(@NonNull String value, SimpleLocation lastKnownLocation, boolean extendedSearch) throws IOException {
         // TODO jeżeli mamy lokalizację, to adres z lokalizacji
+        if (extendedSearch) {
+            lastKnownLocation.setExtendedShift();
+        }
         final String countryCode = Locale.getDefault().getCountry();
         final Request request = new Request.Builder()
-                .url(NOMINATIM_API_ENDPOINT + URLEncoder.encode(value, "utf-8") + appendCountryCode(countryCode)
+                .url(NOMINATIM_API_ENDPOINT + URLEncoder.encode(value.trim(), "utf-8") + appendCountryCode(countryCode, extendedSearch)
                         + appendResponseType() + appendAddressDetails() + appendQueryResultsLimit() + appendViewbox(lastKnownLocation))
                 .build();
 
@@ -68,7 +71,10 @@ class NominatimLocationService {
         return "&limit=" + ADDRESSES_LIMIT_QUERY;
     }
 
-    private String appendCountryCode(String countryCode) {
+    private String appendCountryCode(String countryCode, boolean extendedSearch) {
+        if (extendedSearch) {
+            return "";
+        }
         return "&countrycodes=" + countryCode;
     }
 

@@ -6,6 +6,7 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 import pg.groupproject.aruma.fragments.common.FindRouteFragment;
 
@@ -13,10 +14,12 @@ public class LocationFinding extends AsyncTask<String, Void, List<NominatimLocat
     private NominatimLocationService nominatimService = new NominatimLocationService();
     private Consumer<List<NominatimLocation>> actionOnPostExecute;
     private SimpleLocation lastKnownLocation;
+    private Supplier<Boolean> extendedSearch;
 
-    LocationFinding(SimpleLocation lastKnownLocation, Consumer<List<NominatimLocation>> actionOnPostExecute) {
+    LocationFinding(SimpleLocation lastKnownLocation, Supplier<Boolean> extendedSearch, Consumer<List<NominatimLocation>> actionOnPostExecute) {
         this.lastKnownLocation = lastKnownLocation;
         this.actionOnPostExecute = actionOnPostExecute;
+        this.extendedSearch = extendedSearch;
     }
 
     @Override
@@ -35,7 +38,7 @@ public class LocationFinding extends AsyncTask<String, Void, List<NominatimLocat
     private List<NominatimLocation> searchForLocation(String locationName) {
         try {
             // TODO jeżeli mamy lokalizację, to ją wykorzystajmy
-            return nominatimService.searchForLocations(locationName, lastKnownLocation);
+            return nominatimService.searchForLocations(locationName, lastKnownLocation, extendedSearch.get());
         } catch (Exception e) {
             Log.e(FindRouteFragment.class.toString(), "An error occured while searching for a location", e);
             return new ArrayList<>();
