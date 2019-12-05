@@ -22,6 +22,15 @@ public class NominatimLocation implements Comparable<NominatimLocation> {
     private Double importance;
     private NominatimLocationAddress address;
 
+    public NominatimLocation(double lat, double lon) {
+        this.lat = doubleToString(lat);
+        this.lon = doubleToString(lon);
+    }
+
+    private String doubleToString(double val) {
+        return String.valueOf(val);
+    }
+
     @Override
     public int compareTo(NominatimLocation other) {
         if (other == null) {

@@ -89,4 +89,14 @@
         android:switchPadding="5dp"
         android:text="@string/extend_search_results" />
 
+    <Switch
+        android:id="@+id/switch_start_point_from_gps"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="72dp"
+        android:layout_marginTop="57dp"
+        android:layout_toEndOf="@+id/find_route_start_point_title"
+        android:switchPadding="5dp"
+        android:text="@string/start_point_from_gps" />
+
 </RelativeLayout>

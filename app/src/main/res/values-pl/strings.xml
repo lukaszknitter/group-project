@@ -51,6 +51,8 @@
     <string name="navigate">Nawiguj</string>
     <string name="navigate_provide_all_data">Podaj punkt startowy oraz końcowy.</string>
     <string name="extend_search_results">Rozszerz wyniki wyszukiwania</string>
+    <string name="start_point_from_gps">Adres z mojej lokalizacji</string>
+    <string name="cannot_obtain_location">Nie można pobrać lokalizacji (czy GPS jest włączony?)</string>
 
 
 </resources>
