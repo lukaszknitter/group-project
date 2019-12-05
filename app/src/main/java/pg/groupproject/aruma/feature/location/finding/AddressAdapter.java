@@ -95,6 +95,7 @@ public class AddressAdapter extends BaseAdapter implements Filterable {
             supplierMainActivity.get().runOnUiThread(() -> {
                 values.clear();
                 values.addAll(addresses);
+                this.notifyDataSetChanged();
             });
         }
     }
