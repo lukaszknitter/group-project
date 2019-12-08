@@ -40,7 +40,11 @@ import org.osmdroid.views.overlay.Polyline;
 import org.osmdroid.views.overlay.ScaleBarOverlay;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
@@ -51,6 +55,9 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import pg.groupproject.aruma.MyLocationListener;
 import pg.groupproject.aruma.R;
+import pg.groupproject.aruma.feature.location.LocationService;
+import pg.groupproject.aruma.feature.route.Route;
+import pg.groupproject.aruma.feature.route.RouteService;
 
 public class NavigationFragment extends Fragment {
 
@@ -59,13 +66,19 @@ public class NavigationFragment extends Fragment {
 	private MyLocationListener myLocationListener;
 	private Location currentLocation;
 	private RoadManager roadManager;
-    private Polyline selectedRoutePolyline;
-    private Polyline travelledRoutePolyline;
+	private Polyline selectedRoutePolyline;
+	private Polyline travelledRoutePolyline;
 	private TextView distanceTextView;
 	private TextView timeTextView;
 	private ScheduledExecutorService scheduleTaskExecutor;
+	private RouteService routeService;
+	private LocationService locationService;
 	private GeoPoint destPoint;
+	private FloatingActionButton cancelRoutingButton;
 	private boolean isNavigationMode = false;
+	private boolean trainingStarted = false;
+	private long trainingRouteId;
+
 	@Nullable
 	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -78,6 +91,8 @@ public class NavigationFragment extends Fragment {
 
 		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 		StrictMode.setThreadPolicy(policy);
+		routeService = new RouteService(ctx);
+		locationService = new LocationService(ctx);
 
 		final View inflateView = inflater.inflate(R.layout.fragment_navigation, null);
 		roadManager = new OSRMRoadManager(getActivity());
@@ -89,39 +104,40 @@ public class NavigationFragment extends Fragment {
 		initializeScheduledTask();
 		initializeStartTrainingButton(inflateView);
 		final Bundle arguments = getArguments();
-        if (arguments != null) {
-            if (arguments.containsKey("latitude") && arguments.containsKey("longitude")) {
-                double predefinedLatitude = arguments.getDouble("latitude");
-                double predefinedLongitude = arguments.getDouble("longitude");
+		if (arguments != null) {
+			if (arguments.containsKey("latitude") && arguments.containsKey("longitude")) {
+				double predefinedLatitude = arguments.getDouble("latitude");
+				double predefinedLongitude = arguments.getDouble("longitude");
 				leadTo(new GeoPoint(predefinedLatitude, predefinedLongitude), false);
-            } else if (argumentsContainStartAndEndPoints(arguments)) {
-                final GeoPoint start = new GeoPoint(arguments.getDouble("start-latitude"), arguments.getDouble("start-longitude"));
-                final GeoPoint end = new GeoPoint(arguments.getDouble("end-latitude"), arguments.getDouble("end-longitude"));
+			} else if (argumentsContainStartAndEndPoints(arguments)) {
+				final GeoPoint start = new GeoPoint(arguments.getDouble("start-latitude"), arguments.getDouble("start-longitude"));
+				final GeoPoint end = new GeoPoint(arguments.getDouble("end-latitude"), arguments.getDouble("end-longitude"));
 				leadTo(start, end, true);
-            }
+			}
 		}
 		return inflateView;
 	}
 
-    private boolean argumentsContainStartAndEndPoints(Bundle arguments) {
-        return arguments.containsKey("start-latitude") && arguments.containsKey("end-latitude") && arguments.containsKey("start-longitude") && arguments.containsKey("end-longitude");
-    }
+	private boolean argumentsContainStartAndEndPoints(Bundle arguments) {
+		return arguments.containsKey("start-latitude") && arguments.containsKey("end-latitude") && arguments.containsKey("start-longitude") && arguments.containsKey("end-longitude");
+	}
 
 
-	private void initializeScheduledTask(){
+	private void initializeScheduledTask() {
 
 		scheduleTaskExecutor = Executors.newScheduledThreadPool(3);
 		//Schedule a task to run every 5 seconds (or however long you want)
 		scheduleTaskExecutor.scheduleAtFixedRate(() -> {
 			try {
+				Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+				if (location == null)
+					location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
+				if (location == null)
+					location = currentLocation;
+
+				locationService.insert(location, trainingRouteId);
 				if (isNavigationMode) {
-					Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-					if (location == null)
-						location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-
-					if (location == null)
-						location = currentLocation;
-
 					GeoPoint currentPoint = new GeoPoint(location.getLatitude(), location.getLongitude());
 					ArrayList<GeoPoint> points = new ArrayList<>();
 					points.add(currentPoint);
@@ -131,36 +147,35 @@ public class NavigationFragment extends Fragment {
 					if (road.mStatus == Road.STATUS_OK) {
 						double roadLength = road.mLength;
 						if (roadLength >= 100) {
-							getActivity().runOnUiThread(() ->{
-								distanceTextView.setText((int) roadLength + " km (0%)");});
+							getActivity().runOnUiThread(() -> {
+								distanceTextView.setText((int) roadLength + " km (0%)");
+							});
 						} else {
 							updateUI(() -> distanceTextView.setText(String.format(Locale.US, "%.2f km (0%%)", roadLength)));
 						}
 
-                        map.getOverlays().remove(selectedRoutePolyline);
+						map.getOverlays().remove(selectedRoutePolyline);
 
-                        selectedRoutePolyline = RoadManager.buildRoadOverlay(road);
-                        selectedRoutePolyline.setWidth(20);
-                        map.getOverlays().add(selectedRoutePolyline);
+						selectedRoutePolyline = RoadManager.buildRoadOverlay(road);
+						selectedRoutePolyline.setWidth(20);
+						map.getOverlays().add(selectedRoutePolyline);
 
 						updateUI(() -> map.invalidate());
 					}
 				}
-			}catch(Exception e)
-			{
-				System.out.println("Exception when updating route: "+e);
+			} catch (Exception e) {
+				System.out.println("Exception when updating route: " + e);
 			}
 		}, 0, 5, TimeUnit.SECONDS);
 	}
 
-	private void updateUI(Runnable run){
+	private void updateUI(Runnable run) {
 		getActivity().runOnUiThread(run);
 	}
 
 	private void initializeLocationManager() {
 		myLocationListener = new MyLocationListener();
 		locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-		//TODO dodać pytania o uprawnienia
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, myLocationListener);
 	}
 
@@ -174,9 +189,9 @@ public class NavigationFragment extends Fragment {
 
 		//FIXME? removed while loop
 		int retry = 0;
-		while(retry < 3){
+		while (retry < 3) {
 			currentLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-			if(currentLocation != null) break;
+			if (currentLocation != null) break;
 			retry++;
 		}
 
@@ -217,9 +232,11 @@ public class NavigationFragment extends Fragment {
 	}
 
 	private void initializeRoutingFeatures(View inflateView) {
-        travelledRoutePolyline = new Polyline();
-		FloatingActionButton cancelRoutingButton = inflateView.findViewById(R.id.cancelRoutingButton);
+		travelledRoutePolyline = new Polyline();
+		cancelRoutingButton = inflateView.findViewById(R.id.cancelRoutingButton);
+		cancelRoutingButton.setImageResource(R.drawable.ic_close);
 		cancelRoutingButton.setOnClickListener(view -> cancelRouting());
+		cancelRoutingButton.hide();
 
 		MapEventsReceiver mReceiver = new MapEventsReceiver() {
 			@Override
@@ -253,15 +270,16 @@ public class NavigationFragment extends Fragment {
 		Toast.makeText(getActivity(), "Canceled routing", Toast.LENGTH_SHORT).show();
 
 		isNavigationMode = false;
-        map.getOverlays().remove(selectedRoutePolyline);
+		cancelRoutingButton.hide();
+		map.getOverlays().remove(selectedRoutePolyline);
 		distanceTextView.setText("0 km (0 %)");
 		timeTextView.setText("00:00");
 	}
 
 	private void initializeGoToButton(ImageView imageView, GeoPoint destinationPoint, Dialog dialog) {
 		imageView.setOnClickListener(view -> {
-            if (selectedRoutePolyline != null) {
-                map.getOverlays().remove(selectedRoutePolyline);
+			if (selectedRoutePolyline != null) {
+				map.getOverlays().remove(selectedRoutePolyline);
 			}
 
 			leadTo(destinationPoint, false);
@@ -272,12 +290,12 @@ public class NavigationFragment extends Fragment {
 
 	private void leadTo(GeoPoint destinationPoint, boolean retryOnFail) {
 		leadTo(new GeoPoint(currentLocation.getLatitude(), currentLocation.getLongitude()), destinationPoint, retryOnFail);
-    }
+	}
 
 	private void leadTo(GeoPoint startPoint, GeoPoint destinationPoint, boolean retryOnFail) {
-        ArrayList<GeoPoint> points = new ArrayList<>();
-        points.add(startPoint);
-        points.add(destinationPoint);
+		ArrayList<GeoPoint> points = new ArrayList<>();
+		points.add(startPoint);
+		points.add(destinationPoint);
 
 		if (retryOnFail) {
 			try {
@@ -291,14 +309,71 @@ public class NavigationFragment extends Fragment {
 		} else {
 			new UpdateRoadTask().execute(points);
 		}
-    }
+	}
 
 	private void initializeStartTrainingButton(View inflateView) {
 		FloatingActionButton trainingButton = inflateView.findViewById(R.id.trainingButton);
 
-		//TODO handle this button click
-		trainingButton.setOnClickListener(view ->
-				Toast.makeText(getActivity(), "Start training clicked!", Toast.LENGTH_SHORT).show());
+		trainingButton.setOnClickListener(view -> {
+					trainingStarted = !trainingStarted;
+					if (trainingStarted) {
+						Toast.makeText(getActivity(), "Training started!", Toast.LENGTH_SHORT).show();
+						trainingButton.setImageResource(R.drawable.ic_stop);
+
+						trainingRouteId = routeService.create();
+					} else {
+						Toast.makeText(getActivity(), "Training ended, saving route...", Toast.LENGTH_SHORT).show();
+						trainingButton.setImageResource(R.drawable.ic_start);
+
+						final List<pg.groupproject.aruma.feature.location.Location> locations = locationService.getAllByRouteId(trainingRouteId);
+						final Route route = routeService.get(trainingRouteId);
+
+						if (locations.size() > 1) {
+							try {
+
+								SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+								Date firstParsedDate = dateFormat.parse(locations.get(0).getTimestamp());
+								Date secondParsedDate = dateFormat.parse(locations.get(locations.size() - 1).getTimestamp());
+								final long totalSeconds = secondParsedDate.getSeconds() - firstParsedDate.getSeconds();
+
+								double totalDistance = 0.0;
+
+								for (int i = 0; i < locations.size() - 1; i++) {
+									totalDistance += distance(locations.get(i), locations.get(i + 1));
+								}
+
+								routeService.update(new Route(
+										(int) trainingRouteId,
+										route.getName(),
+										totalDistance,
+										totalSeconds,
+										true,
+										null));
+							} catch (ParseException e) {
+								e.printStackTrace();
+							}
+						}
+					}
+				}
+		);
+	}
+
+	private double distance(pg.groupproject.aruma.feature.location.Location loc1,
+	                        pg.groupproject.aruma.feature.location.Location loc2) {
+		double lat1 = loc1.getLatitude();
+		double lat2 = loc2.getLatitude();
+		double lon1 = loc1.getLongitude();
+		double lon2 = loc2.getLongitude();
+		if ((lat1 == lat2) && (lon1 == lon2)) {
+			return 0;
+		} else {
+			double theta = lon1 - lon2;
+			double dist = Math.sin(Math.toRadians(lat1)) * Math.sin(Math.toRadians(lat2)) + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) * Math.cos(Math.toRadians(theta));
+			dist = Math.acos(dist);
+			dist = Math.toDegrees(dist);
+			dist = dist * 60 * 1.1515 * 1.609344 * 1000;
+			return (dist);
+		}
 	}
 
 	private String getDurationStringFromSeconds(double seconds) {
@@ -352,6 +427,7 @@ public class NavigationFragment extends Fragment {
 				map.getOverlays().add(selectedRoutePolyline);
 				map.invalidate();
 				isNavigationMode = true;
+				cancelRoutingButton.show();
 			}
 		}
 	}
